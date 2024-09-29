@@ -1,0 +1,11 @@
+<div class="card d-flex flex-column align-items-center">
+    <div>
+        <img [src]="product.image_url" alt="Product Image" class="card-img-top" width="200" height="200">
+        <h5 class="card-title mt-3">{{ product.name }}</h5>
+        <p class="card-text">{{ product.description }}</p>
+        <button class="btn btn-primary">Add to Cart</button>
+        @if (userIsAdmin) {
+            <button class="btn btn-danger" (click)="handleDeleteProduct()">Delete</button>
+        }
+    </div>
+</div>
