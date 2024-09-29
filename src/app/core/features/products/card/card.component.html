@@ -1,11 +1,12 @@
-<div class="card d-flex flex-column align-items-center">
-    <div>
-        <img [src]="product.image_url" alt="Product Image" class="card-img-top" width="200" height="200">
-        <h5 class="card-title mt-3">{{ product.name }}</h5>
-        <p class="card-text">{{ product.description }}</p>
+<app-product-card>
+    <img productImage [src]="product.image_url" alt="Product Image" class="card-img-top" width="200" height="200">
+    <h5 #name class="card-title mt-3">{{ product.name }}</h5>
+    <p  #description class="card-text">{{ product.description }}</p>
+    <p  #price class="card-text">{{ product.price  | currency}}</p>
+    <div productActions>
         <button class="btn btn-primary">Add to Cart</button>
         @if (userIsAdmin) {
             <button class="btn btn-danger" (click)="handleDeleteProduct()">Delete</button>
         }
     </div>
-</div>
+</app-product-card>
