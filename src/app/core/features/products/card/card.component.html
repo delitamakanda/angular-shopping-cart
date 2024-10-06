@@ -6,7 +6,7 @@
     <div productActions>
         <button class="btn btn-primary">Add to Cart</button>
         @if (userIsAdmin) {
-            <button class="btn btn-danger" (click)="handleDeleteProduct()">Delete</button>
+            <button class="btn btn-danger" appConfirm="Etes vous sûr de supprimer cet article ?" (click)="handleDeleteProduct()">Delete</button>
         }
     </div>
     <div productComments>

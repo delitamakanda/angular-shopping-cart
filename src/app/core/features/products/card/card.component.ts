@@ -3,6 +3,7 @@ import { Product } from 'src/app/core/interfaces/product.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { CurrencyPipe } from '@angular/common';
 import { CommentsComponent } from '../../comments/comments.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-card',
@@ -11,6 +12,7 @@ import { CommentsComponent } from '../../comments/comments.component';
     ProductCardComponent,
     CommentsComponent,
     CurrencyPipe,
+    SharedModule,
   ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
