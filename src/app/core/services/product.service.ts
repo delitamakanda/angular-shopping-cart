@@ -17,34 +17,19 @@ export class ProductService {
     );
   }
 
-  getById(uuid: string): Promise<any> {
-    // Mock data
-    return Promise.resolve({
-      category: ['Electronics', 'Computers'],
-      created_at: '2022-01-01',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      image_url: 'https://placeholder.com/200x200',
-      name: 'Product 1',
-      price: '19.99',
-      status: 'active',
-      stock_quantity: 100,
-      updated_at: '2022-01-01',
-      uuid: '1234567890',
-    });
+  getById(uuid: string): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/store/product/${uuid}/`);
   }
 
-  removeById(uuid: string): Promise<void> {
-    // Mock data
-    return Promise.resolve();
+  removeById(uuid: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/store/product/${uuid}/`);
   }
 
-  updateById(uuid: string, updatedProduct: any): Promise<void> {
-    // Mock data
-    return Promise.resolve();
+  updateById(uuid: string, updatedProduct: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/store/product/${uuid}/`, updatedProduct);
   }
 
-  add(newProduct: any): Promise<void> {
-    // Mock data
-    return Promise.resolve();
+  add(newProduct: Product): Observable<Product> {
+   return this.http.post<Product>(`${this.apiUrl}/store/product/`, newProduct);
   }
 }
