@@ -3,7 +3,6 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { ProductService } from './product.service';
 import { API_URL } from 'src/app/constants';
 import { provideHttpClient } from '@angular/common/http';
-import { InjectionToken } from '@angular/core';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -14,7 +13,7 @@ describe('ProductService', () => {
     TestBed.configureTestingModule({
       providers: [
         ProductService, 
-        provideHttpClient(), 
+        provideHttpClient(),
         provideHttpClientTesting(),
         { provide: API_URL, useValue: 'http://example.com/api' }  // Replace with actual API URL in your app
       ],

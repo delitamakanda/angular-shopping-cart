@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { API_URL } from 'src/app/constants';
 import { Product } from '../interfaces/product.interface';
 
@@ -14,7 +14,10 @@ export class ProductService {
   getAll(): Observable<Product[]> {
     return this.http.get<any>(`${this.apiUrl}/store/product/?ordering=-created_at`).pipe(
       map(({results}) => results)
-    );
+    ).pipe(catchError(err => {
+      console.error('Error fetching products:', err);
+      return of([]);
+    }));
   }
 
   getById(uuid: string): Observable<Product> {

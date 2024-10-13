@@ -24,6 +24,5 @@ export const appConfig: ApplicationConfig = {
             return env === 'production'? new AppConfigService('prodConfig') : new AppConfigService('devConfig');
         }},
         provideHttpClient(),
-        provideHttpClientTesting()
     ],
 }
