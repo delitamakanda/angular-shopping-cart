@@ -3,6 +3,7 @@ import { CardComponent } from './card/card.component';
 import { Product } from '../../interfaces/product.interface';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductService } from '../../services/product.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -21,7 +22,8 @@ export class ProductsComponent implements OnInit{
   propCategories = ['Electronics', 'Computers', 'Clothing', 'Accessories', 'Smartphones'];
 
   ngOnInit(): void {
-    this.productService.getAll().then((products) => {
+    this.productService.getAll()
+    .subscribe((products) => {
       this.products = products;
     });
   }
