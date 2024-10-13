@@ -7,6 +7,7 @@ import { AppConfigService } from "./core/services/app-config.service";
 import { LoggerService, RemoteLoggerService } from "./core/services/logger.service";
 import { API_URL, APP_ENVIRONMENT } from "./constants";
 import { provideHttpClient } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 registerLocaleData(localeFr);
 
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
             const env = inject(APP_ENVIRONMENT);
             return env === 'production'? new AppConfigService('prodConfig') : new AppConfigService('devConfig');
         }},
-        provideHttpClient()
+        provideHttpClient(),
+        provideHttpClientTesting()
     ],
 }

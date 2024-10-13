@@ -13,5 +13,5 @@ import { NavbarComponent } from './core/features/navbar/navbar.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = $localize +'angular-shopping-cart';
+  title = $localize`angular-shopping-cart`;
 }
