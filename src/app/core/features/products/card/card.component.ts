@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from 'src/app/core/interfaces/product.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
-import { CurrencyPipe } from '@angular/common';
+import {CurrencyPipe, NgOptimizedImage} from '@angular/common';
 import { CommentsComponent } from '../../comments/comments.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -13,6 +14,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommentsComponent,
     CurrencyPipe,
     SharedModule,
+    NgOptimizedImage,
+    RouterLink,
   ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'

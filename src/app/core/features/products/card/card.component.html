@@ -1,5 +1,5 @@
 <app-product-card>
-    <img productImage [src]="product.image_url" alt="Product Image" width="200" height="200">
+    <img productImage [routerLink]="'product/'+product.uuid" [src]="product.image_url" alt="Product Image" width="200" height="200">
     <h5 #name class="card-title mt-3">{{ product.name }}</h5>
     <p  #description class="card-text">{{ product.description }}</p>
     <p  #price class="card-text">{{ product.price  | currency}}</p>

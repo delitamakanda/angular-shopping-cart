@@ -21,7 +21,7 @@ export class ProductService {
   }
 
   getById(uuid: string): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/store/product/${uuid}/`);
+    return this.http.get<Product>(`${this.apiUrl}/store/product/${uuid}/detail/`);
   }
 
   removeById(uuid: string): Observable<void> {

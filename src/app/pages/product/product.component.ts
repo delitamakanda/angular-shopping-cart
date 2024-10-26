@@ -1,13 +1,20 @@
-import { Component } from '@angular/core';
-import { ProductsComponent } from 'src/app/core/features/products/products.component';
+import {Component, inject, OnInit} from '@angular/core';
+import {Subscription} from "rxjs";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [
-    ProductsComponent,
-  ],
+  imports: [],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
-export class ProductComponent {}
+export class ProductComponent implements OnInit {
+  route = inject(ActivatedRoute);
+
+  ngOnInit() {
+    this.route.data.subscribe((data) => {
+      console.log(data['productData']);
+    })
+  }
+}
