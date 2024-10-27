@@ -28,7 +28,7 @@ export class ProductsComponent implements OnInit{
 
 
   removeProduct(uuid: string): void {
-    console.log(`Deleting product with UUID: ${uuid}`);
+    this.productService.removeById(uuid);
   }
 
 }

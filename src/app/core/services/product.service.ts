@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {BehaviorSubject, catchError, combineLatest, map, Observable, of, tap} from 'rxjs';
 import { API_URL } from 'src/app/constants';
 import { Product } from '../interfaces/product.interface';
@@ -16,6 +16,7 @@ export class ProductService {
   public productsSearched$ = combineLatest([this.products$, this.searchTerm$]).pipe(
     map(([products, searchTerm]) => products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))),
   );
+  products = signal<Product[]>([]);
 
   getSearchTerm(): Observable<string> {
     return this.searchTerm$.asObservable();
@@ -28,7 +29,10 @@ export class ProductService {
 
   getAll(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/store/product/?ordering=-created_at`).pipe(
-      tap(products => this.products$.next((products as any).results))
+      tap(products => {
+        this.products$.next((products as any).results)
+        this.products.set((products as any).results);
+      })
     ).pipe(catchError(err => {
       console.error('Error fetching products:', err);
       return of([]);
@@ -40,6 +44,8 @@ export class ProductService {
   }
 
   removeById(uuid: string): Observable<void> {
+    const newProducts = this.products().filter(product => product.uuid!== uuid);
+    this.products.set(newProducts);
     return this.http.delete<void>(`${this.apiUrl}/store/product/${uuid}/`);
   }
 
