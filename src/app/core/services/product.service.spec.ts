@@ -12,10 +12,10 @@ describe('ProductService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ProductService, 
+        ProductService,
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: API_URL, useValue: 'http://example.com/api' }  // Replace with actual API URL in your app
+        { provide: API_URL, useValue: 'https://example.com/api' }  // Replace with actual API URL in your app
       ],
     });
     service = TestBed.inject(ProductService);
@@ -28,10 +28,17 @@ describe('ProductService', () => {
   });
 
   it('should get all products', () => {
-    const mockProducts = [
-      { uuid: '1', name: 'Product 1', price: 100, category: ['Electronics'] },
-      { uuid: '2', name: 'Product 2', price: 200, category: ['Computers'] },
-    ] as any[];
+    const mockProducts = {
+      results: {
+        results: {
+          results: [
+            { uuid: '1', name: 'Product 1', price: 100, category: ['Electronics'] },
+            { uuid: '2', name: 'Product 2', price: 200, category: ['Computers'] },
+            { uuid: '3', name: 'Product 3', price: 300, category: ['Clothing']  },
+          ]
+        }
+      }
+    } as any;
 
     service.getAll().subscribe((products) => {
       expect(products).toEqual(mockProducts);
@@ -39,6 +46,6 @@ describe('ProductService', () => {
 
     const req = httpMock.expectOne(`${apiUrl}/store/product/?ordering=-created_at`);
     expect(req.request.method).toBe('GET');
-    req.flush({ results: mockProducts });
+    req.flush({ results: mockProducts.results });
   });
 });

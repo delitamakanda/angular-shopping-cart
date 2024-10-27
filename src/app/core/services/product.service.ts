@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, of } from 'rxjs';
+import {BehaviorSubject, catchError, combineLatest, map, Observable, of, tap} from 'rxjs';
 import { API_URL } from 'src/app/constants';
 import { Product } from '../interfaces/product.interface';
 
@@ -11,9 +11,24 @@ export class ProductService {
   private http = inject(HttpClient);
   private readonly apiUrl = inject(API_URL);
 
+  private products$ = new BehaviorSubject<Product[]>([]);
+  private searchTerm$ = new BehaviorSubject<string>('');
+  public productsSearched$ = combineLatest([this.products$, this.searchTerm$]).pipe(
+    map(([products, searchTerm]) => products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))),
+  );
+
+  getSearchTerm(): Observable<string> {
+    return this.searchTerm$.asObservable();
+  }
+
+  setSearchTerm(searchTerm: string): void {
+    this.searchTerm$.next(searchTerm);
+  }
+
+
   getAll(): Observable<Product[]> {
-    return this.http.get<any>(`${this.apiUrl}/store/product/?ordering=-created_at`).pipe(
-      map(({results}) => results)
+    return this.http.get<Product[]>(`${this.apiUrl}/store/product/?ordering=-created_at`).pipe(
+      tap(products => this.products$.next((products as any).results))
     ).pipe(catchError(err => {
       console.error('Error fetching products:', err);
       return of([]);
