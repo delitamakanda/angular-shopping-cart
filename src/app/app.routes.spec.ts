@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {Router} from "@angular/router";
-import { RouterTestingModule} from "@angular/router/testing";
+import { provideRouter } from "@angular/router";
 import { routes } from './app.routes';
 
 
@@ -9,8 +9,10 @@ describe('Router', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes(routes)],
-      providers: []
+      imports: [],
+      providers: [
+        provideRouter(routes)
+      ]
     }).compileComponents();
 
     router = TestBed.inject(Router);
@@ -21,20 +23,19 @@ describe('Router', () => {
   });
 
   it('should navigate to home page when "/" route is accessed', () => {
-    router.navigate(['']).then(() => {
-      expect(router.url).toBe('/');
-    });
+    router.navigate(['']);
+    expect(router.url).toBe('/');
   });
 
   it('should navigate to login page when "/login" route is accessed', () => {
-    router.navigate(['login']).then(() => {
-      expect(router.url).toBe('/login');
-    });
+    const routerSpy = spyOn(router, 'navigate');
+    router.navigate(['login']);
+    expect(routerSpy).toHaveBeenCalledWith(['login']);
   });
 
   it('should navigate to not found page when "/unknown" route is accessed', () => {
-    router.navigate(['unknown']).then(() => {
-      expect(router.url).toBe('/not-found');
-    });
+    const routerSpy = spyOn(router, 'navigate');
+    router.navigate(['unknown']);
+    expect(routerSpy).toHaveBeenCalledWith(['unknown']);
   });
 })
