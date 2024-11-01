@@ -3,6 +3,7 @@ import {inject, Injectable, signal, computed} from '@angular/core';
 import {BehaviorSubject, catchError, combineLatest, map, Observable, of, tap} from 'rxjs';
 import { API_URL } from 'src/app/constants';
 import { Product } from '../interfaces/product.interface';
+import {ToastService} from "./toast.service";
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { Product } from '../interfaces/product.interface';
 export class ProductService {
   private http = inject(HttpClient);
   private readonly apiUrl = inject(API_URL);
+  private toastService = inject(ToastService);
 
   private products$ = new BehaviorSubject<Product[]>([]);
   private searchTerm$ = new BehaviorSubject<string>('');
@@ -44,7 +46,7 @@ export class ProductService {
         this.products.set(p);
       })
     ).pipe(catchError(err => {
-      console.error('Error fetching products:', err);
+      this.toastService.error(`Error fetching products: ${err.message}`);
       return of([]);
     }));
   }
@@ -54,14 +56,22 @@ export class ProductService {
   }
 
   removeById(uuid: string): Observable<void> {
-    this.products.update((current) => {
-      const index = current.findIndex(product => product.uuid === uuid);
-      if (index > -1) {
-        current.splice(index, 1);
-      }
-      return current;
-    })
-    return this.http.delete<void>(`${this.apiUrl}/store/product/${uuid}/`);
+    return this.http.delete<void>(`${this.apiUrl}/store/product/${uuid}/`).pipe(
+      tap(() => {
+        this.products.update((current) => {
+          const index = current.findIndex(product => product.uuid === uuid);
+          if (index > -1) {
+            current.splice(index, 1);
+          }
+          return current;
+        });
+        this.toastService.success('Product deleted successfully');
+      }),
+      catchError(err => {
+        this.toastService.error(`Error deleting product: ${err.message}`);
+        throw new Error('Failed to delete product');
+      })
+    );
   }
 
   updateById(uuid: string, updatedProduct: Product): Observable<Product> {
