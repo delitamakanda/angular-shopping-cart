@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal, computed} from '@angular/core';
 import {BehaviorSubject, catchError, combineLatest, map, Observable, of, tap} from 'rxjs';
 import { API_URL } from 'src/app/constants';
 import { Product } from '../interfaces/product.interface';
@@ -17,6 +17,15 @@ export class ProductService {
     map(([products, searchTerm]) => products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))),
   );
   products = signal<Product[]>([]);
+  searchProducts = signal<string>('');
+  productsSearched = computed<Product[]>(() => {
+    const str = this.searchProducts();
+    return str === '' ? this.products() : this.products().filter((product: any) => product.name.toLowerCase().includes(str));
+  });
+
+  setSearchValue(searchValue: string): void {
+    this.searchProducts.set(searchValue);
+  }
 
   getSearchTerm(): Observable<string> {
     return this.searchTerm$.asObservable();
@@ -28,10 +37,11 @@ export class ProductService {
 
 
   getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/store/product/?ordering=-created_at`).pipe(
-      tap(products => {
-        this.products$.next((products as any).results)
-        this.products.set((products as any).results);
+    return this.http.get<any>(`${this.apiUrl}/store/product/?ordering=-created_at`).pipe(
+      map(products => products.results),
+      tap(p => {
+        this.products$.next(p);
+        this.products.set(p);
       })
     ).pipe(catchError(err => {
       console.error('Error fetching products:', err);
@@ -44,8 +54,13 @@ export class ProductService {
   }
 
   removeById(uuid: string): Observable<void> {
-    const newProducts = this.products().filter(product => product.uuid!== uuid);
-    this.products.set(newProducts);
+    this.products.update((current) => {
+      const index = current.findIndex(product => product.uuid === uuid);
+      if (index > -1) {
+        current.splice(index, 1);
+      }
+      return current;
+    })
     return this.http.delete<void>(`${this.apiUrl}/store/product/${uuid}/`);
   }
 

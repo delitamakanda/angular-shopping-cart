@@ -3,7 +3,7 @@
         <button class="nav-link dropdown-toggle d-flex align-items-center" (click)="openMenu = ! openMenu" data-mdb-toggled="dropdown" aria-expanded="false">
             <img [src]="imgUrl | avatar" class="rounded-circle" height="22" width="22" alt="avatar" loading="lazy" />
         </button>
-        <ul class="dropdown-menu" [ngStyle]="{display: openMenu ? 'block': 'none'}">
+        <ul class="dropdown-menu " [ngStyle]="{display: openMenu ? 'block': 'none'}">
             <li class="nav-item dropdown-item">
                 <a class="dropdown-item" href="#">Profile</a>
             </li>
@@ -12,15 +12,6 @@
             </li>
             <li class="nav-item dropdown-item">
                 <a class="dropdown-item" href="#">Administration</a>
-            </li>
-            <li class="nav-item dropdown-item">
-                <a class="dropdown-item" href="#">Help & Support</a>
-            </li>
-            <li class="nav-item dropdown-item">
-                <a class="dropdown-item" href="#">About</a>
-            </li>
-            <li class="nav-item dropdown-item">
-                <a class="dropdown-item" href="#">Logout</a>
             </li>
         </ul>
     </li>

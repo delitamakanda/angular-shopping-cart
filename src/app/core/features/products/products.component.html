@@ -1,5 +1,5 @@
-<div class="products">
-    @for (product of products$ | async ; track product.uuid) {
+<div class="products row">
+    @for (product of products(); track product.uuid) {
       <app-card [product]="product"
                 class="col-lg-4 col-md-6 pt-md-4 pt-3"
                 (deleteProduct)="removeProduct($event)"></app-card>

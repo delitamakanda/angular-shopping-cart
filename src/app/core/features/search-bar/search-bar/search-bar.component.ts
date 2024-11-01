@@ -10,10 +10,12 @@ import {ProductService} from "../../../services/product.service";
   selector: 'app-search-bar',
   standalone: true,
   template: `
-    <input [formControl]="searchControl"
-           class="form-control me-2"
-           placeholder="Search"
-           type="search"/>
+    <form class="form-inline my-2 my-lg-0">
+      <input [formControl]="searchControl"
+             class="form-control me-2"
+             placeholder="Search"
+             type="search"/>
+    </form>
   `
 })
 export class SearchBarComponent implements OnInit {
@@ -25,7 +27,7 @@ export class SearchBarComponent implements OnInit {
       debounceTime(500),
       distinctUntilChanged()
     ).subscribe(value => {
-      this.productService.setSearchTerm(value);
+      this.productService.setSearchValue(value as string);
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, effect, inject, OnInit} from '@angular/core';
 import { CardComponent } from './card/card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductService } from '../../services/product.service';
@@ -17,10 +17,15 @@ import {AsyncPipe} from "@angular/common";
 })
 export class ProductsComponent implements OnInit{
   private productService = inject(ProductService);
-  products$ = this.productService.productsSearched$;
+  products = this.productService.productsSearched;
   filterCategory = '';
   propCategories = ['Electronics', 'Computers', 'Clothing', 'Accessories', 'Smartphones'];
 
+  constructor() {
+    effect(() => {
+      // Implement your own filter logic here
+    });
+  }
   ngOnInit(): void {
     this.productService.getAll()
     .subscribe();
