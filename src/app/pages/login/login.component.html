@@ -1,9 +1,9 @@
 <div class="text-center page-form">
   <main class="form-signin">
-    <form (ngSubmit)="login(myForm)" #myForm="ngForm">
+    <form (ngSubmit)="signing()" #myForm="ngForm" [formGroup]="loginForm">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-      @if (myForm.submitted && myForm.invalid) {
+      <!--@if (myForm.submitted && myForm.invalid) {
         <div class="alert alert-danger" role="alert">
           @if (username.hasError('required')) {
             Username is required.
@@ -14,25 +14,40 @@
             Password is required.
           }
         </div>
-      }
+      }-->
+
+      @if (submitted && loginForm.invalid) {
+       <div class="alert alert-danger" role="alert">
+         @if (propUsername.hasError('required')) {
+           Username is required.
+         } @else if (propUsername.hasError('minlength')) {
+           <span>Character found {{ propUsername.getError('minlength').actualLength}}</span>
+           Username must be at least {{ propUsername.getError('minlength').requiredLength }} characters long.
+         } @else if (propPassword.hasError('required')) {
+           Password is required.
+         } @else if (propPassword.hasError('minlength')) {
+           <span>Character found {{ propPassword.getError('minlength').actualLength}}</span>
+           Password must be at least {{ propPassword.getError('minlength').requiredLength }} characters long.
+         }
+       </div>
+     }
 
       <div class="form-floating">
-        <input #username="ngModel" class="form-control" id="floatingInputUsername"
+        <input class="form-control" id="floatingInputUsername"
                minlength="5" name="username"
-               ngModel required type="text">
+               required type="text" [formControl]="propUsername">
         <label for="floatingInputUsername">Username</label>
       </div>
 
       <div class="form-floating">
-        <input #password="ngModel" class="form-control" id="floatingInputPassword" name="password" ngModel
+        <input class="form-control" [formControl]="propPassword" id="floatingInputPassword" name="password"
                required type="password">
         <label for="floatingInputPassword">Password</label>
       </div>
 
       <div class="checkbox mb-3">
         <label>
-          <input [ngModel]="false" [ngModelOptions]="{standalone: true}" type="checkbox"
-                 value="remember-me"> Remember me
+          <input [formControl]="propRememberMe" type="checkbox"> Remember me
         </label>
       </div>
 
