@@ -3,6 +3,8 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { ProductService } from './product.service';
 import { API_URL } from 'src/app/constants';
 import { provideHttpClient } from '@angular/common/http';
+import {Observable, of} from "rxjs";
+import {signal} from "@angular/core";
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -41,3 +43,15 @@ describe('ProductService', () => {
     req.flush({ results: mockProducts });
   });
 });
+
+export class ProductServiceMock {
+  productsSearched = signal<any[]>([
+    { uuid: '1', name: 'Product 1', price: 100, category: ['Electronics'] },
+    { uuid: '2', name: 'Product 2', price: 200, category: ['Computers'] },
+    { uuid: '3', name: 'Product 3', price: 300, category: ['Clothing'] },
+  ]);
+
+  getAll(): Observable<any[]> {
+    return of(this.productsSearched());
+  }
+}
