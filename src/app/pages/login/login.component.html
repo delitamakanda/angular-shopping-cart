@@ -1,1 +1,44 @@
-<p>login works!</p>
+<div class="text-center page-form">
+  <main class="form-signin">
+    <form (ngSubmit)="login(myForm)" #myForm="ngForm">
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+      @if (myForm.submitted && myForm.invalid) {
+        <div class="alert alert-danger" role="alert">
+          @if (username.hasError('required')) {
+            Username is required.
+          } @else if (username.hasError('minlength')) {
+            <span>Character found {{ username.getError('minlength').actualLength}}</span>
+            Username must be at least {{ username.getError('minlength').requiredLength }} characters long.
+          } @else if (password.hasError('required')) {
+            Password is required.
+          }
+        </div>
+      }
+
+      <div class="form-floating">
+        <input #username="ngModel" class="form-control" id="floatingInputUsername"
+               minlength="5" name="username"
+               ngModel required type="text">
+        <label for="floatingInputUsername">Username</label>
+      </div>
+
+      <div class="form-floating">
+        <input #password="ngModel" class="form-control" id="floatingInputPassword" name="password" ngModel
+               required type="password">
+        <label for="floatingInputPassword">Password</label>
+      </div>
+
+      <div class="checkbox mb-3">
+        <label>
+          <input [ngModel]="false" [ngModelOptions]="{standalone: true}" type="checkbox"
+                 value="remember-me"> Remember me
+        </label>
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+
+    </form>
+  </main>
+</div>
