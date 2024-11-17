@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ProductService } from './product.service';
 import { API_URL } from 'src/app/constants';
-import { provideHttpClient } from '@angular/common/http';
+import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {Observable, of} from "rxjs";
-import {signal} from "@angular/core";
+import {inject, signal} from "@angular/core";
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -15,7 +15,7 @@ describe('ProductService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ProductService, useClass: ProductServiceMock  },
-        provideHttpClient(),
+        provideHttpClient(withFetch()),
         provideHttpClientTesting(),
         { provide: API_URL, useValue: 'https://example.com/api' }  // Replace with actual API URL in your app
       ],
@@ -34,17 +34,17 @@ describe('ProductService', () => {
     const mockProducts2 = { results: [
       { uuid: '1', name: 'Product 1', price: 100, category: [ 'Electronics' ] },
         { uuid: '2', name: 'Product 2', price: 200, category: [ 'Computers' ] },
-        { uuid: '3', name: 'Product 3', price: 300, category: [ 'Clothing' ] }
+        { uuid: '3', name: 'Product 3', price: 300, category: [ 'Clothing' ] },
       ]
     };
 
     service.getAll().subscribe((products) => {
-      expect(products).toEqual(mockProducts2 as any);
+      expect(products).toEqual(mockProducts2.results as any);
     });
-
-    const req = httpMock.expectOne(`${apiUrl}/store/product/?limit=25&q=&offset=0&ordering=-created_at`);
+    const params = { limit: service.limit(), q: service.searchValue(), offset: service.offset(), ordering: '-created_at' };
+    const req = httpMock.expectOne(`${apiUrl}/store/product/?limit=${params.limit}&q=${params.q}&offset=${params.offset}&ordering=-created_at`);
     expect(req.request.method).toBe('GET');
-    req.flush(mockProducts2);
+    req.flush(mockProducts2.results);
   });
 });
 
@@ -54,9 +54,23 @@ export class ProductServiceMock {
     { uuid: '2', name: 'Product 2', price: 200, category: ['Computers'], image_url: 'image2.jpg' },
     { uuid: '3', name: 'Product 3', price: 300, category: ['Clothing'], image_url: 'image3.jpg' },
   ]);
+  apiUrl = 'https://example.com/api';
+  http = TestBed.inject(HttpClient);
 
   getAll(): Observable<any[]> {
-    return of(this.products());
+    return this.http.get<any[]>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=-created_at`);
+
+  }
+  limit(): number {
+    return 25;
+  }
+
+  searchValue(): string {
+    return '';
+  }
+
+  offset(): number {
+    return 0;
   }
 
   hasPreviousPage(): Observable<boolean> {

@@ -36,9 +36,9 @@ describe('ProductsComponent',
 
       httpClientSpy.get.and.returnValue(
         of([
-          { id: 1, name: 'Product 1', price: 10, category: 'Electronics' },
-          { id: 2, name: 'Product 2', price: 20, category: 'Computers' },
-          { id: 3, name: 'Product 3', price: 30, category: 'Clothing' }
+          { id: 1, name: 'Product 1', price: 10, category: ['Electronics']  },
+          { id: 2, name: 'Product 2', price: 20, category: ['Computers']  },
+          { id: 3, name: 'Product 3', price: 30, category:[ 'Clothing']  },
         ])
       )
 
