@@ -1,0 +1,57 @@
+<div class="text-center page-form">
+  <main class="form-signup">
+    <form (ngSubmit)="register()" #myForm="ngForm" [formGroup]="signupForm">
+      <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+
+      @if (submitted && signupForm.invalid) {
+        <div class="alert alert-danger" role="alert">
+          @if (signupForm.controls['username'].hasError('required')) {
+            Email is required.
+          } @else if (signupForm.controls['email'].hasError('pattern')) {
+            Email is not valid.
+          } @else if (signupForm.controls['password'].hasError('required')) {
+            Password is required.
+          } @else if (signupForm.controls['password'].hasError('minlength')) {
+            <span>Character found {{ signupForm.controls['password'].getError('minlength').actualLength}}</span>
+            Password must be at least {{ signupForm.controls['password'].getError('minlength').requiredLength }} characters long.
+          } @else if (signupForm.controls['confirmPassword'].hasError('required')) {
+            Confirm password is required.
+          } @else if (signupForm.controls['confirmPassword'].hasError('mismatch')) {
+            Passwords do not match.
+          }
+        </div>
+      }
+
+      <div class="form-floating">
+        <input type="text" id="floatingInputUsername"
+               minlength="5" name="username"
+               formControlName="username"
+               required class="form-control">
+        <label for="floatingInputUsername">Username</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="email" id="floatingInputEmail"
+               formControlName="email"
+               required class="form-control">
+        <label for="floatingInputEmail">Email</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="password" id="floatingInputPassword"
+               minlength="8" name="password"
+               formControlName="password"
+               required class="form-control">
+        <label for="floatingInputPassword">Password</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="password" id="floatingInputConfirmPassword"
+               formControlName="confirmPassword"
+               required class="form-control">
+        <label for="floatingInputConfirmPassword">Confirm Password</label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Create an account</button>
+    </form>
+  </main>
+</div>

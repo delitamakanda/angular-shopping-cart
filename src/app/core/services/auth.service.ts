@@ -5,8 +5,8 @@ import {API_URL} from "../../constants";
 import {Observable, tap} from "rxjs";
 
 type AuthResponse = {
-  access_token: string;
-  refresh_token: string;
+  access: string;
+  refresh: string;
   user: User;
 }
 
@@ -14,6 +14,13 @@ interface LoginData {
   username: string;
   password: string;
   remember_me: boolean;
+}
+
+interface RegistrationData {
+  username: string;
+  email: string;
+  password1: string;
+  password2: string;
 }
 
 
@@ -36,15 +43,23 @@ export class AuthService {
   }
 
   login({ username, password, remember_me }: LoginData): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/token/`, { username, password }).pipe(
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login/`, { username, password }).pipe(
       tap(authResponse => {
+        console.log(authResponse)
         if (remember_me) {
-          localStorage.setItem('access_token', authResponse.access_token);
-          localStorage.setItem('refresh_token', authResponse.refresh_token);
+          localStorage.setItem('remember_me', 'true');
         }
-        this.access_token.set(authResponse.access_token);
-        this.refresh_token.set(authResponse.refresh_token);
+          localStorage.setItem('access_token', authResponse.access);
+          localStorage.setItem('refresh_token', authResponse.refresh);
+
+        this.access_token.set(authResponse.access);
+        this.refresh_token.set(authResponse.refresh);
       })
     );
+  }
+
+  register(body: RegistrationData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/registration/`, body);
+
   }
 }

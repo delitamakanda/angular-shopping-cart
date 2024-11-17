@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators} from "@angular/forms";
+import {AuthService} from "../../core/services/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent {
     rememberMe: this.propRememberMe,
   });
   submitted = false;
+  authService = inject(AuthService);
   login(form: NgForm): void {
     if (form.invalid) {
       return;
@@ -33,6 +35,11 @@ export class LoginComponent {
     if (this.loginForm.invalid) {
       return;
     }
+    this.authService.login({
+      username: this.loginForm.value.username as string,
+      password: this.loginForm.value.password as string,
+      remember_me: this.loginForm.value?.rememberMe as boolean || false,
+    }).subscribe();
     console.log(this.loginForm.value);
   }
 }
