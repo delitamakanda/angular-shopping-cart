@@ -30,17 +30,21 @@ describe('ProductService', () => {
   });
 
   it('should get all products', () => {
-    const mockProducts = [{ uuid: '1', name: 'Product 1', price: 100, category: ['Electronics'] },
-      { uuid: '2', name: 'Product 2', price: 200, category: ['Computers'] },
-      { uuid: '3', name: 'Product 3', price: 300, category: ['Clothing']  }] as any;
+
+    const mockProducts2 = { results: [
+      { uuid: '1', name: 'Product 1', price: 100, category: [ 'Electronics' ] },
+        { uuid: '2', name: 'Product 2', price: 200, category: [ 'Computers' ] },
+        { uuid: '3', name: 'Product 3', price: 300, category: [ 'Clothing' ] }
+      ]
+    };
 
     service.getAll().subscribe((products) => {
-      expect(products).toEqual(mockProducts);
+      expect(products).toEqual(mockProducts2 as any);
     });
 
-    const req = httpMock.expectOne(`${apiUrl}/store/product/?ordering=-created_at`);
+    const req = httpMock.expectOne(`${apiUrl}/store/product/?limit=25&q=&offset=0&ordering=-created_at`);
     expect(req.request.method).toBe('GET');
-    req.flush({ results: mockProducts });
+    req.flush(mockProducts2);
   });
 });
 

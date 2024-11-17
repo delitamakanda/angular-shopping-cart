@@ -53,13 +53,11 @@ export class ProductService {
 
   getAll(): Observable<Product[]> {
     return this.http.get<any>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=-created_at`).pipe(
-      map(products => products),
-      tap(p => {
-        console.log('products', p.results);
-        this.products$.next(p.results);
-        this.products.set(p.results);
-        this.hasMorePage.set(p.next!== null);
-        this.hasPreviousPage.set(p.previous!== null);
+      tap(({results, next, previous}) => {
+        this.products$.next(results);
+        this.products.set(results);
+        this.hasMorePage.set(next!== null);
+        this.hasPreviousPage.set(previous!== null);
       })
     ).pipe(catchError(err => {
       this.toastService.error(`Error fetching products: ${err.message}`);
