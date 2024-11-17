@@ -21,12 +21,25 @@ export class ProductService {
   products = signal<Product[]>([]);
   searchProducts = signal<string>('');
   productsSearched = computed<Product[]>(() => {
-    const str = this.searchProducts();
+    const str = this.searchValue();
     return str === '' ? this.products() : this.products().filter((product: any) => product.name.toLowerCase().includes(str));
   });
+  limit = signal<number>(25);
+  offset = signal<number>(0);
+  searchValue = signal<string>('');
+  hasMorePage = signal<boolean>(false);
+  hasPreviousPage = signal<boolean>(false);
+
+  setPageNext(): void {
+    this.offset.set(this.offset() + this.limit());
+  }
+
+  setPagePrevious(): void {
+    this.offset.set(this.offset() - this.limit());
+  }
 
   setSearchValue(searchValue: string): void {
-    this.searchProducts.set(searchValue);
+    this.searchValue.set(searchValue);
   }
 
   getSearchTerm(): Observable<string> {
@@ -39,11 +52,14 @@ export class ProductService {
 
 
   getAll(): Observable<Product[]> {
-    return this.http.get<any>(`${this.apiUrl}/store/product/?ordering=-created_at`).pipe(
-      map(products => products.results),
+    return this.http.get<any>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=-created_at`).pipe(
+      map(products => products),
       tap(p => {
-        this.products$.next(p);
-        this.products.set(p);
+        console.log('products', p.results);
+        this.products$.next(p.results);
+        this.products.set(p.results);
+        this.hasMorePage.set(p.next!== null);
+        this.hasPreviousPage.set(p.previous!== null);
       })
     ).pipe(catchError(err => {
       this.toastService.error(`Error fetching products: ${err.message}`);

@@ -35,4 +35,20 @@ describe('AuthService', () => {
     expect(service.refresh_token).toBeTruthy();
   });
 
+  it('should login user', () => {
+    const loginData = { username: 'test', password: 'test', remember_me: true };
+    const authResponse = { access: 'access_token_value', refresh:'refresh_token_value', user: { username: 'test' } };
+    service.login(loginData).subscribe(response => {
+      expect(response).toEqual(authResponse as any);
+    });
+  })
+
+  it('should register user', () => {
+    const registrationData = { username: 'test', email: 'test@example.com', password1: 'test', password2: 'test' };
+    const authResponse = { access: 'access_token_value', refresh:'refresh_token_value', user: { username: 'test' } };
+    service.register(registrationData).subscribe(response => {
+      expect(response).toEqual(authResponse as any);
+    });
+  })
+
 });

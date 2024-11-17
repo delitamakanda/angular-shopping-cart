@@ -1,8 +1,9 @@
-import {Component, effect, inject, OnInit} from '@angular/core';
+import {Component, effect, inject } from '@angular/core';
 import { CardComponent } from './card/card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductService } from '../../services/product.service';
 import {AsyncPipe} from "@angular/common";
+import {PaginationComponent} from "../pagination/pagination.component";
 
 @Component({
   selector: 'app-products',
@@ -11,26 +12,23 @@ import {AsyncPipe} from "@angular/common";
     AsyncPipe,
     CardComponent,
     SharedModule,
+    PaginationComponent,
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
-export class ProductsComponent implements OnInit{
+export class ProductsComponent {
   private productService = inject(ProductService);
-  products = this.productService.productsSearched;
+  products = this.productService.products;
   filterCategory = '';
   propCategories = ['Electronics', 'Computers', 'Clothing', 'Accessories', 'Smartphones'];
 
   constructor() {
     effect(() => {
-      // Implement your own filter logic here
+      this.productService.getAll()
+        .subscribe();
     });
   }
-  ngOnInit(): void {
-    this.productService.getAll()
-    .subscribe();
-  }
-
 
   removeProduct(uuid: string): void {
     this.productService.removeById(uuid);

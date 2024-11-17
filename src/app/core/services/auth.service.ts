@@ -45,7 +45,6 @@ export class AuthService {
   login({ username, password, remember_me }: LoginData): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login/`, { username, password }).pipe(
       tap(authResponse => {
-        console.log(authResponse)
         if (remember_me) {
           localStorage.setItem('remember_me', 'true');
         }
@@ -58,8 +57,15 @@ export class AuthService {
     );
   }
 
-  register(body: RegistrationData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/registration/`, body);
+  register(body: RegistrationData): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/registration/`, body).pipe(
+      tap((authResponse: AuthResponse) => {
+        localStorage.setItem('access_token', authResponse.access);
+        localStorage.setItem('refresh_token', authResponse.refresh);
+        this.access_token.set(authResponse.access);
+        this.refresh_token.set(authResponse.refresh);
+      })
+    );
 
   }
 }

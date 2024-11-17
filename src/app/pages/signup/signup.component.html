@@ -9,14 +9,21 @@
             Email is required.
           } @else if (signupForm.controls['email'].hasError('pattern')) {
             Email is not valid.
+          } @else if (signupForm.controls['email'].hasError('emailInvalid')) {
+            Email is invalid.
+          }  @else if (signupForm.controls['username'].hasError('minlength')) {
+            <span>Character found {{ signupForm.controls['username'].getError('minlength').actualLength}}</span>
+            Username must be at least {{ signupForm.controls['username'].getError('minlength').requiredLength }} characters long.
           } @else if (signupForm.controls['password'].hasError('required')) {
             Password is required.
+          }  @else if (signupForm.controls['password'].hasError('passwordInvalid')) {
+            Password is invalid.
           } @else if (signupForm.controls['password'].hasError('minlength')) {
             <span>Character found {{ signupForm.controls['password'].getError('minlength').actualLength}}</span>
             Password must be at least {{ signupForm.controls['password'].getError('minlength').requiredLength }} characters long.
           } @else if (signupForm.controls['confirmPassword'].hasError('required')) {
             Confirm password is required.
-          } @else if (signupForm.controls['confirmPassword'].hasError('mismatch')) {
+          } @else if (signupForm.controls['confirmPassword'].hasError('passwordMismatch')) {
             Passwords do not match.
           }
         </div>

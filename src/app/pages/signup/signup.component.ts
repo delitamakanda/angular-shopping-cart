@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../core/services/auth.service";
+import {emailValidator, passwordValidator, mismatchPasswordValidator} from "../../core/validators/domain-validator";
 
 @Component({
   selector: 'app-signup',
@@ -15,9 +16,9 @@ import {AuthService} from "../../core/services/auth.service";
 export class SignupComponent {
   signupForm = new FormGroup({
     username: new FormControl<string>('', [Validators.required, Validators.minLength(5)]),
-    email: new FormControl<string>('', [Validators.required, Validators.email]),
-    password: new FormControl<string>('', [Validators.required, Validators.minLength(8)]),
-    confirmPassword: new FormControl<string>('', [Validators.required, Validators.minLength(8)]),
+    email: new FormControl<string>('', [Validators.required, Validators.email, emailValidator]),
+    password: new FormControl<string>('', [Validators.required, Validators.minLength(8), passwordValidator]),
+    confirmPassword: new FormControl<string>('', [Validators.required, mismatchPasswordValidator]),
   })
   submitted = false;
   authService = inject(AuthService);

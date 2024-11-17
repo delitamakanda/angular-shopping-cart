@@ -1,5 +1,9 @@
 <app-product-card>
-    <img productImage [routerLink]="'product/'+product.uuid" [src]="product.image_url" alt="Product Image" width="200" height="200">
+  <div>
+    <img [ngSrc]="product.image_url" [routerLink]="'product/'+product.uuid" alt="Product Image" height="auto" productImage
+         width="auto" priority [placeholder]="base64Background" [width]="200" [height]="200" sizes="(max-width: 768px) 100vw, 50vw" />
+  </div>
+
     <h5 #name class="card-title mt-3">{{ product.name }}</h5>
     <p  #description class="card-text">{{ product.description }}</p>
     <p  #price class="card-text">{{ product.price  | currency}}</p>
