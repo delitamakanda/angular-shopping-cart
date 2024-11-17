@@ -1,22 +1,27 @@
 import { TestBed } from '@angular/core/testing';
-
 import { AuthService } from './auth.service';
 import {API_URL} from "../../constants";
-import {provideHttpClientTesting} from "@angular/common/http/testing";
-import {provideHttpClient} from "@angular/common/http";
+import { HttpTestingController, provideHttpClientTesting} from "@angular/common/http/testing";
+import {provideHttpClient, withFetch} from "@angular/common/http";
+import {Observable, of} from "rxjs";
 
 describe('AuthService', () => {
   let service: AuthService;
+  let httpMock: HttpTestingController;
+  let apiUrl: string;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: API_URL, useValue: 'https://example.com' },
-        provideHttpClientTesting(),
-        provideHttpClient()// Include HttpClientTestingModule for mocking HTTP requests in tests
-      ]
-    });
-    service = TestBed.inject(AuthService);
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: AuthService, useClass: AuthServiceMock  },
+          provideHttpClient(withFetch()),
+          provideHttpClientTesting(),
+          { provide: API_URL, useValue: 'https://example.com/api' }  // Replace with actual API URL in your app
+        ],
+      });
+      service = TestBed.inject(AuthService);
+      httpMock = TestBed.inject(HttpTestingController);
+      apiUrl = TestBed.inject(API_URL);
   });
 
   it('should be created', () => {
@@ -52,3 +57,25 @@ describe('AuthService', () => {
   })
 
 });
+
+export class AuthServiceMock {
+  login(data: any): Observable<any> {
+    return of({ access: 'access_token_value', refresh:'refresh_token_value', user: { username: 'test' } });
+  }
+
+  isAuthenticated(): boolean {
+    return true;
+  }
+
+  access_token = {
+    set: (value: string) =>{}
+  };
+
+  refresh_token = {
+    set: (value: string) =>{}
+  };
+
+  register(data: any): Observable<any> {
+    return of({ access: 'access_token_value', refresh:'refresh_token_value', user: { username: 'test' } });
+  }
+}
