@@ -14,7 +14,7 @@ describe('ProductService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ProductService,
+        { provide: ProductService, useClass: ProductServiceMock  },
         provideHttpClient(),
         provideHttpClientTesting(),
         { provide: API_URL, useValue: 'https://example.com/api' }  // Replace with actual API URL in your app
@@ -49,13 +49,21 @@ describe('ProductService', () => {
 });
 
 export class ProductServiceMock {
-  productsSearched = signal<any[]>([
-    { uuid: '1', name: 'Product 1', price: 100, category: ['Electronics'] },
-    { uuid: '2', name: 'Product 2', price: 200, category: ['Computers'] },
-    { uuid: '3', name: 'Product 3', price: 300, category: ['Clothing'] },
+  products = signal<any[]>([
+    { uuid: '1', name: 'Product 1', price: 100, category: ['Electronics'], image_url: 'image1.jpg' },
+    { uuid: '2', name: 'Product 2', price: 200, category: ['Computers'], image_url: 'image2.jpg' },
+    { uuid: '3', name: 'Product 3', price: 300, category: ['Clothing'], image_url: 'image3.jpg' },
   ]);
 
   getAll(): Observable<any[]> {
-    return of(this.productsSearched());
+    return of(this.products());
+  }
+
+  hasPreviousPage(): Observable<boolean> {
+    return of(false);
+  }
+
+  hasMorePage(): Observable<boolean> {
+    return of(true);
   }
 }

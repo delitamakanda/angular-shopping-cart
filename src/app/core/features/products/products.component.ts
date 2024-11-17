@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductService } from '../../services/product.service';
 import {AsyncPipe} from "@angular/common";
 import {PaginationComponent} from "../pagination/pagination.component";
+import {Product} from "../../interfaces/product.interface";
 
 @Component({
   selector: 'app-products',
@@ -18,10 +19,14 @@ import {PaginationComponent} from "../pagination/pagination.component";
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent {
-  private productService = inject(ProductService);
+  productService = inject(ProductService);
   products = this.productService.products;
   filterCategory = '';
   propCategories = ['Electronics', 'Computers', 'Clothing', 'Accessories', 'Smartphones'];
+
+  get allProducts(): Product[] {
+    return this.products();
+  }
 
   constructor() {
     effect(() => {

@@ -56,7 +56,7 @@ describe('ProductsComponent',
 
     it('should display a list of products', () => {
       const productList = el.querySelectorAll('app-card');
-      const nbProducts = component.products().length;
+      const nbProducts = component.allProducts.length;
       expect(nbProducts).toBe(3);
       expect(productList.length).toBe(nbProducts);
     })
