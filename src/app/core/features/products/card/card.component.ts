@@ -7,27 +7,26 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-card',
-  standalone: true,
-  providers: [
-    {
-      provide: IMAGE_CONFIG,
-      useValue: {
-        placeHolderResolution: 40,
-      }
-    }
-  ],
-  imports: [
-    ProductCardComponent,
-    CommentsComponent,
-    CurrencyPipe,
-    SharedModule,
-    NgOptimizedImage,
-    RouterLink,
-    NgOptimizedImage,
-  ],
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.scss'
+    selector: 'app-card',
+    providers: [
+        {
+            provide: IMAGE_CONFIG,
+            useValue: {
+                placeHolderResolution: 40,
+            }
+        }
+    ],
+    imports: [
+        ProductCardComponent,
+        CommentsComponent,
+        CurrencyPipe,
+        SharedModule,
+        NgOptimizedImage,
+        RouterLink,
+        NgOptimizedImage,
+    ],
+    templateUrl: './card.component.html',
+    styleUrl: './card.component.scss'
 })
 export class CardComponent {
   @Input() product: Product = {} as Product;

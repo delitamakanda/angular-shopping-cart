@@ -6,14 +6,13 @@ import {Product} from "../../core/interfaces/product.interface";
 import {CurrencyPipe, NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-product',
-  standalone: true,
-  imports: [
-    NgIf,
-    CurrencyPipe,
-  ],
-  templateUrl: './product.component.html',
-  styleUrl: './product.component.scss'
+    selector: 'app-product',
+    imports: [
+        NgIf,
+        CurrencyPipe,
+    ],
+    templateUrl: './product.component.html',
+    styleUrl: './product.component.scss'
 })
 export class ProductComponent implements OnInit {
   route = inject(ActivatedRoute);

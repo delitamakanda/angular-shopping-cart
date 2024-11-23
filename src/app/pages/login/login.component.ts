@@ -3,14 +3,13 @@ import {FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Valida
 import {AuthService} from "../../core/services/auth.service";
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    selector: 'app-login',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   propUsername = new FormControl<string>('', [Validators.required, Validators.minLength(5)]);

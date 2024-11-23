@@ -4,12 +4,11 @@ import {debounceTime, distinctUntilChanged} from "rxjs";
 import {ProductService} from "../../../services/product.service";
 
 @Component({
-  imports: [
-    ReactiveFormsModule,
-  ],
-  selector: 'app-search-bar',
-  standalone: true,
-  template: `
+    imports: [
+        ReactiveFormsModule,
+    ],
+    selector: 'app-search-bar',
+    template: `
     <form class="form-inline my-2 my-lg-0">
       <input [formControl]="searchControl"
              class="form-control me-2"

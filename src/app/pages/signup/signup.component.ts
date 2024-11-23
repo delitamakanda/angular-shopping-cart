@@ -4,14 +4,13 @@ import {AuthService} from "../../core/services/auth.service";
 import {emailValidator, passwordValidator, mismatchPasswordValidator} from "../../core/validators/domain-validator";
 
 @Component({
-  selector: 'app-signup',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+    selector: 'app-signup',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './signup.component.html',
+    styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
   signupForm = new FormGroup({

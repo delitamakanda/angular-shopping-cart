@@ -7,16 +7,15 @@ import {PaginationComponent} from "../pagination/pagination.component";
 import {Product} from "../../interfaces/product.interface";
 
 @Component({
-  selector: 'app-products',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    CardComponent,
-    SharedModule,
-    PaginationComponent,
-  ],
-  templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+    selector: 'app-products',
+    imports: [
+        AsyncPipe,
+        CardComponent,
+        SharedModule,
+        PaginationComponent,
+    ],
+    templateUrl: './products.component.html',
+    styleUrl: './products.component.scss'
 })
 export class ProductsComponent {
   productService = inject(ProductService);
