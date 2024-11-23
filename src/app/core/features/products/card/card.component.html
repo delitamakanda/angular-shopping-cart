@@ -1,7 +1,7 @@
 <app-product-card>
   <div>
-    <img [ngSrc]="product.image_url" [routerLink]="'product/'+product.uuid" alt="Product Image" height="auto" productImage
-         width="auto" priority [placeholder]="base64Background" [width]="200" [height]="200" sizes="(max-width: 768px) 100vw, 50vw" />
+    <img [ngSrc]="product.image_url" [routerLink]="'product/'+product.uuid" alt="Product Image" productImage
+         priority [placeholder]="base64Background" [width]="500" [height]="667" sizes="(max-width: 768px) 100vw, 50vw"  style="width: 100%; height: auto; max-width: 500px;"/>
   </div>
 
     <h5 #name class="card-title mt-3">{{ product.name }}</h5>

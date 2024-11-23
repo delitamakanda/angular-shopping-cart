@@ -2,14 +2,12 @@ import {Component, effect, inject } from '@angular/core';
 import { CardComponent } from './card/card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductService } from '../../services/product.service';
-import {AsyncPipe} from "@angular/common";
 import {PaginationComponent} from "../pagination/pagination.component";
 import {Product} from "../../interfaces/product.interface";
 
 @Component({
     selector: 'app-products',
     imports: [
-        AsyncPipe,
         CardComponent,
         SharedModule,
         PaginationComponent,

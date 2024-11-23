@@ -25,9 +25,17 @@ export class PaginationComponent {
 
   nextPage(): void {
     this.productService.setPageNext();
+    this.scrollToTop();
   }
 
   previousPage(): void {
     this.productService.setPagePrevious();
+    this.scrollToTop();
+  }
+
+  private scrollToTop(): void {
+    requestAnimationFrame(() => {
+      window.scrollTo({top: 0, behavior:'smooth'});
+    })
   }
 }

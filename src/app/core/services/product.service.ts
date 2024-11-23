@@ -24,7 +24,7 @@ export class ProductService {
     const str = this.searchValue();
     return str === '' ? this.products() : this.products().filter((product: any) => product.name.toLowerCase().includes(str));
   });
-  limit = signal<number>(25);
+  limit = signal<number>(10);
   offset = signal<number>(0);
   searchValue = signal<string>('');
   hasMorePage = signal<boolean>(false);
