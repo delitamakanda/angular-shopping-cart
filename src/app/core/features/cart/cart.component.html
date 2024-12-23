@@ -1,0 +1,14 @@
+ <div>
+   @for (cart of cartItems; track $index) {
+     <div>
+       <img [ngSrc]="cart.product.image_url" [routerLink]="'/product/'+cart.product.uuid" alt="Product Image" productImage
+            priority [placeholder]="base64Background" [width]="100" [height]="97" sizes="(max-width: 768px) 100vw, 50vw"  style="width: 100%; height: auto; max-width: 100px;"/>
+       {{ cart.product.name }}
+       <button appConfirm="Etes vous sûr de supprimer cet article de votre panier ?"  (click)="cartService.removeFromCart(cart.product.uuid)">Delete</button>
+       x {{ cart.quantity }}
+       {{ cart.totalPrice | currency }}
+     </div>
+   }
+   <div>{{ totalCartPrice | currency }}</div>
+   <button appConfirm="Vider le panier ?" (click)="cartService.clearCart()">Clear cart</button>
+ </div>

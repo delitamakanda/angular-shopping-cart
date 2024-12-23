@@ -12,6 +12,10 @@ export const routes: Routes = [
           component: ProductsComponent
         },
         {
+          path: 'cart',
+          loadComponent: () => import('./core/features/cart/cart.component').then(m => m.CartComponent)
+        },
+        {
           path: 'product/:uuid',
           loadComponent: () => import('./pages/product/product.component').then(m => m.ProductComponent),
           resolve: {
