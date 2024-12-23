@@ -6,9 +6,7 @@
                 (deleteProduct)="removeProduct($event)"></app-card>
     }
     @empty {
-      @defer (when !isLoading) {
-        <p>No products found.</p>
-      }
+      <p>No products found.</p>
     }
   <app-pagination></app-pagination>
 </div>

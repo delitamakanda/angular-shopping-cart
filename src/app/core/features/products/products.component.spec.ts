@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from "@angular/core/testing";
+import {ComponentFixture, fakeAsync, TestBed, tick} from "@angular/core/testing";
 import {ProductsComponent} from "./products.component";
 import { provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideRouter} from "@angular/router";
@@ -45,20 +45,21 @@ describe('ProductsComponent',
       fixture = TestBed.createComponent(ProductsComponent);
       component = fixture.componentInstance;
       el = fixture.nativeElement;
-      fixture.detectChanges();
-      await fixture.whenStable();
-      fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('should create', fakeAsync(() => {
+      tick();
       expect(component).toBeTruthy();
-    })
+    }));
 
-    it('should display a list of products', () => {
+    it('should display a list of products', fakeAsync(() => {
+      fixture.detectChanges();
+      tick(1000);
+      fixture.detectChanges();
       const productList = el.querySelectorAll('app-card');
       const nbProducts = component.allProducts.length;
       expect(nbProducts).toBe(3);
       expect(productList.length).toBe(nbProducts);
-    })
+    }));
 
 });
