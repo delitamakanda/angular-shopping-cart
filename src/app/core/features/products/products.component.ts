@@ -21,8 +21,8 @@ export class ProductsComponent {
   productService = inject(ProductService);
   products = this.productService.products;
   isLoading = false;
-  filterCategory = '';
-  propCategories = ['Electronics', 'Computers', 'Clothing', 'Accessories', 'Smartphones'];
+  // filterCategory = '';
+  // propCategories = ['Electronics', 'Computers', 'Clothing', 'Accessories', 'Smartphones'];
 
   get allProducts(): Product[] {
     return this.products();
