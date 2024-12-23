@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductService } from '../../services/product.service';
 import {PaginationComponent} from "../pagination/pagination.component";
 import {Product} from "../../interfaces/product.interface";
+import {NgIf} from "@angular/common";
 
 @Component({
     selector: 'app-products',
@@ -11,6 +12,7 @@ import {Product} from "../../interfaces/product.interface";
         CardComponent,
         SharedModule,
         PaginationComponent,
+      NgIf,
     ],
     templateUrl: './products.component.html',
     styleUrl: './products.component.scss'
@@ -18,6 +20,7 @@ import {Product} from "../../interfaces/product.interface";
 export class ProductsComponent {
   productService = inject(ProductService);
   products = this.productService.products;
+  isLoading = false;
   filterCategory = '';
   propCategories = ['Electronics', 'Computers', 'Clothing', 'Accessories', 'Smartphones'];
 
@@ -27,8 +30,12 @@ export class ProductsComponent {
 
   constructor() {
     effect(() => {
+      this.isLoading = true;
       this.productService.getAll()
         .subscribe();
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
     });
   }
 
