@@ -8,7 +8,7 @@
     <p  #description class="card-text">{{ product.description }}</p>
     <p  #price class="card-text">{{ product.price  | currency}}</p>
     <div productActions>
-        <button class="btn btn-primary">Add to Cart</button>
+        <button appConfirm="Etes vous sûr d'ajouter cet article au panier ?" class="btn btn-primary" (click)="cartService.addToCart(product)">Add to Cart</button>
         @if (userIsAdmin) {
             <button class="btn btn-danger" appConfirm="Etes vous sûr de supprimer cet article ?" (click)="handleDeleteProduct()" i18n i18n-appConfirm>Delete</button>
         }
