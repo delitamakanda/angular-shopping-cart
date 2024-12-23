@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from 'src/app/core/interfaces/product.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
-import {CurrencyPipe, IMAGE_CONFIG, NgOptimizedImage} from '@angular/common';
+import {CurrencyPipe, IMAGE_CONFIG, NgIf, NgOptimizedImage} from '@angular/common';
 import { CommentsComponent } from '../../comments/comments.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterLink } from '@angular/router';
+import {RateComponent} from "../../../../shared/components/rate/rate.component";
+import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: 'app-card',
@@ -22,8 +24,11 @@ import { RouterLink } from '@angular/router';
         CurrencyPipe,
         SharedModule,
         NgOptimizedImage,
+      FormsModule,
+      NgIf,
         RouterLink,
         NgOptimizedImage,
+      RateComponent,
     ],
     templateUrl: './card.component.html',
     styleUrl: './card.component.scss'
@@ -34,6 +39,7 @@ export class CardComponent {
   userIsAdmin = false;
   isCommentsVisible = false;
   base64Background: string;
+  rating = 0;
 
   constructor() {
     this.base64Background = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v'

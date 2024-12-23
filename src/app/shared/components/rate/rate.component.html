@@ -1,0 +1,7 @@
+<div>
+  @for (star of [1,2,3,4,5]; track $index) {
+    <span (click)="changeRate($index+1)">
+      <i class="star" [class.filled]="$index < rate"> ★</i>
+    </span>
+  }
+</div>

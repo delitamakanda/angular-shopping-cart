@@ -13,25 +13,28 @@
             <button class="btn btn-danger" appConfirm="Etes vous sûr de supprimer cet article ?" (click)="handleDeleteProduct()" i18n i18n-appConfirm>Delete</button>
         }
     </div>
-    <div productComments>
+    <div #productComments>
         <div class="container py-5 bg-white pe-10">
             <button (click)="toggleComments()">{{ !isCommentsVisible ? 'Afficher': 'Cacher'}} les commentaires</button>
-            @defer (when isCommentsVisible) {
-                <app-comments></app-comments>
-            }
-            @loading(after 100ms; minimum 1s) {
-                <p>Chargement en cours...</p>
-            }
-            @error {
-                <p>Une erreur s'est produite.</p>
-            }
-            @placeholder(minimum 360ms) {
-                <div class="placeholder-content">
-                    <span class="placeholder col-6"></span>
-                    <span class="placeholder w-75"></span>
-                    <span class="placeholder" style="width: 25%;"></span>
-                </div>
-            }
+          <div *ngIf="isCommentsVisible">
+            <app-comments></app-comments>
+          </div>
+          @defer (when isCommentsVisible) {
+          }
+          @loading(after 100ms; minimum 1s) {
+            <p>Chargement en cours...</p>
+          }
+          @error {
+            <p>Une erreur s'est produite.</p>
+          }
+          @placeholder(minimum 100ms) {
+            <div class="placeholder-content">
+              <span class="placeholder col-6"></span>
+              <span class="placeholder w-75"></span>
+              <span class="placeholder" style="width: 25%;"></span>
+            </div>
+          }
         </div>
     </div>
+  <app-rate [(ngModel)]="rating" name="rating"></app-rate>
 </app-product-card>
