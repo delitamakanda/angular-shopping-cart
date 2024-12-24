@@ -18,12 +18,12 @@ import {CartItem} from "../products/card/interfaces";
 })
 export class CartComponent {
   cartService = inject(CartService);
-  cartItemsFormatted = this.cartService.cartItemsWithQuantity;
+  cartItemsWithQuantity = this.cartService.cartItemsWithQuantity;
   cartItemsTotalPrice = this.cartService.cartItemsTotalPrice;
   base64Background = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5'
 
   get cartItems(): CartItem[] {
-    return this.cartItemsFormatted();
+    return this.cartItemsWithQuantity();
   }
   get totalCartPrice(): number {
     return this.cartItemsTotalPrice();
