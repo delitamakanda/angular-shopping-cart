@@ -1,6 +1,6 @@
 <app-product-card>
   <div>
-    <img [ngSrc]="product.image_url" [routerLink]="'product/'+product.uuid" alt="Product Image" productImage
+    <img [ngSrc]="product.image_url" [routerLink]="'product/'+product.uuid" alt="Product Image" productImage fetchpriority="high"
          priority [placeholder]="base64Background" [width]="500" [height]="667" sizes="(max-width: 768px) 100vw, 50vw"  style="width: 100%; height: auto; max-width: 500px;"/>
   </div>
 

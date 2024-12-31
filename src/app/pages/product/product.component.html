@@ -1,6 +1,6 @@
 <div *ngIf="product">
   <h2>{{ product.name }}</h2>
-  <img [ngSrc]="product.image_url" [width]="500" [height]="667" [placeholder]="base64Background" priority [alt]="product.name" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style="width: 100%; height: auto; max-width: 500px;" />
+  <img [ngSrc]="product.image_url" [width]="500" [height]="667" [placeholder]="base64Background" fetchpriority="high" priority [alt]="product.name" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style="width: 100%; height: auto; max-width: 500px;" />
   <p>{{ product.description }}</p>
   <p>{{ product.price | currency}}</p>
 </div>
