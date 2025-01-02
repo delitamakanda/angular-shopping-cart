@@ -18,7 +18,7 @@
         <a class="nav-link" [routerLink]="['/signup']">Signup</a>
       </li>
     </ul>
-    <app-avatar />
+    <app-avatar *ngIf="authService.isAuthenticated" />
     <app-search-bar></app-search-bar>
     <!--<input type="search" [(ngModel)]="searchInput" class="form-control me-2" placeholder="Search">
     <button class="btn btn-outline-success"(click)="search()">Search</button>-->
