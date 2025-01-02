@@ -3,7 +3,7 @@ import { routes } from "./app.routes";
 import {
   PreloadAllModules,
   provideRouter,
-  RouteReuseStrategy,
+  RouteReuseStrategy, TitleStrategy,
   withInMemoryScrolling,
   withPreloading
 } from '@angular/router';
@@ -12,9 +12,11 @@ import localeFr from "@angular/common/locales/fr";
 import { AppConfigService } from "./core/services/app-config.service";
 import { LoggerService, RemoteLoggerService } from "./core/services/logger.service";
 import { API_URL, APP_ENVIRONMENT } from "./constants";
-import { provideHttpClient } from "@angular/common/http";
+import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {CustomRouteReuseStrategy} from "./custom-route-reuse-strategy";
 import { provideServiceWorker } from '@angular/service-worker';
+import {authInterceptor} from "./core/interceptors/auth.interceptor";
+import {CustomTitleStrategy} from "./title.strategy";
 
 registerLocaleData(localeFr);
 
@@ -22,6 +24,7 @@ registerLocaleData(localeFr);
 export const appConfig: ApplicationConfig = {
     providers: [
         provideRouter(routes, withPreloading(PreloadAllModules), withInMemoryScrolling({ scrollPositionRestoration: 'top'  }  )),
+      { provide: TitleStrategy, useClass: CustomTitleStrategy },
       {provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
         { provide: LOCALE_ID, useValue: 'fr' },
         { provide: LoggerService, useClass: RemoteLoggerService  },
@@ -31,7 +34,9 @@ export const appConfig: ApplicationConfig = {
             const env = inject(APP_ENVIRONMENT);
             return env === 'production'? new AppConfigService('prodConfig') : new AppConfigService('devConfig');
         }},
-        provideHttpClient(), provideServiceWorker('ngsw-worker.js', {
+        provideHttpClient(
+          withInterceptors([authInterceptor])
+        ), provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
           }),

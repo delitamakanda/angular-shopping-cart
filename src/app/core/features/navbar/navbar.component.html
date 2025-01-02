@@ -11,12 +11,14 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/cart']">Cart</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/login']">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/signup']">Signup</a>
-      </li>
+      <ng-container *ngIf="!authService.isAuthenticated">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/login']">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/signup']">Signup</a>
+        </li>
+      </ng-container>
     </ul>
     <app-avatar *ngIf="authService.isAuthenticated" />
     <app-search-bar></app-search-bar>
