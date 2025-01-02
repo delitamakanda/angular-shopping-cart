@@ -80,7 +80,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<{ access: string }> {
-    return this.http.post<{ access: string }>(`${this.apiUrl}/auth/token/refresh/`, { refresh: this.refresh_token() }).pipe(
+    return this.http.post<{ access: string }>(`${this.apiUrl}/auth/token/refresh/`, { refresh: window.localStorage.getItem('refresh_token') }).pipe(
       tap(authResponse => {
         localStorage.setItem('access_token', authResponse.access);
         this.access_token.set(authResponse.access);

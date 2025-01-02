@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { AvatarComponent } from './avatar/avatar.component';
 import {SearchBarComponent} from "../search-bar/search-bar/search-bar.component";
 import {AuthService} from "../../services/auth.service";
+import {LucideAngularModule, FileCog, LogIn} from "lucide-angular";
 
 @Component({
     selector: 'app-navbar',
@@ -15,6 +16,7 @@ import {AuthService} from "../../services/auth.service";
         AvatarComponent,
         SearchBarComponent,
       NgIf,
+      LucideAngularModule,
     ],
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.scss'
@@ -22,6 +24,8 @@ import {AuthService} from "../../services/auth.service";
 export class NavbarComponent {
   searchInput = '';
   authService = inject(AuthService);
+  readonly FileIcon = FileCog;
+  readonly LoginIcon = LogIn;
 
   search(): void {
     console.log(`Searching for: ${this.searchInput}`);

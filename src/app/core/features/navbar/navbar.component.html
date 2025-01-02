@@ -13,10 +13,10 @@
       </li>
       <ng-container *ngIf="!authService.isAuthenticated">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/login']">Login</a>
+          <a class="nav-link" [routerLink]="['/login']"><lucide-angular [img]="LoginIcon" class="my-icon"></lucide-angular>Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/signup']">Signup</a>
+          <a class="nav-link" [routerLink]="['/signup']"> <lucide-angular [img]="FileIcon" class="my-icon"></lucide-angular> Signup</a>
         </li>
       </ng-container>
     </ul>
