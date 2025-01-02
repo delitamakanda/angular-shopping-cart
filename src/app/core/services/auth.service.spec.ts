@@ -29,7 +29,7 @@ describe('AuthService', () => {
   });
 
   it('should check if user is authenticated', () => {
-    expect(service.isAuthenticated()).toBeTruthy();
+    expect(service.isAuthenticated).toBeTruthy();
   });
   it('should set access token', () => {
     service.access_token.set('access_token_value');

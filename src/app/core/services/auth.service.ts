@@ -2,7 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {User} from "../interfaces/user.interface";
 import {HttpClient} from "@angular/common/http";
 import {API_URL} from "../../constants";
-import {Observable, tap} from "rxjs";
+import {catchError, Observable, tap, throwError} from "rxjs";
 
 type AuthResponse = {
   access: string;
@@ -34,8 +34,8 @@ export class AuthService {
   refresh_token = signal('');
   user = signal(null);
 
-  isAuthenticated(): boolean {
-   return !!this.access_token;
+  get isAuthenticated(): boolean {
+   return !!this.access_token();
 }
 
   constructor() {
@@ -53,6 +53,10 @@ export class AuthService {
 
         this.access_token.set(authResponse.access);
         this.refresh_token.set(authResponse.refresh);
+      }),
+      catchError(err => {
+        console.error('Error logging in:', err);
+        return throwError(err);
       })
     );
   }
@@ -64,6 +68,10 @@ export class AuthService {
         localStorage.setItem('refresh_token', authResponse.refresh);
         this.access_token.set(authResponse.access);
         this.refresh_token.set(authResponse.refresh);
+      }),
+      catchError(err => {
+        console.error('Error registering:', err);
+        return throwError(err);
       })
     );
 
