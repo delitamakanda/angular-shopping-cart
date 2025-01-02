@@ -36,7 +36,7 @@ export class SignupComponent {
       password1: this.signupForm.value.password as string,
       password2: this.signupForm.value.confirmPassword as string
     }).subscribe({
-      next: () => this.router.navigate(['/login']),
+      next: () => this.router.navigate(['/']),
       error: (error) => console.error(error),
       complete: () => this.submitted = false,
     });

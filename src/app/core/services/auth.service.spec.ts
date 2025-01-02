@@ -56,6 +56,20 @@ describe('AuthService', () => {
     });
   })
 
+  it('should logout user', () => {
+    service.logout().subscribe(() => {
+      expect(service.access_token).toBeFalsy();
+      expect(service.refresh_token).toBeFalsy();
+    });
+  })
+
+  it('should refresh token', () => {
+    const refreshTokenResponse = { access: 'access_token_value' };
+    service.refreshToken().subscribe(response => {
+      expect(response).toEqual(refreshTokenResponse as any);
+    });
+  })
+
 });
 
 export class AuthServiceMock {
@@ -77,5 +91,12 @@ export class AuthServiceMock {
 
   register(data: any): Observable<any> {
     return of({ access: 'access_token_value', refresh:'refresh_token_value', user: { username: 'test' } });
+  }
+  logout(): Observable<void> {
+    return of();
+  }
+
+  refreshToken(): Observable<{ access: string }> {
+    return of({ access: 'access_token_value' });
   }
 }

@@ -32,7 +32,7 @@ export class AuthService {
   private readonly apiUrl = inject(API_URL);
   access_token = signal('');
   refresh_token = signal('');
-  user = signal(null);
+  user = signal({} as User);
 
   get isAuthenticated(): boolean {
    return !!this.access_token();
@@ -53,6 +53,7 @@ export class AuthService {
 
         this.access_token.set(authResponse.access);
         this.refresh_token.set(authResponse.refresh);
+        this.user.set(authResponse.user);
       }),
       catchError(err => {
         console.error('Error logging in:', err);
@@ -68,6 +69,7 @@ export class AuthService {
         localStorage.setItem('refresh_token', authResponse.refresh);
         this.access_token.set(authResponse.access);
         this.refresh_token.set(authResponse.refresh);
+        this.user.set(authResponse.user);
       }),
       catchError(err => {
         console.error('Error registering:', err);
@@ -75,5 +77,30 @@ export class AuthService {
       })
     );
 
+  }
+
+  refreshToken(): Observable<{ access: string }> {
+    return this.http.post<{ access: string }>(`${this.apiUrl}/auth/token/refresh/`, { refresh: this.refresh_token() }).pipe(
+      tap(authResponse => {
+        localStorage.setItem('access_token', authResponse.access);
+        this.access_token.set(authResponse.access);
+      })
+    )
+  }
+
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/auth/logout/`, {}).pipe(
+      tap(() => {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        this.access_token.set('');
+        this.refresh_token.set('');
+        this.user.set({} as User);
+      }),
+      catchError(err => {
+        console.error('Error logging out:', err);
+        return throwError(err);
+      })
+    )
   }
 }
