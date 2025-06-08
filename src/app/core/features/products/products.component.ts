@@ -4,16 +4,18 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductService } from '../../services/product.service';
 import {PaginationComponent} from "../pagination/pagination.component";
 import {Product} from "../../interfaces/product.interface";
-import {NgIf} from "@angular/common";
+import {SearchBarComponent} from "../search-bar/search-bar/search-bar.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @Component({
     selector: 'app-products',
-    imports: [
-        CardComponent,
-        SharedModule,
-        PaginationComponent,
-      NgIf,
-    ],
+  imports: [
+    CardComponent,
+    SharedModule,
+    PaginationComponent,
+    SearchBarComponent,
+    MatProgressSpinnerModule
+  ],
     templateUrl: './products.component.html',
     styleUrl: './products.component.scss'
 })

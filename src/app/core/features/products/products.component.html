@@ -1,5 +1,8 @@
+<app-search-bar></app-search-bar>
 <div class="products row">
-  <div *ngIf="isLoading">chargement en cours...</div>
+  @if (isLoading) {
+    <mat-spinner></mat-spinner>
+  }
     @for (product of allProducts; track product.uuid) {
       <app-card [product]="product"
                 class="col-lg-4 col-md-6 pt-md-4 pt-3"

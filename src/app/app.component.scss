@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+main {
+  min-height: 100vh;
+}

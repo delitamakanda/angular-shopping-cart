@@ -1,0 +1,29 @@
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  background-color: #ff00ff;
+  color: #000000;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-right: 0.25rem;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a {
+  margin-left: 1rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+nav a:hover {
+  text-decoration: underline;
+}

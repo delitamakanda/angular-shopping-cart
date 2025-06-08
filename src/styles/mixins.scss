@@ -1,0 +1,29 @@
+@use "sass:list";
+$sizes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+$directions: [top, right, bottom, left];
+$directions-abbr: [t, r, b, l];
+
+@for $i from 1 through list.length($directions) {
+  $direction: list.nth($directions, $i);
+  $abbr: list.nth($directions-abbr, $i);
+
+  @each $size in $sizes {
+    .m#{$abbr}-#{$size} {
+      margin-#{$direction}: ($size * 1rem);
+    }
+  }
+  @each $size in $sizes {
+    .p#{$abbr}-#{$size} {
+      padding-#{$direction}: ($size * 1rem);
+    }
+  }
+}
+
+@each $size in $sizes {
+  .m-#{$size} {
+    margin: ($size * 1rem);
+  }
+  .p-#{$size} {
+    padding: ($size * 1rem);
+  }
+}
