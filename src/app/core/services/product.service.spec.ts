@@ -4,7 +4,7 @@ import { ProductService } from './product.service';
 import { API_URL } from 'src/app/constants';
 import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {Observable, of} from "rxjs";
-import {inject, signal} from "@angular/core";
+import { signal} from "@angular/core";
 import {Category} from "../interfaces";
 
 describe('ProductService', () => {
