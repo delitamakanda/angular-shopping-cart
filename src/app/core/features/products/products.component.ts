@@ -3,7 +3,7 @@ import { CardComponent } from './card/card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductService } from '../../services/product.service';
 import {PaginationComponent} from "../pagination/pagination.component";
-import {Product} from "../../interfaces/product.interface";
+import {Product} from "../../interfaces";
 import {SearchBarComponent} from "../search-bar/search-bar/search-bar.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CategoryListComponent} from "./category-list/category-list.component";
