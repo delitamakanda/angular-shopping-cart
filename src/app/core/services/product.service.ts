@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {inject, Injectable, signal, computed} from '@angular/core';
 import {BehaviorSubject, catchError, combineLatest, map, Observable, of, tap} from 'rxjs';
 import { API_URL } from 'src/app/constants';
-import { Product } from '../interfaces/product.interface';
+import { Product, Category } from '../interfaces';
 import {ToastService} from "./toast.service";
 
 @Injectable({
@@ -94,5 +94,9 @@ export class ProductService {
 
   add(newProduct: Product): Observable<Product> {
    return this.http.post<Product>(`${this.apiUrl}/store/product/`, newProduct);
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.apiUrl}/store/category-list/`);
   }
 }

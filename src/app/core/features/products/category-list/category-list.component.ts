@@ -22,7 +22,6 @@ export class CategoryListComponent implements OnInit {
   }
 
   selectCategory(category: Category): void {
-    // todo: send selected category to productService for filtering
     this.selectedCategory.emit(category);
   }
 

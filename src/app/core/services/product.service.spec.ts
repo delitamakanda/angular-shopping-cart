@@ -5,6 +5,7 @@ import { API_URL } from 'src/app/constants';
 import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {Observable, of} from "rxjs";
 import {inject, signal} from "@angular/core";
+import {Category} from "../interfaces";
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -46,6 +47,22 @@ describe('ProductService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockProducts2.results);
   });
+
+  it('should get categories', () => {
+    const mockCategories = [
+      { uuid: '1', name: 'Electronics' },
+      { uuid: '2', name: 'Computers' },
+      { uuid: '3', name: 'Clothing' },
+    ];
+
+    service.getCategories().subscribe((categories) => {
+      expect(categories).toEqual(mockCategories as any);
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/store/category-list/`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockCategories);
+  })
 });
 
 export class ProductServiceMock {
@@ -79,5 +96,9 @@ export class ProductServiceMock {
 
   hasMorePage(): Observable<boolean> {
     return of(true);
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.apiUrl}/store/category-list/`);
   }
 }
