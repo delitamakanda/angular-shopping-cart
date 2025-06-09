@@ -1,15 +1,23 @@
-<app-search-bar></app-search-bar>
-<div class="products row">
-  @if (isLoading) {
-    <mat-spinner></mat-spinner>
-  }
-    @for (product of allProducts; track product.uuid) {
-      <app-card [product]="product"
-                class="col-lg-4 col-md-6 pt-md-4 pt-3"
-                (deleteProduct)="removeProduct($event)"></app-card>
-    }
-    @empty {
-      <p>No products found.</p>
-    }
-  <app-pagination></app-pagination>
+<div class="row">
+  <div class="col col-2">
+    <app-search-bar />
+    <app-category-list />
+  </div>
+  <div class="col col-8">
+      @if (isLoading) {
+        <mat-spinner></mat-spinner>
+      }
+    <mat-grid-list cols="4" rowHeight="580px">
+      @for (product of allProducts; track product.uuid) {
+        <mat-grid-tile>
+        <app-card [product]="product"
+                  (deleteProduct)="removeProduct($event)" />
+        </mat-grid-tile>
+      }
+      @empty {
+        <p>No products found.</p>
+      }
+    </mat-grid-list>
+      <app-pagination></app-pagination>
+  </div>
 </div>

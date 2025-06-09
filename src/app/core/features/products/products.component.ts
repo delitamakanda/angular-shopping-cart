@@ -6,6 +6,8 @@ import {PaginationComponent} from "../pagination/pagination.component";
 import {Product} from "../../interfaces/product.interface";
 import {SearchBarComponent} from "../search-bar/search-bar/search-bar.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {CategoryListComponent} from "./category-list/category-list.component";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @Component({
     selector: 'app-products',
@@ -14,7 +16,9 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     SharedModule,
     PaginationComponent,
     SearchBarComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    CategoryListComponent,
+    MatGridListModule,
   ],
     templateUrl: './products.component.html',
     styleUrl: './products.component.scss'

@@ -1,0 +1,33 @@
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.col {
+  flex: 1;
+}
+
+.col-2 {
+  flex: 0 0 20%;
+}
+
+.col-8 {
+  flex: 0 0 80%;
+}
+
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .col {
+    margin-bottom: 1rem;
+  }
+
+  .col-2,
+  .col-8 {
+    width: 100%;
+  }
+}
