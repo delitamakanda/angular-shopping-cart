@@ -55,7 +55,7 @@ describe('ProductService', () => {
       { uuid: '3', name: 'Clothing' },
     ];
 
-    service.getCategories().subscribe((categories) => {
+    service.getCategoriesLegacy().subscribe((categories) => {
       expect(categories).toEqual(mockCategories as any);
     });
 
@@ -98,7 +98,7 @@ export class ProductServiceMock {
     return of(true);
   }
 
-  getCategories(): Observable<Category[]> {
+  getCategoriesLegacy(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.apiUrl}/store/category-list/`);
   }
 }

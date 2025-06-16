@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, httpResource, HttpResourceRef} from '@angular/common/http';
 import {inject, Injectable, signal, computed} from '@angular/core';
 import {BehaviorSubject, catchError, combineLatest, map, Observable, of, tap} from 'rxjs';
 import { API_URL } from 'src/app/constants';
@@ -96,7 +96,11 @@ export class ProductService {
    return this.http.post<Product>(`${this.apiUrl}/store/product/`, newProduct);
   }
 
-  getCategories(): Observable<Category[]> {
+  getCategoriesLegacy(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.apiUrl}/store/category-list/`);
+  }
+
+  getCategories(): HttpResourceRef<Category[] | undefined> {
+    return httpResource<Category[]>(() => `${this.apiUrl}/store/category-list/`, {});
   }
 }
