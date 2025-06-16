@@ -1,4 +1,5 @@
-import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 import {ProductService} from "../../../services/product.service";
 import {CommonModule} from "@angular/common";
 import {Category} from "../../../interfaces";
@@ -13,16 +14,19 @@ import {Observable} from "rxjs";
   styleUrl: './category-list.component.scss'
 })
 export class CategoryListComponent implements OnInit {
-  @Output() selectedCategory = new EventEmitter<Category>();
   productService = inject(ProductService);
+  router = inject(Router);
   categories$!: Observable<Category[]>;
 
   ngOnInit():void {
-    this.categories$ = this.productService.getCategories();
+    this.categories$ = this.productService.getCategoriesLegacy();
   }
 
-  selectCategory(category: Category): void {
-    this.selectedCategory.emit(category);
+  async selectCategory(category: Category): Promise<void> {
+    await this.router.navigate(['/'], {
+      queryParams: { category: encodeURIComponent(category.name), sort: null },
+      queryParamsHandling: 'merge',
+    });
   }
 
 }

@@ -21,7 +21,7 @@ describe('CategoryListComponent', () => {
         },
         {
           provide: ProductService, useValue: {
-            getCategories: () => {
+            getCategoriesLegacy: () => {
               return { subscribe: () => {} };
             },
           }
