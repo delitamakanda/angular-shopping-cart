@@ -10,6 +10,8 @@ import {CategoryListComponent} from "./category-list/category-list.component";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {CommonObservableDestruction} from "../../../shared/helpers/common.observable";
+import {PriceFilterComponent} from "../price-filter/price-filter.component";
+import {SortByComponent} from "../sort-by/sort-by.component";
 
 @Component({
     selector: 'app-products',
@@ -21,6 +23,8 @@ import {CommonObservableDestruction} from "../../../shared/helpers/common.observ
     MatProgressSpinnerModule,
     CategoryListComponent,
     MatGridListModule,
+    PriceFilterComponent,
+    SortByComponent,
   ],
     templateUrl: './products.component.html',
     styleUrl: './products.component.scss'

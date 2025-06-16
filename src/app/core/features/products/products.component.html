@@ -2,8 +2,10 @@
   <div class="col col-2">
     <app-search-bar />
     <app-category-list />
+    <app-price-filter/>
   </div>
   <div class="col col-8">
+      <app-sort-by />
       @if (isLoading) {
         <mat-spinner></mat-spinner>
       }
