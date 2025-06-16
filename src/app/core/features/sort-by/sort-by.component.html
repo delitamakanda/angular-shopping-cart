@@ -1,0 +1,11 @@
+<form [formGroup]="sortByForm">
+  <mat-form-field appearance="fill">
+    <mat-label><strong> SORT BY</strong></mat-label>
+    <mat-select formControlName="sortBy">
+      @for (sortOption of sortOptions; track sortOption.value) {
+        <mat-option [value]="sortOption.value">{{ sortOption.viewValue }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+</form>
