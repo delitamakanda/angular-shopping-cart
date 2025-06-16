@@ -1,0 +1,11 @@
+<h4>PRICE FILTER</h4>
+<form [formGroup]="priceFilterForm" class="mat-mdc-form-field">
+  <mat-form-field>
+    <mat-label>Min Price</mat-label>
+    <input type="number" matInput formControlName="minPrice" [placeholder]="minPrice.toString()" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Max Price</mat-label>
+    <input type="number" matInput formControlName="maxPrice" [placeholder]="maxPrice.toString()" />
+  </mat-form-field>
+</form>
