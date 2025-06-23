@@ -81,7 +81,6 @@ export class SortByComponent implements OnInit, OnDestroy {
   ngOnDestroy() : void {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
-      this.productService.ordering.set('');
     }
   }
 
