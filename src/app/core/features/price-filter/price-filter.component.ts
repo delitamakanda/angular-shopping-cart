@@ -3,8 +3,9 @@ import {ProductService} from "../../services/product.service";
 import {CommonModule} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {distinctUntilChanged, throwError} from "rxjs";
+import {distinctUntilChanged, filter, throwError} from "rxjs";
 import {CommonObservableDestruction} from "../../../shared/helpers/common.observable";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-price-filter',
@@ -23,6 +24,7 @@ export class PriceFilterComponent extends CommonObservableDestruction implements
   productService = inject(ProductService);
   fb = inject(FormBuilder);
   priceFilterForm!: FormGroup;
+  router = inject(Router);
 
   constructor() {
     super();
@@ -30,19 +32,42 @@ export class PriceFilterComponent extends CommonObservableDestruction implements
 
   ngOnInit(): void {
     this.priceFilterForm = this.fb.group({
-      minPrice: [+this.productService.minPrice || ''],
-      maxPrice: [+this.productService.maxPrice || '']
+      minPrice: [this.minPrice],
+      maxPrice: [this.maxPrice]
     });
 
-    this.priceFilterForm.valueChanges.pipe(
+    this.priceFilterForm.get('minPrice')?.valueChanges.pipe(
       distinctUntilChanged(),
       this.untilDestroyed()
     ).subscribe({
-      next: ({ minPrice, maxPrice }) => {
-        this.productService.minPrice.set(<string>minPrice?.toString() || '');
-        this.productService.maxPrice.set(<string>maxPrice?.toString() || '');
+      next: (value) => {
+          this.priceFilterForm.get('minPrice')?.setValue(value, {emitEvent: false});
+          this.productService.minPrice.set(value );
       },
       error: (error) => throwError(() => error),
-    })
+    });
+
+    this.priceFilterForm.get('maxPrice')?.valueChanges.pipe(
+      distinctUntilChanged(),
+      this.untilDestroyed()
+    ).subscribe({
+      next: (value) => {
+          this.priceFilterForm.get('maxPrice')?.setValue(value, {emitEvent: false});
+          this.productService.maxPrice.set(value );
+      },
+      error: (error) => throwError(() => error),
+    });
+
+    // reset the filter when the user navigates to a new page
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      this.untilDestroyed()
+    ).subscribe(() => {
+      this.priceFilterForm.get('minPrice')?.setValue(this.minPrice, { emitEvent: false });
+      this.priceFilterForm.get('maxPrice')?.setValue(this.maxPrice, { emitEvent: false });
+      this.productService.minPrice.set('' );
+      this.productService.maxPrice.set('' );
+    });
+
   }
 }
