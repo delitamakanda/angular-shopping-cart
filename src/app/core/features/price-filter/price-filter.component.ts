@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ProductService} from "../../services/product.service";
 import {CommonModule} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {distinctUntilChanged, throwError} from "rxjs";
 import {CommonObservableDestruction} from "../../../shared/helpers/common.observable";
 
@@ -22,26 +22,25 @@ export class PriceFilterComponent extends CommonObservableDestruction implements
   maxPrice: number = 1000;
   productService = inject(ProductService);
   fb = inject(FormBuilder);
-  priceFilterForm = this.fb.group({
-    minPrice: [this.minPrice],
-    maxPrice: [this.maxPrice]
-  });
+  priceFilterForm!: FormGroup;
 
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    this.minPrice = +this.productService.minPrice();
-    this.maxPrice = +this.productService.maxPrice();
+    this.priceFilterForm = this.fb.group({
+      minPrice: [+this.productService.minPrice || ''],
+      maxPrice: [+this.productService.maxPrice || '']
+    });
 
     this.priceFilterForm.valueChanges.pipe(
       distinctUntilChanged(),
       this.untilDestroyed()
     ).subscribe({
       next: ({ minPrice, maxPrice }) => {
-        this.productService.minPrice.set(<string>minPrice?.toString());
-        this.productService.maxPrice.set(<string>maxPrice?.toString() || '1000');
+        this.productService.minPrice.set(<string>minPrice?.toString() || '');
+        this.productService.maxPrice.set(<string>maxPrice?.toString() || '');
       },
       error: (error) => throwError(() => error),
     })
