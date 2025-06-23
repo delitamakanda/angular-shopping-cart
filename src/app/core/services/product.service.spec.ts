@@ -42,8 +42,8 @@ describe('ProductService', () => {
     service.getAll().subscribe((products) => {
       expect(products).toEqual(mockProducts2.results as any);
     });
-    const params = { limit: service.limit(), q: service.searchValue(), offset: service.offset(), ordering: '-created_at' };
-    const req = httpMock.expectOne(`${apiUrl}/store/product/?limit=${params.limit}&q=${params.q}&offset=${params.offset}&ordering=-created_at`);
+    const params = { limit: service.limit(), q: service.searchValue(), offset: service.offset(), ordering: service.ordering() };
+    const req = httpMock.expectOne(`${apiUrl}/store/product/?limit=${params.limit}&q=${params.q}&offset=${params.offset}&ordering=${params.ordering}`);
     expect(req.request.method).toBe('GET');
     req.flush(mockProducts2.results);
   });
@@ -75,7 +75,7 @@ export class ProductServiceMock {
   http = TestBed.inject(HttpClient);
 
   getAll(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=-created_at`);
+    return this.http.get<any[]>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=${this.ordering()}`);
 
   }
   limit(): number {
@@ -88,6 +88,10 @@ export class ProductServiceMock {
 
   offset(): number {
     return 0;
+  }
+
+  ordering(): string {
+    return '-created_at';
   }
 
   hasPreviousPage(): Observable<boolean> {
