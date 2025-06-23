@@ -5,6 +5,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {filter, Subscription} from "rxjs";
+import {ProductService} from "../../services/product.service";
 
 @Component({
   selector: 'app-sort-by',
@@ -29,6 +30,7 @@ export class SortByComponent implements OnInit, OnDestroy {
   router = inject(Router);
   route = inject(ActivatedRoute);
   fb = inject(FormBuilder);
+  productService = inject(ProductService);
   sortByForm = this.fb.group({
     sortBy: ['default']
   });
@@ -58,6 +60,7 @@ export class SortByComponent implements OnInit, OnDestroy {
       }
       this.previousCategory = currentCategory;
       const sortByParam = this.route.snapshot.queryParamMap.get('sort') || 'default';
+      this.productService.ordering.set(sortByParam === 'default' ? '' : sortByParam);
       this.sortByForm.get('sortBy')?.setValue(sortByParam, { emitEvent: false });
     })
   }
