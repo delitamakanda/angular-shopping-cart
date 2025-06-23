@@ -26,6 +26,10 @@ export class ProductService {
   });
   limit = signal<number>(10);
   offset = signal<number>(0);
+  ordering = signal<string>('');
+  category = signal<string>('');
+  minPrice = signal<string>('');
+  maxPrice = signal<string>('');
   searchValue = signal<string>('');
   hasMorePage = signal<boolean>(false);
   hasPreviousPage = signal<boolean>(false);
@@ -52,7 +56,7 @@ export class ProductService {
 
 
   getAll(): Observable<Product[]> {
-    return this.http.get<any>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=-created_at`).pipe(
+    return this.http.get<any>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=${this.ordering()}&category_name_in=${this.category()}&min_price=${this.minPrice()}&max_price=${this.maxPrice()}`).pipe(
       tap(({results, next, previous}) => {
         this.products$.next(results);
         this.products.set(results);
@@ -98,9 +102,5 @@ export class ProductService {
 
   getCategoriesLegacy(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.apiUrl}/store/category-list/`);
-  }
-
-  getCategories(): HttpResourceRef<Category[] | undefined> {
-    return httpResource<Category[]>(() => `${this.apiUrl}/store/category-list/`, {});
   }
 }

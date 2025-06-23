@@ -1,5 +1,6 @@
 <div>
   <h3>Categories</h3>
+  <button mat-button (click)="resetCategoryFilter()">reset filter</button>
   <ul>
     @for (category of categories$ | async; track category?.uuid) {
       <li (click)="selectCategory(category)">
