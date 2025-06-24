@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChild, ElementRef, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-product-card',
@@ -11,7 +11,6 @@ import { AfterContentInit, Component, ContentChild, ElementRef, QueryList } from
 })
 export class ProductCardComponent implements AfterContentInit {
   @ContentChild('name') productName!: ElementRef;
-  @ContentChild('description') productDescription!: QueryList<ElementRef>;
   @ContentChild('price') productPrice!: ElementRef;
 
   ngAfterContentInit(): void {

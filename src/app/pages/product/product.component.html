@@ -13,8 +13,17 @@
       <p>{{ product.price | currency}}</p>
 
       <div class="product-actions">
-        <div class="add-to-cart-button">
-          <!-- Add the product to the cart button -->
+        <mat-form-field>
+          <mat-label>Quantity</mat-label>
+          <mat-select [(value)]="quantity">
+            @for (choice of choices; track choice) {
+              <mat-option [value]="choice">
+                {{ choice }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button mat-button appConfirm="Etes vous sûr d'ajouter cet article au panier ?" class="btn btn-primary" (click)="cartService.addToCart(product)">Add to Cart</button>
       </div>
 
         <div class="product-description">
@@ -27,7 +36,29 @@
             </div>
           </div>
         </div>
-    </div>
-  </div>
+
+        <div class="container py-5 bg-white pe-10">
+          <button (click)="toggleComments()">{{ !isCommentsVisible ? 'Afficher': 'Cacher'}} les commentaires</button>
+          @if(isCommentsVisible) {
+            <app-comments></app-comments>
+          }
+          @defer (when isCommentsVisible) {
+          }
+          @loading(after 100ms; minimum 1s) {
+            <p>Chargement en cours...</p>
+          }
+          @error {
+            <p>Une erreur s'est produite.</p>
+          }
+          @placeholder(minimum 100ms) {
+            <div class="placeholder-content">
+              <span class="placeholder col-6"></span>
+              <span class="placeholder w-75"></span>
+              <span class="placeholder" style="width: 25%;"></span>
+            </div>
+          }
+        </div>
+      </div>
+      <app-rate [(ngModel)]="rating" name="rating"></app-rate>
   </div>
 }

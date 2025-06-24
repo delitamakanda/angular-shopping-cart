@@ -9,7 +9,7 @@
       @if (isLoading) {
         <mat-spinner></mat-spinner>
       }
-    <mat-grid-list [cols]="breakpointsCols" rowHeight="580px" gutterSize="16px">
+    <mat-grid-list [cols]="breakpointsCols" rowHeight="480px" gutterSize="16px">
       @for (product of allProducts; track product.uuid) {
         <mat-grid-tile>
         <app-card [product]="product"
