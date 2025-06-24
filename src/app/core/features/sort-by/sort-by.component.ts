@@ -25,7 +25,7 @@ export class SortByComponent implements OnInit, OnDestroy {
     {value: 'default', viewValue: 'Default' },
     {value: 'price', viewValue: 'Price (asc.)'},
     {value: '-price', viewValue: 'Price (desc.)'},
-    { value: '-created', viewValue: 'New items'},
+    { value: '-created_at', viewValue: 'New items'},
   ];
   router = inject(Router);
   route = inject(ActivatedRoute);
