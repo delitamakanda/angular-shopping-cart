@@ -2,18 +2,24 @@ import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {debounceTime, distinctUntilChanged} from "rxjs";
 import {ProductService} from "../../../services/product.service";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
-    imports: [
-        ReactiveFormsModule,
-    ],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
     selector: 'app-search-bar',
     template: `
     <form class="form-inline my-2 my-lg-0">
-      <input [formControl]="searchControl"
+      <mat-form-field>
+      <input matInput [formControl]="searchControl"
              class="form-control me-2"
-             placeholder="Search"
+             placeholder="Search products..."
              type="search"/>
+      </mat-form-field>
     </form>
   `
 })
