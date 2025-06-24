@@ -2,8 +2,9 @@ import {Component, inject, OnInit} from '@angular/core';
 import {filter} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../core/services/product.service";
-import {Product} from "../../core/interfaces/product.interface";
-import { CurrencyPipe, IMAGE_CONFIG, NgIf, NgOptimizedImage} from "@angular/common";
+import {Product} from "../../core/interfaces";
+import {CommonModule, CurrencyPipe, IMAGE_CONFIG, NgIf, NgOptimizedImage} from "@angular/common";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
     selector: 'app-product',
@@ -16,9 +17,10 @@ import { CurrencyPipe, IMAGE_CONFIG, NgIf, NgOptimizedImage} from "@angular/comm
     }
   ],
     imports: [
-        NgIf,
+        CommonModule,
         CurrencyPipe,
       NgOptimizedImage,
+      MatIconModule
     ],
     templateUrl: './product.component.html',
     styleUrl: './product.component.scss'
