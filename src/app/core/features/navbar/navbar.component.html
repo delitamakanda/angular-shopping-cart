@@ -1,8 +1,8 @@
 <div class="brand">
-  <h1><span class="logo">A</span>ngular Shopping Cart </h1>
-  <mat-slide-toggle [(ngModel)]="isDarkMode" (change)="toggleTheme()" color="accent">
-    <mat-icon>{{ isDarkMode ? 'dark_mode': 'light_mode'}}</mat-icon>
-  </mat-slide-toggle>
+    <h1 class="mat-subtitle-1"><img class="logo" [src]="logoPath" alt="logo">Angular Store </h1>
+    <mat-slide-toggle [(ngModel)]="isDarkMode" (change)="toggleTheme()" color="accent">
+      <mat-icon>{{ isDarkMode ? 'dark_mode': 'light_mode'}}</mat-icon>
+    </mat-slide-toggle>
 
   <nav>
     <a class="nav-link active" [routerLink]="['/']">Products</a>

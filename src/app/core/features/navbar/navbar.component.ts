@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
   cartService = inject(CartService);
   isDarkMode = false;
   cartItemsWithQuantity = this.cartService.cartItemsWithQuantity;
+  logoPath = './assets/icons/icon-72x72.png';
 
   constructor() {
     effect(() => {
