@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://merchstoreapi.applikuapp.com/api/'
+    production: false,
+    apiUrl: 'https://merchstoreapi.applikuapp.com/api/',
 };
