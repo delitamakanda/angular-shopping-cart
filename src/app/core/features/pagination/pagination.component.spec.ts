@@ -32,4 +32,15 @@ describe('PaginationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should disable previous button when there is no previous page', () => {
+    const previousButton = fixture.nativeElement.querySelector('button[aria-label="Previous"]');
+    expect(previousButton.disabled).toBeTruthy();
+  });
+
+  it('should disable next button when there is no next page', () => {
+    const nextButton = fixture.nativeElement.querySelector('button[aria-label="Next"]');
+    expect(nextButton.disabled).toBeTruthy();
+  });
+
 });

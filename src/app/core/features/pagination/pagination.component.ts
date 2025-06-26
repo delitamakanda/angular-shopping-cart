@@ -6,8 +6,8 @@ import {ProductService} from "../../services/product.service";
     imports: [],
     template: `
     <div class="nav-item">
-      <button [disabled]="!hasPreviousPage" (click)="previousPage()">Previous</button>
-      <button [disabled]="!hasMorePage" (click)="nextPage()">Next</button>
+      <button aria-label="Previous" [disabled]="!hasPreviousPage" (click)="previousPage()">Previous</button>
+      <button aria-label="Next" [disabled]="!hasMorePage" (click)="nextPage()">Next</button>
     </div>
   `,
     styleUrl: './pagination.component.scss'

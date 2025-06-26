@@ -37,4 +37,8 @@ export class AvatarComponent {
     });
   }
 
+  toggleMenu(): void {
+    this.openMenu =!this.openMenu;
+  }
+
 }

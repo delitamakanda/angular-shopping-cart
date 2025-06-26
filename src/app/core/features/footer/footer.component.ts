@@ -11,5 +11,5 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
 
-  protected readonly credits = new Date().getFullYear() + ' - Angular Shopping Cart';
+  readonly credits = new Date().getFullYear() + ' - Angular Shopping Cart';
 }

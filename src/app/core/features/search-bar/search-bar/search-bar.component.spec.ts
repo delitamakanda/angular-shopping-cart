@@ -36,5 +36,9 @@ describe('SearchBarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should initialize searchControl with an empty string', () => {
+  expect(component.searchControl).toBeTruthy();
+  expect(component.searchControl.value).toBe('');
+});
 
 });

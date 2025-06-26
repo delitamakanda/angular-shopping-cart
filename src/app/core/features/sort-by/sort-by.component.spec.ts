@@ -14,7 +14,7 @@ describe('SortByComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SortByComponent],
       providers: [
-        { provide: ActivatedRoute, useValue: { snapshot: { queryParamMap: { get: () => null } } } },
+        { provide: ActivatedRoute, useValue: { snapshot: { queryParamMap: { get: () => null }, set: () => null } } },
         { provide: ProductService, useValue: ProductServiceMock },
         provideHttpClientTesting(),
       ]
@@ -29,4 +29,10 @@ describe('SortByComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set the default sorting option when the route does not contain a sort parameter', () => {
+    component.ngOnInit();
+    expect(component.sortByForm.get('sortBy')?.value).toBe('default');
+  });
+
 });

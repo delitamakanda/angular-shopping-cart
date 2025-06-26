@@ -28,4 +28,12 @@ describe('PriceFilterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should update the min and max prices when the input changes', () => {
+    component.priceFilterForm.get('minPrice')?.setValue(0);
+    component.priceFilterForm.get('maxPrice')?.setValue(1000);
+
+    expect(component.minPrice).toBe(0);
+    expect(component.maxPrice).toBe(1000);
+  });
 });
