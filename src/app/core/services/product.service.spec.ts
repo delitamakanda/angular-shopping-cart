@@ -78,6 +78,10 @@ export class ProductServiceMock {
     return this.http.get<any[]>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=${this.ordering()}`);
 
   }
+  totalCount(): number {
+    return this.products.length;
+  }
+
   limit(): number {
     return 25;
   }
