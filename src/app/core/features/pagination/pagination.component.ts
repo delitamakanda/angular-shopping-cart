@@ -1,35 +1,31 @@
 import {Component, inject} from '@angular/core';
 import {ProductService} from "../../services/product.service";
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {CommonModule} from "@angular/common";
 
 @Component({
     selector: 'app-pagination',
-    imports: [],
+    imports: [
+      MatPaginatorModule,
+      CommonModule,
+    ],
     template: `
-    <div class="nav-item">
-      <button aria-label="Previous" [disabled]="!hasPreviousPage" (click)="previousPage()">Previous</button>
-      <button aria-label="Next" [disabled]="!hasMorePage" (click)="nextPage()">Next</button>
-    </div>
+      <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="productService.limit" [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
+      </mat-paginator>
   `,
     styleUrl: './pagination.component.scss'
 })
 export class PaginationComponent {
   productService = inject(ProductService);
+  pageSizeOptions = [5, 10, 25, 100];
 
-  get hasMorePage(): boolean {
-    return this.productService.hasMorePage();
+  get totalCount(): number {
+    return this.productService.totalCount();
   }
 
-  get hasPreviousPage(): boolean {
-    return this.productService.hasPreviousPage();
-  }
-
-  nextPage(): void {
-    this.productService.setPageNext();
-    this.scrollToTop();
-  }
-
-  previousPage(): void {
-    this.productService.setPagePrevious();
+  handlePageEvent(event: PageEvent): void {
+    this.productService.setLimit(event.pageSize.toString())
+    this.productService.setIndex(event.pageIndex);
     this.scrollToTop();
   }
 

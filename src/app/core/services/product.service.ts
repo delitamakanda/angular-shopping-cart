@@ -27,6 +27,7 @@ export class ProductService {
   limit = signal<number>(10);
   offset = signal<number>(0);
   ordering = signal<string>('');
+  totalCount = signal<number>(0);
   category = signal<string>('');
   minPrice = signal<string>('');
   maxPrice = signal<string>('');
@@ -46,22 +47,23 @@ export class ProductService {
     this.searchValue.set(searchValue);
   }
 
-  getSearchTerm(): Observable<string> {
-    return this.searchTerm$.asObservable();
+  setLimit(limit: string): void {
+    this.limit.set(parseInt(limit, 10));
   }
 
-  setSearchTerm(searchTerm: string): void {
-    this.searchTerm$.next(searchTerm);
+  setIndex(index: number): void {
+    this.offset.set(index * this.limit());
   }
 
 
   getAll(): Observable<Product[]> {
     return this.http.get<any>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=${this.ordering()}&category_name_in=${this.category()}&min_price=${this.minPrice()}&max_price=${this.maxPrice()}`).pipe(
-      tap(({results, next, previous}) => {
+      tap(({results, next, previous, count}) => {
         this.products$.next(results);
         this.products.set(results);
         this.hasMorePage.set(next!== null);
         this.hasPreviousPage.set(previous!== null);
+        this.totalCount.set(count);
       })
     ).pipe(catchError(err => {
       this.toastService.error(`Error fetching products: ${err.message}`);
