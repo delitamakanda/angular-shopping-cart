@@ -16,8 +16,7 @@ describe('PaginationComponent', () => {
           useValue: {
             hasMorePage: () => false,
             hasPreviousPage: () => false,
-            setPageNext: () => {},
-            setPagePrevious: () => {}
+            totalCount: () => 100,
           }
         }
       ]
