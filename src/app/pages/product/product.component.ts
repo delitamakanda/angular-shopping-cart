@@ -1,8 +1,9 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {filter} from "rxjs";
+import {combineLatest} from "rxjs";
+import {map, filter} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../core/services/product.service";
-import {Product} from "../../core/interfaces";
+import {Category, Product} from "../../core/interfaces";
 import {CommonModule, CurrencyPipe, IMAGE_CONFIG, NgOptimizedImage} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {CartService} from "../../core/services/cart.service";
@@ -52,20 +53,26 @@ export class ProductComponent implements OnInit {
   choices = Array.from({length: 10}, (_, i) => i + 1);
   isCommentsVisible = false;
   rating = 0;
+  productCategories: Category[] = [];
 
   constructor() {
     this.base64Background = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v'
   }
 
   ngOnInit() {
-    this.route.data.subscribe((data) => {
-      console.log(data['productData']);
-      this.productService.getById(data['productData'].uuid).pipe(
+    combineLatest([
+      this.productService.getCategoriesLegacy(),
+      this.route.data
+    ]).pipe(
+      map(([categories, productData]) => ({ categories, productData }))
+    ).subscribe(({ categories, productData }) => {
+      this.productService.getById(productData['productData'].uuid).pipe(
         filter(product =>!!product),
       ).subscribe((product) => {
-          this.product = product;
+        this.product = product;
+        this.productCategories = categories.filter(category => product.category.includes(category.uuid));
       })
-    })
+    });
   }
 
   toggleComments(): void {

@@ -4,8 +4,8 @@
       <img [ngSrc]="product.image_url" [width]="500" [height]="667" [placeholder]="base64Background" fetchpriority="high" priority [alt]="product.name" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" class="product.image" />
     </div>
     <div class="product-details">
-      @for (category of product.category; track category) {
-        <div class="product-category">{{ category | uppercase }}</div>
+      @for (category of productCategories; track category) {
+        <div class="product-category">{{ category.name | uppercase }}</div>
       }
       <h2>{{ product.name }}</h2>
 
