@@ -1,5 +1,5 @@
 import {Injectable, signal} from '@angular/core';
-import {Product} from "../interfaces/product.interface";
+import {Product} from "../interfaces";
 import {CartItem} from "../features/products/card/interfaces";
 
 const JSON_DATA_LOCALSTORAGE_KEY = 'cart_data';

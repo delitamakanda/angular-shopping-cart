@@ -15,7 +15,7 @@
       <div class="product-actions">
         <mat-form-field>
           <mat-label>Quantity</mat-label>
-          <mat-select [(value)]="quantity">
+          <mat-select [(ngModel)]="quantity" >
             @for (choice of choices; track choice) {
               <mat-option [value]="choice">
                 {{ choice }}
@@ -23,7 +23,7 @@
             }
           </mat-select>
         </mat-form-field>
-        <button mat-button appConfirm="Etes vous sûr d'ajouter cet article au panier ?" class="btn btn-primary" (click)="cartService.addToCart(product)">Add to Cart</button>
+        <button mat-button appConfirm="Etes vous sûr d'ajouter cet article au panier ?" class="btn btn-primary" (click)="addToCart()">Add to Cart</button>
       </div>
 
         <div class="product-description">

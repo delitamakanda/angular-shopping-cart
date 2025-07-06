@@ -75,6 +75,11 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  addToCart(): void {
+    this.cartService.addToCart(this.product);
+    this.cartService.updateCartItemQuantity(this.product.uuid, this.quantity);
+  }
+
   toggleComments(): void {
     this.isCommentsVisible = !this.isCommentsVisible;
   }
