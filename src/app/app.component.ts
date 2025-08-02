@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import { NavbarComponent } from './core/features/navbar/navbar.component';
-import {CommonModule} from "@angular/common";
+import {CommonModule, ViewportScroller} from "@angular/common";
 import {FooterComponent} from "./core/features/footer/footer.component";
 
 @Component({
@@ -18,4 +18,7 @@ import {FooterComponent} from "./core/features/footer/footer.component";
 })
 export class AppComponent {
   title = $localize`angular-shopping-cart`;
+  constructor(viewport: ViewportScroller) {
+    viewport.setOffset([0, 100]);
+  }
 }
