@@ -20,8 +20,15 @@ export class CartService {
   cartItemsQuantity: Map<string, number> = new Map();
 
   addToCart(product: Product): void {
+    // if product is already in the cart, increment its quantity
+    if (this.isProductInCart(product.uuid)) {
+      const currentQuantity = +this.cartItemsQuantity.get(product.uuid)!;
+      this.updateCartItemQuantity(product.uuid, currentQuantity + 1);
+    } else {
+      this.cartItemsQuantity.set(product.uuid, (this.cartItemsQuantity.get(product.uuid) || 0) + 1);
+    }
+    // add the product to the cart map and save it to local storage
     this.cartMap.set(product.uuid, product);
-    this.cartItemsQuantity.set(product.uuid, (this.cartItemsQuantity.get(product.uuid) || 0) + 1);
     this.saveCartToLocalStorage();
   }
 
