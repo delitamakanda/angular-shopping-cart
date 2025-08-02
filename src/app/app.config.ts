@@ -23,7 +23,10 @@ registerLocaleData(localeFr);
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideRouter(routes, withPreloading(PreloadAllModules), withInMemoryScrolling({ scrollPositionRestoration: 'top'  }  )),
+        provideRouter(
+          routes,
+          withPreloading(PreloadAllModules),
+          withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),),
       { provide: TitleStrategy, useClass: CustomTitleStrategy },
       {provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
         { provide: LOCALE_ID, useValue: 'fr' },
