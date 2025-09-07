@@ -10,7 +10,7 @@ import {RouterLink} from "@angular/router";
     <footer>
       <ul>
         @for(
-          entry of staticPages; track entry
+          entry of staticPages; track entry[0]
           ) {
           <li>
             <a [routerLink]="['/static-pages', entry[0]]">{{ entry[1] }}</a>
