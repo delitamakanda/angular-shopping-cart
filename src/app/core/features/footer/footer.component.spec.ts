@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FooterComponent } from './footer.component';
+import {ActivatedRoute} from "@angular/router";
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -8,7 +9,11 @@ describe('FooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FooterComponent]
+      imports: [FooterComponent],
+      providers: [
+        { provide: ActivatedRoute, useValue: { snapshot: { queryParamMap: {                 get: (param: string) => param === 'legal-notice' ? 'legal-notice' : null
+              } }  }}
+      ]
     })
     .compileComponents();
 
@@ -35,5 +40,10 @@ describe('FooterComponent', () => {
     const currentYear = new Date().getFullYear();
     const lastYear = currentYear - 1;
     expect(component.credits).not.toContain(lastYear.toString());
+  });
+
+  it('should display the legal notice link when the query parameter is "legal-notice"', () => {
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('a[href="/static-pages/legal-notice"]').textContent).toContain('Mentions légales');
   });
 });
