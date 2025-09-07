@@ -1,13 +1,17 @@
 import { Routes, ResolveFn } from "@angular/router";
 import {ProductsComponent} from "./core/features/products/products.component";
 import {productResolver} from "./core/resolvers/product.resolver";
-import {map, Observable} from "rxjs";
+import {map, Observable, of} from "rxjs";
 import {ProductService} from "./core/services/product.service";
 import {inject} from "@angular/core";
 
 const productDetails: ResolveFn<string> = (route, state): Observable<string> => {
   const productService = inject(ProductService);
   return  productService.getById(route.params['uuid']).pipe(map(product => product.name));
+}
+
+const staticPages: ResolveFn<string> = (route, state): Observable<string> => {
+  return of('Static Page');
 }
 
 export const routes: Routes = [
@@ -32,6 +36,11 @@ export const routes: Routes = [
             productData: productResolver
           },
           title: productDetails,
+        },
+        {
+          path: 'static-pages/:page',
+          loadComponent: () => import('./pages/static-pages/static-pages.component').then(m => m.StaticPagesComponent),
+          title: staticPages,
         },
       ]
     },
