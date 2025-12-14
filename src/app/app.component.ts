@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import { NavbarComponent } from './core/features/navbar/navbar.component';
-import {CommonModule, ViewportScroller} from "@angular/common";
+import { ViewportScroller } from "@angular/common";
 import {FooterComponent} from "./core/features/footer/footer.component";
 
 @Component({
@@ -10,9 +10,8 @@ import {FooterComponent} from "./core/features/footer/footer.component";
     RouterOutlet,
     NavbarComponent,
     RouterModule,
-    CommonModule,
-    FooterComponent,
-  ],
+    FooterComponent
+],
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })

@@ -1,14 +1,13 @@
 import {Component, inject} from '@angular/core';
 import {ProductService} from "../../services/product.service";
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
-import {CommonModule} from "@angular/common";
+
 
 @Component({
     selector: 'app-pagination',
     imports: [
-      MatPaginatorModule,
-      CommonModule,
-    ],
+    MatPaginatorModule
+],
     template: `
       <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="productService.limit" [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
       </mat-paginator>

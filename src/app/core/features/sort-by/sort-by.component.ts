@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {CommonModule} from "@angular/common";
+
 import {MatSelectModule} from "@angular/material/select";
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
@@ -10,12 +10,11 @@ import {ProductService} from "../../services/product.service";
 @Component({
   selector: 'app-sort-by',
   imports: [
-    CommonModule,
     MatSelectModule,
     ReactiveFormsModule,
     MatIconModule,
-    FormsModule,
-  ],
+    FormsModule
+],
   templateUrl: './sort-by.component.html',
   styleUrl: './sort-by.component.scss',
   standalone: true

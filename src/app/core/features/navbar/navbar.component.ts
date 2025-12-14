@@ -1,4 +1,4 @@
-import {CommonModule} from '@angular/common';
+
 import {Component, effect, inject, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -12,13 +12,12 @@ import {CartItem} from "../products/card/interfaces";
 @Component({
     selector: 'app-navbar',
   imports: [
-    CommonModule,
     RouterLink,
     FormsModule,
     AvatarComponent,
     MatSlideToggleModule,
-    MatIcon,
-  ],
+    MatIcon
+],
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.scss'
 })

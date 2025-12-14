@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ProductService} from "../../services/product.service";
-import {CommonModule} from "@angular/common";
+
 import {MatInputModule} from "@angular/material/input";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {distinctUntilChanged, filter, throwError} from "rxjs";
@@ -10,10 +10,9 @@ import {NavigationEnd, Router} from "@angular/router";
 @Component({
   selector: 'app-price-filter',
   imports: [
-    CommonModule,
     MatInputModule,
-    ReactiveFormsModule,
-  ],
+    ReactiveFormsModule
+],
   templateUrl: './price-filter.component.html',
   styleUrl: './price-filter.component.scss',
   standalone: true

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CommonModule} from "@angular/common";
+
 import {MatCardModule} from "@angular/material/card";
 import {HttpClient} from "@angular/common/http";
 import { ActivatedRoute } from '@angular/router';
@@ -9,9 +9,8 @@ import {catchError, of} from "rxjs";
 @Component({
   selector: 'app-static-pages',
   imports: [
-    CommonModule,
-    MatCardModule,
-  ],
+    MatCardModule
+],
   templateUrl: './static-pages.component.html',
   styleUrl: './static-pages.component.scss',
   standalone: true,

@@ -4,7 +4,7 @@ import {map, filter} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../core/services/product.service";
 import {Category, Product} from "../../core/interfaces";
-import {CommonModule, CurrencyPipe, IMAGE_CONFIG, NgOptimizedImage} from "@angular/common";
+import { CommonModule, CurrencyPipe, IMAGE_CONFIG, NgOptimizedImage } from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {CartService} from "../../core/services/cart.service";
 import {MatButtonModule} from "@angular/material/button";

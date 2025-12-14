@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { Product } from 'src/app/core/interfaces/product.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
-import {CommonModule, CurrencyPipe, IMAGE_CONFIG, NgIf, NgOptimizedImage} from '@angular/common';
+import { CommonModule, CurrencyPipe, IMAGE_CONFIG, NgOptimizedImage } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterLink } from '@angular/router';
 import {FormsModule} from "@angular/forms";

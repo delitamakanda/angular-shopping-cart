@@ -1,6 +1,6 @@
 # AngularShoppingCart
 [![angular-shopping-cart CI](https://github.com/delitamakanda/angular-shopping-cart/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/delitamakanda/angular-shopping-cart/actions/workflows/node.js.yml)
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 21.0.5.
 
 ## Development server
 
