@@ -7,7 +7,6 @@ import {provideLocationMocks} from "@angular/common/testing";
 
 describe('LoaderService', () => {
   let service: LoaderService;
-  let router: Router
   let routerEventSub: Subject<any>
 
   beforeEach(() => {
@@ -24,7 +23,6 @@ describe('LoaderService', () => {
       schemas: []
     });
     service = TestBed.inject(LoaderService);
-    router = TestBed.inject(Router);
   });
 
   it('should be created', () => {
