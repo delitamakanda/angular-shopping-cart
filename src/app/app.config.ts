@@ -1,4 +1,11 @@
-import { ApplicationConfig, inject, LOCALE_ID, isDevMode } from "@angular/core";
+import {
+  ApplicationConfig,
+  inject,
+  LOCALE_ID,
+  isDevMode,
+  importProvidersFrom,
+  provideAppInitializer
+} from "@angular/core";
 import { routes } from "./app.routes";
 import {
   PreloadAllModules,
@@ -17,6 +24,8 @@ import {CustomRouteReuseStrategy} from "./custom-route-reuse-strategy";
 import { provideServiceWorker } from '@angular/service-worker';
 import {authInterceptor} from "./core/interceptors/auth.interceptor";
 import {CustomTitleStrategy} from "./title.strategy";
+import { OverlayModule } from '@angular/cdk/overlay';
+import {LoaderService} from "./core/services/loader.service";
 
 registerLocaleData(localeFr);
 
@@ -27,6 +36,11 @@ export const appConfig: ApplicationConfig = {
           routes,
           withPreloading(PreloadAllModules),
           withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),),
+      importProvidersFrom(OverlayModule),
+      provideAppInitializer(() => {
+        const loaderService = inject(LoaderService);
+        loaderService.initializeLoader();
+      }),
       { provide: TitleStrategy, useClass: CustomTitleStrategy },
       {provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
         { provide: LOCALE_ID, useValue: 'fr' },
