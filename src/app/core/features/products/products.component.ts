@@ -5,7 +5,6 @@ import { ProductService } from '../../services/product.service';
 import {PaginationComponent} from "../pagination/pagination.component";
 import {Product} from "../../interfaces";
 import {SearchBarComponent} from "../search-bar/search-bar/search-bar.component";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CategoryListComponent} from "./category-list/category-list.component";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
@@ -20,7 +19,6 @@ import {SortByComponent} from "../sort-by/sort-by.component";
     SharedModule,
     PaginationComponent,
     SearchBarComponent,
-    MatProgressSpinnerModule,
     CategoryListComponent,
     MatGridListModule,
     PriceFilterComponent,
