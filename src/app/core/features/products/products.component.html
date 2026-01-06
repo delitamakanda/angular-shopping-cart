@@ -6,9 +6,6 @@
   </div>
   <div class="col col-8">
       <app-sort-by />
-      @if (isLoading) {
-        <mat-spinner></mat-spinner>
-      }
     <mat-grid-list [cols]="breakpointsCols" rowHeight="480px" gutterSize="16px">
       @for (product of allProducts; track product.uuid) {
         <mat-grid-tile>
