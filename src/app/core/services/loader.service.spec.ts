@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
 import { LoaderService } from './loader.service';
-import {NavigationStart, Router} from "@angular/router";
+import {NavigationStart, Router, RouterModule} from "@angular/router";
 import {Subject} from "rxjs";
+import {provideLocationMocks} from "@angular/common/testing";
 
 describe('LoaderService', () => {
   let service: LoaderService;
@@ -15,8 +16,10 @@ describe('LoaderService', () => {
       providers: [LoaderService, {
         provide: Router,
         useValue: { events: routerEventSub.asObservable() }
-      }],
-      imports: [],
+      }, provideLocationMocks()],
+      imports: [
+        RouterModule,
+      ],
       declarations: [],
       schemas: []
     });
