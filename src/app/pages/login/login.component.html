@@ -3,6 +3,10 @@
     <form (ngSubmit)="signing()" #myForm="ngForm" [formGroup]="loginForm">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
+      <p (click)="open()" mat-icon-button>
+        <mat-icon>exit_to_app</mat-icon>
+      </p>
+
       <!--@if (myForm.submitted && myForm.invalid) {
         <div class="alert alert-danger" role="alert">
           @if (username.hasError('required')) {

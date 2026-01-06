@@ -2,14 +2,17 @@ import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../core/services/auth.service";
 import {Router, RouterLink} from "@angular/router";
+import {DialogService} from "../../core/services/dialog.service";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
     selector: 'app-login',
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-      RouterLink,
-    ],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    MatIcon,
+  ],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss'
 })
@@ -25,6 +28,15 @@ export class LoginComponent {
   submitted = false;
   authService = inject(AuthService);
   router = inject(Router);
+  dialogService = inject(DialogService);
+  open(): void {
+    // todo: implement dialog for login confirmation
+    this.dialogService.confirm('You are about to log in', 'Login').subscribe((result) => {
+      if (result) {
+        console.log('Logged in successfully', result);
+      }
+    });
+  }
   login(form: NgForm): void {
     if (form.invalid) {
       return;
