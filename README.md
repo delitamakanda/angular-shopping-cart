@@ -1,7 +1,7 @@
 # Angular Shopping Cart
 [![angular-shopping-cart CI](https://github.com/delitamakanda/angular-shopping-cart/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/delitamakanda/angular-shopping-cart/actions/workflows/node.js.yml)
 
-An Angular 20 demo application that showcases a complete shopping experience with product discovery, cart management, and a lightweight admin area. The project demonstrates how to structure a modern Angular workspace with standalone components, Angular Material, and reusable domain services backed by a hosted REST API.
+An Angular 21 demo application that showcases a complete shopping experience with product discovery, cart management, and a lightweight admin area. The project demonstrates how to structure a modern Angular workspace with standalone components, Angular Material, and reusable domain services backed by a hosted REST API.
 
 ## Table of contents
 - [Features](#features)
@@ -21,7 +21,7 @@ An Angular 20 demo application that showcases a complete shopping experience wit
 - **Progressive Web App (PWA) ready** configuration through `@angular/service-worker` and `ngsw-config`.
 
 ## Tech stack
-- [Angular](https://angular.dev/) 20 with standalone components and the Angular Router.
+- [Angular](https://angular.dev/) 21 with standalone components and the Angular Router.
 - [Angular Material](https://material.angular.io/) component library for UI.
 - [RxJS](https://rxjs.dev/) for reactive data flow and asynchronous orchestration.
 - Service worker integration for offline capabilities and caching.
