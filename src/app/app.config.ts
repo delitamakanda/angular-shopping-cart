@@ -4,7 +4,7 @@ import {
   LOCALE_ID,
   isDevMode,
   importProvidersFrom,
-  provideAppInitializer
+  provideAppInitializer, provideZonelessChangeDetection
 } from "@angular/core";
 import { routes } from "./app.routes";
 import {
@@ -19,7 +19,7 @@ import localeFr from "@angular/common/locales/fr";
 import { AppConfigService } from "./core/services/app-config.service";
 import { LoggerService, RemoteLoggerService } from "./core/services/logger.service";
 import { API_URL, APP_ENVIRONMENT } from "./constants";
-import {provideHttpClient, withInterceptors} from "@angular/common/http";
+import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/http";
 import {CustomRouteReuseStrategy} from "./custom-route-reuse-strategy";
 import { provideServiceWorker } from '@angular/service-worker';
 import {authInterceptor} from "./core/interceptors/auth.interceptor";
@@ -37,6 +37,7 @@ export const appConfig: ApplicationConfig = {
           withPreloading(PreloadAllModules),
           withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),),
       importProvidersFrom(OverlayModule),
+      provideZonelessChangeDetection(),
       provideAppInitializer(() => {
         const loaderService = inject(LoaderService);
         loaderService.initializeLoader();
@@ -52,7 +53,8 @@ export const appConfig: ApplicationConfig = {
             return env === 'production'? new AppConfigService('prodConfig') : new AppConfigService('devConfig');
         }},
         provideHttpClient(
-          withInterceptors([authInterceptor])
+          withFetch(),
+          withInterceptors([authInterceptor]),
         ), provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'

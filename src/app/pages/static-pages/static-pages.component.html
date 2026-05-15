@@ -1,1 +1,11 @@
-<div [innerHTML]="encodedHtml"></div>
+@if (store.loading()) {
+  <mat-progress-bar></mat-progress-bar>
+}
+@if (store.error()) {
+  <p>An error occurred while fetching data.</p>
+}
+<mat-card>
+  <mat-card-content [innerHTML]="store.selectedPage()">
+  </mat-card-content>
+</mat-card>
+

@@ -1,40 +1,36 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, effect, inject, OnInit} from '@angular/core';
 
 import {MatCardModule} from "@angular/material/card";
-import {HttpClient} from "@angular/common/http";
 import { ActivatedRoute } from '@angular/router';
+import {StaticPagesStoreService} from "./state/static-pages.store.service";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {CommonObservableDestruction} from "../../shared/helpers/common.observable";
-import {catchError, of} from "rxjs";
+import {MatProgressBar} from "@angular/material/progress-bar";
 
 @Component({
   selector: 'app-static-pages',
   imports: [
-    MatCardModule
-],
+    MatCardModule,
+    MatProgressBar
+  ],providers: [StaticPagesStoreService],
   templateUrl: './static-pages.component.html',
   styleUrl: './static-pages.component.scss',
   standalone: true,
 })
 export class StaticPagesComponent extends CommonObservableDestruction implements OnInit{
-  encodedHtml!: string;
+  protected readonly store = inject(StaticPagesStoreService);
+  private readonly route = inject(ActivatedRoute);
 
-  constructor(
-    private httpClient: HttpClient,
-    private route: ActivatedRoute
-  ) {
+  constructor() {
     super();
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.httpClient.get(`assets/legal/fr/${params["page"]}.html`, {responseType: 'text'})
+      this.store.fetchPage(`${params["page"]}`)
         .pipe(
-          catchError(() => of('Error fetching static page')),
         this.untilDestroyed()
-      )
-       .subscribe(response => {
-          this.encodedHtml = response;
-        });
+      ).subscribe()
     });
   }
 }
