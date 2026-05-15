@@ -2,9 +2,9 @@
   <h2>{{ data().title }}</h2>
   <p>{{ data().message }}</p>
 </div>
-<button (click)="confirm()">
+<button mat-button type="button" aria-label="Confirm" (click)="confirm()">
   confirm
 </button>
-<button (click)="cancel()">
+<button mat-button type="button" aria-label="Cancel" (click)="cancel()">
   cancel
 </button>
