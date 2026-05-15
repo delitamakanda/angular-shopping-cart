@@ -1,11 +1,11 @@
-import {Component, effect, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 
 import {MatCardModule} from "@angular/material/card";
 import { ActivatedRoute } from '@angular/router';
 import {StaticPagesStoreService} from "./state/static-pages.store.service";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {CommonObservableDestruction} from "../../shared/helpers/common.observable";
 import {MatProgressBar} from "@angular/material/progress-bar";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-static-pages',
@@ -18,19 +18,17 @@ import {MatProgressBar} from "@angular/material/progress-bar";
   standalone: true,
 })
 export class StaticPagesComponent extends CommonObservableDestruction implements OnInit{
-  protected readonly store = inject(StaticPagesStoreService);
   private readonly route = inject(ActivatedRoute);
+  readonly store = inject(StaticPagesStoreService);
 
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.store.fetchPage(`${params["page"]}`)
-        .pipe(
-        this.untilDestroyed()
-      ).subscribe()
-    });
+    this.route.params.pipe(
+      switchMap(params => this.store.fetchPage(`${params["page"]}`)),
+      this.untilDestroyed()
+    ).subscribe();
   }
 }

@@ -1,6 +1,6 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {StaticPagesService} from "../services/static-pages.service";
-import {catchError, delay, EMPTY, finalize, map, Observable, of, tap} from "rxjs";
+import {catchError, delay, EMPTY, finalize, map, Observable, of, tap, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class StaticPagesStoreService {
       catchError(error => {
         this._error.set(error.message);
         this._selectedPage.set('');
-        return of('');
+        return throwError(() => `Error fetching static page: ${error.message}`);
       }),
       finalize(() => this._loading.set(false))
     );
