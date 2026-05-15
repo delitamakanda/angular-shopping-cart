@@ -1,10 +1,12 @@
-<div class="dialog-content">
-  <h2>{{ data().title }}</h2>
-  <p>{{ data().message }}</p>
-</div>
-<button mat-button type="button" aria-label="Confirm" (click)="confirm()">
-  confirm
-</button>
-<button mat-button type="button" aria-label="Cancel" (click)="cancel()">
-  cancel
-</button>
+<mat-dialog-content class="dialog-content">
+  <div>{{ data().title }}</div>
+  <div>{{ data().message }}</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button type="button" aria-label="Confirm" (click)="confirm()">
+    confirm
+  </button>
+  <button mat-button type="button" aria-label="Cancel" (click)="cancel()">
+    cancel
+  </button>
+</mat-dialog-actions>

@@ -1,6 +1,7 @@
 import {Component, inject, signal} from '@angular/core';
 import {DIALOG_DATA, DialogRef} from "@angular/cdk/dialog";
 import {MatButton} from "@angular/material/button";
+import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 
 interface DialogData {
   message: string;
@@ -10,7 +11,9 @@ interface DialogData {
 @Component({
   selector: 'app-dialog',
   imports: [
-    MatButton
+    MatButton,
+    MatDialogContent,
+    MatDialogActions
   ],
   standalone: true,
   templateUrl: './dialog.component.html',
