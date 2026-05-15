@@ -1,6 +1,6 @@
 import {inject, Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, EMPTY, Observable, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
