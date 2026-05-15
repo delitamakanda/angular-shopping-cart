@@ -17,7 +17,7 @@ export class DialogService {
 
   alertConfirm(data: DialogData): Observable<boolean> {
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: { message, title },
+      data,
       disableClose: true,
       width: '400px',
     });
