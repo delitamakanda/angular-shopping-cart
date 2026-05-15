@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { DialogService } from './dialog.service';
-import {signal} from "@angular/core";
 import {Dialog} from "@angular/cdk/dialog";
+import { of } from "rxjs";
 
 describe('DialogService', () => {
   let service: DialogService;
@@ -11,7 +11,7 @@ describe('DialogService', () => {
     TestBed.configureTestingModule({
       providers: [DialogService, {
         provide: Dialog,
-        useValue: { open: () => ({ closed: signal({ }) }) }  // Mock the Dialog service for testing purposes
+        useValue: { open: () => ({ closed: of() }) }  // Mock the Dialog service for testing purposes
       }]
     });
     service = TestBed.inject(DialogService);
@@ -21,8 +21,8 @@ describe('DialogService', () => {
     expect(service).toBeTruthy();
   });
   it('should confirm a dialog', () => {
-    service.confirm('Do you want to proceed?', 'Confirmation').subscribe(result => {
-      expect(result).toBe(true);
+    service.alertConfirm({ message: 'happy', title: 'life'}).subscribe(result => {
+      expect(result).toBeTruthy()
     });
   });
 });

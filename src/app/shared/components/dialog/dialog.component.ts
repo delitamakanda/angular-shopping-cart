@@ -14,8 +14,8 @@ interface DialogData {
   styleUrl: './dialog.component.scss',
 })
 export class DialogComponent {
-  private dialogRef = inject(DialogRef<boolean>);
-  data = signal(inject(DIALOG_DATA) as DialogData);
+  private readonly dialogRef = inject(DialogRef);
+  readonly data = signal(inject(DIALOG_DATA) as DialogData);
 
 
   confirm(): void {

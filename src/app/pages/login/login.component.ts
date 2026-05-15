@@ -31,7 +31,7 @@ export class LoginComponent {
   dialogService = inject(DialogService);
   open(): void {
     // todo: implement dialog for login confirmation
-    this.dialogService.confirm('You are about to log in', 'Login').subscribe((result) => {
+    this.dialogService.alertConfirm({message: 'you are about to log in', title: 'log in'}).subscribe((result) => {
       if (result) {
         console.log('Logged in successfully', result);
       }

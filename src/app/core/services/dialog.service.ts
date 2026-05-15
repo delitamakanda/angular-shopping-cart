@@ -3,13 +3,19 @@ import { Dialog } from '@angular/cdk/dialog';
 import {map, Observable} from 'rxjs';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 
+
+interface DialogData {
+  message: string;
+  title: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class DialogService {
   private dialog = inject(Dialog);
 
-  confirm(message: string, title: string): Observable<boolean> {
+  alertConfirm(data: DialogData): Observable<boolean> {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: { message, title },
       disableClose: true,
@@ -17,7 +23,7 @@ export class DialogService {
     });
 
     return dialogRef.closed.pipe(
-      map(result => result === true),
+      map((result) => !!result),
     );
 
   }
