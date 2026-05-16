@@ -61,20 +61,9 @@ export class ProductComponent implements OnInit {
     this.route.data.pipe(
       map(data => data['productData'])
     ).subscribe(productData => {
+      console.log(productData);
       this.store.loadProductById(productData.uuid);
     });
-    /*combineLatest([
-      this.route.data
-    ]).pipe(
-      map(([categories, productData]) => ({ categories, productData }))
-    ).subscribe(({ categories, productData }) => {
-      this.productService.getById(productData['productData'].uuid).pipe(
-        filter(product =>!!product),
-      ).subscribe((product) => {
-        this.product = product;
-        this.productCategories = categories.filter(category => product.category.includes(category.uuid));
-      })
-    });*/
   }
 
   addToCart(product: Product): void {
