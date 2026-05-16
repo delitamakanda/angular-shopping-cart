@@ -74,11 +74,11 @@ export class SortByComponent implements OnInit, OnDestroy {
       this.sortByForm.get('sortBy')?.setValue('-created_at', { emitEvent: false });
       value = '-created_at';
     }
-    this.store.setOrdering(value === '-created_at' ? '' : value);
+    this.store.setOrdering(value);
     this.store.setOffset(0);
 
     await this.router.navigate([], {
-      queryParams: { sort: value === '-created_at' ? null : value },
+      queryParams: { sort: value },
       queryParamsHandling: 'merge'
     })
   }
