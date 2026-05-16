@@ -95,7 +95,6 @@ export class ProductStoreService {
       this.api.getAll(params)
     ]).subscribe({
       next: ([categories, response]) => {
-        this.toastService.success('Products loaded successfully');
         this.state.update(state => ({
           ...state,
           categories,
