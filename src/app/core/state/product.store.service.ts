@@ -2,7 +2,7 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Category, Product } from '../interfaces';
 import { ProductService } from '../services/product.service';
 import { ToastService } from '../services/toast.service';
-import { combineLatest, Observable, tap } from 'rxjs';
+import { catchError, combineLatest, Observable, tap } from 'rxjs';
 
 export interface ProductState {
   products: Product[];
@@ -130,17 +130,19 @@ export class ProductStoreService {
     });
   }
 
-  loadProductById(uuid: string): Observable<Product> {
-    return this.api.getById(uuid).pipe(
-      tap({
-        next: (product) => {
-          this.state.update(state => ({ ...state, product }));
-        },
-        error: (err) => {
-          this.toastService.error(`Error fetching product: ${err.message}`);
-        }
+  loadProductById(uuid: string): void {
+    this.state.update(state => ({ ...state, loading: true, error: null }));
+    this.api.getById(uuid).pipe(
+      catchError((err) => {
+        this.state.update(state => ({ ...state, loading: false, error: err.message }));
+        this.toastService.error(`Error fetching product: ${err.message}`);
+        throw err;
       })
-    );
+    ).subscribe({
+      next: (product) => {
+        this.state.update(state => ({ ...state, product, loading: false, error: null }));
+      }
+    });
   }
 
   addProduct(newProduct: Product): void {
