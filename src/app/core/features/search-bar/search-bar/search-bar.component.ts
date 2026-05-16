@@ -28,7 +28,7 @@ import {MatInputModule} from "@angular/material/input";
 })
 export class SearchBarComponent implements OnInit {
   readonly store = inject(ProductStoreService);
-  protected searchControl: FormControl = new FormControl<string>('');
+  public searchControl: FormControl = new FormControl<string>('');
 
   ngOnInit(): void {
     this.searchControl.valueChanges.pipe(

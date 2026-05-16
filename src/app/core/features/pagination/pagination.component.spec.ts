@@ -1,23 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaginationComponent } from './pagination.component';
-import {ProductService} from "../../services/product.service";
+import { ProductStoreService } from '../../state/product.store.service';
 
 describe('PaginationComponent', () => {
   let component: PaginationComponent;
   let fixture: ComponentFixture<PaginationComponent>;
+  let mockStore: any;
 
   beforeEach(async () => {
+    mockStore = {
+      totalCount: jasmine.createSpy('totalCount').and.returnValue(100),
+      limit: jasmine.createSpy('limit').and.returnValue(10),
+      setLimit: jasmine.createSpy('setLimit'),
+      goToPage: jasmine.createSpy('goToPage'),
+    };
     await TestBed.configureTestingModule({
       imports: [PaginationComponent],
       providers: [
         {
-          provide: ProductService,
-          useValue: {
-            hasMorePage: () => false,
-            hasPreviousPage: () => false,
-            totalCount: () => 100,
-          }
+          provide: ProductStoreService,
+          useValue: mockStore
         }
       ]
     })

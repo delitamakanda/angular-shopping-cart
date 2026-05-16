@@ -8,6 +8,7 @@ import {routes} from "../../../app.routes";
 import {ProductService} from "../../services/product.service";
 import {ProductServiceMock} from "../../services/product.service.spec";
 import {of} from "rxjs";
+import { ProductStoreService } from 'src/app/core/state/product.store.service';
 
 describe('ProductsComponent',
   () => {
@@ -15,8 +16,16 @@ describe('ProductsComponent',
     let component: ProductsComponent;
     let el: HTMLElement;
     let httpClientSpy: jasmine.SpyObj<HttpClient>;
+    let mockStore: any;
 
     beforeEach(async () => {
+      mockStore = {
+        products: jasmine.createSpy('products').and.returnValue([
+          { id: 1, name: 'Product 1', price: 10, category: ['Electronics'] },
+          { id: 2, name: 'Product 2', price: 20, category: ['Computers'] },
+          { id: 3, name: 'Product 3', price: 30, category: ['Clothing'] },
+        ]),
+      };
       httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
       await TestBed.configureTestingModule({
         imports: [ProductsComponent],
@@ -28,7 +37,7 @@ describe('ProductsComponent',
             provide: HttpClient, useValue: httpClientSpy  // Mock the HttpClient for testing purposes
           },
           {
-            provide: ProductService, useClass: ProductServiceMock,  // Mock the ProductService for testing purposes
+            provide: ProductStoreService, useValue: mockStore,  // Mock the ProductService for testing purposes
           },
           { provide: API_URL, useValue: 'https://example.com/api' }, // Replace with actual API URL in your app
         ]
@@ -57,7 +66,7 @@ describe('ProductsComponent',
       tick(1000);
       fixture.detectChanges();
       const productList = el.querySelectorAll('app-card');
-      const nbProducts = component.allProducts.length;
+      const nbProducts = component.store.products().length;
       expect(nbProducts).toBe(3);
       expect(productList.length).toBe(nbProducts);
     }));
