@@ -24,8 +24,8 @@ export class ProductService {
     offset: number;
     ordering: string;
     category_name_in: string;
-    min_price: string;
-    max_price: string;
+    min_price: number;
+    max_price: number;
   }): Observable<ProductResponse> {
     return this.http.get<ProductResponse>(`${this.apiUrl}/store/product/?limit=${params.limit}&q=${params.q}&offset=${params.offset}&ordering=${params.ordering}&category_name_in=${params.category_name_in}&min_price=${params.min_price}&max_price=${params.max_price}`);
   }
