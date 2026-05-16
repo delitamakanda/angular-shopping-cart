@@ -4,15 +4,25 @@ import { CategoryListComponent } from './category-list.component';
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient, withFetch} from "@angular/common/http";
 import {API_URL} from "../../../../constants";
-import {ProductService} from "../../../services/product.service";
 import {Router} from "@angular/router";
 import {signal} from "@angular/core";
+import { ProductStoreService } from 'src/app/core/state/product.store.service';
+import { Category } from 'src/app/core/interfaces/category.interface';
 
 describe('CategoryListComponent', () => {
   let component: CategoryListComponent;
   let fixture: ComponentFixture<CategoryListComponent>;
+  let mockStore: any;
 
   beforeEach(async () => {
+    mockStore = {
+      setCategory: jasmine.createSpy('setCategory'),
+      categories: signal<Category[]>([
+        { name: 'Electronics' },
+        { name: 'Computers' },
+        { name: 'Clothing' },
+      ] as Category[]),
+    };
     await TestBed.configureTestingModule({
       imports: [CategoryListComponent],
       providers: [
@@ -22,12 +32,7 @@ describe('CategoryListComponent', () => {
           provide: API_URL, useValue: 'https://example.com/api'  // Replace with actual API URL in your app
         },
         {
-          provide: ProductService, useValue: {
-            getCategoriesLegacy: () => {
-              return { subscribe: () => {} };
-            },
-            category: signal('')
-          }
+          provide: ProductStoreService, useValue: mockStore
         }
       ]
     })
@@ -42,22 +47,11 @@ describe('CategoryListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call productService.getCategoriesLegacy() during initialization', () => {
-  const productService = TestBed.inject(ProductService);
-  const spy = spyOn(productService, 'getCategoriesLegacy').and.callThrough();
-
-  component.ngOnInit();
-
-  expect(spy).toHaveBeenCalled();
-  expect(component.categories$).toBeDefined();
-});
-
   it('should reset the category filter when resetCategoryFilter is called', () => {
-  const productService = TestBed.inject(ProductService);
   const router = TestBed.inject(Router);
 
   // Setup spies
-  const categorySpy = spyOn(productService.category, 'set');
+  const categorySpy = mockStore.setCategory.and.callThrough();
   const navigateSpy = spyOn(router, 'navigate');
 
   // Call the method to test

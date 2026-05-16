@@ -6,16 +6,38 @@ import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {Observable, of} from "rxjs";
 import { signal} from "@angular/core";
 import {Category} from "../interfaces";
+import { ProductStoreService } from '../state/product.store.service';
 
 describe('ProductService', () => {
   let service: ProductService;
   let httpMock: HttpTestingController;
   let apiUrl: string;
+  let mockStore: any;
 
   beforeEach(() => {
+    mockStore = {
+      setCategory: jasmine.createSpy('setCategory'),
+      setSearchValue: jasmine.createSpy('setSearchValue'),
+      setOrdering: jasmine.createSpy('setOrdering'),
+      setOffset: jasmine.createSpy('setOffset'),
+      setTotalCount: jasmine.createSpy('setTotalCount'),
+      setLimit: jasmine.createSpy('setLimit'),
+      goToPage: jasmine.createSpy('goToPage'),
+      products: signal<any[]>([]),
+      category: signal<string>(''),
+      searchValue: signal<string>(''),
+      ordering: signal<string>('-created_at'),
+      offset: signal<number>(0),
+      totalCount: signal<number>(0),
+      limit: signal<number>(25),
+      hasMorePage: signal<boolean>(false),
+      hasPreviousPage: signal<boolean>(false),
+      loading: signal<boolean>(false),
+      error: signal<string>(''),
+    };
     TestBed.configureTestingModule({
       providers: [
-        { provide: ProductService, useClass: ProductServiceMock  },
+        { provide: ProductStoreService, useValue: mockStore  },
         provideHttpClient(withFetch()),
         provideHttpClientTesting(),
         { provide: API_URL, useValue: 'https://example.com/api' }  // Replace with actual API URL in your app
@@ -39,10 +61,10 @@ describe('ProductService', () => {
       ]
     };
 
-    service.getAll().subscribe((products) => {
+    const params = { limit: mockStore.limit(), q: mockStore.searchValue(), offset: mockStore.offset(), ordering: mockStore.ordering() } as any;
+    service.getAll(params).subscribe((products) => {
       expect(products).toEqual(mockProducts2.results as any);
     });
-    const params = { limit: service.limit(), q: service.searchValue(), offset: service.offset(), ordering: service.ordering() };
     const req = httpMock.expectOne(`${apiUrl}/store/product/?limit=${params.limit}&q=${params.q}&offset=${params.offset}&ordering=${params.ordering}`);
     expect(req.request.method).toBe('GET');
     req.flush(mockProducts2.results);
@@ -55,7 +77,7 @@ describe('ProductService', () => {
       { uuid: '3', name: 'Clothing' },
     ];
 
-    service.getCategoriesLegacy().subscribe((categories) => {
+    service.getCategories().subscribe((categories) => {
       expect(categories).toEqual(mockCategories as any);
     });
 
@@ -106,7 +128,7 @@ export class ProductServiceMock {
     return of(true);
   }
 
-  getCategoriesLegacy(): Observable<Category[]> {
+  getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.apiUrl}/store/category-list/`);
   }
 }
