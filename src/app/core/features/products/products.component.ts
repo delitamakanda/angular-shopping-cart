@@ -1,7 +1,6 @@
-import {Component, effect, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CardComponent } from './card/card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ProductService } from '../../services/product.service';
 import {PaginationComponent} from "../pagination/pagination.component";
 import {Product} from "../../interfaces";
 import {SearchBarComponent} from "../search-bar/search-bar/search-bar.component";
@@ -11,6 +10,7 @@ import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {CommonObservableDestruction} from "../../../shared/helpers/common.observable";
 import {PriceFilterComponent} from "../price-filter/price-filter.component";
 import {SortByComponent} from "../sort-by/sort-by.component";
+import { ProductStoreService } from '../../state/product.store.service';
 
 @Component({
     selector: 'app-products',
@@ -24,30 +24,19 @@ import {SortByComponent} from "../sort-by/sort-by.component";
     PriceFilterComponent,
     SortByComponent,
   ],
-    templateUrl: './products.component.html',
-    styleUrl: './products.component.scss'
+  providers: [
+    ProductStoreService,
+  ],
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent extends CommonObservableDestruction implements OnInit {
-  productService = inject(ProductService);
-  products = this.productService.products;
-  isLoading = false;
-  // filterCategory = '';
-  // propCategories = ['Electronics', 'Computers', 'Clothing', 'Accessories', 'Smartphones'];
-  breakpointsCols = 4
-  get allProducts(): Product[] {
-    return this.products();
-  }
+  readonly store = inject(ProductStoreService);
+  
+  protected breakpointsCols = 4
 
   constructor(private breakpointsObs: BreakpointObserver) {
     super();
-    effect(() => {
-      this.isLoading = true;
-      this.productService.getAll()
-        .subscribe();
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
-    });
   }
 
   ngOnInit() : void{
@@ -71,7 +60,7 @@ export class ProductsComponent extends CommonObservableDestruction implements On
   }
 
   removeProduct(uuid: string): void {
-    this.productService.removeById(uuid);
+    this.store.removeProduct(uuid);
   }
 
 }

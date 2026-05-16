@@ -1,29 +1,31 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {ProductService} from "../../services/product.service";
 
 import {MatInputModule} from "@angular/material/input";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {distinctUntilChanged, filter, throwError} from "rxjs";
 import {CommonObservableDestruction} from "../../../shared/helpers/common.observable";
 import {NavigationEnd, Router} from "@angular/router";
+import { ProductStoreService } from '../../state/product.store.service';
 
 @Component({
+  providers: [ProductStoreService],
   selector: 'app-price-filter',
   imports: [
     MatInputModule,
     ReactiveFormsModule
 ],
   templateUrl: './price-filter.component.html',
-  styleUrl: './price-filter.component.scss',
+  styleUrls: ['./price-filter.component.scss'],
   standalone: true
 })
 export class PriceFilterComponent extends CommonObservableDestruction implements OnInit{
-  minPrice: number = 0 ;
-  maxPrice: number = 1000;
-  productService = inject(ProductService);
-  fb = inject(FormBuilder);
-  priceFilterForm!: FormGroup;
-  router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  readonly store = inject(ProductStoreService);
+  protected minPrice: number = 0 ;
+  protected maxPrice: number = 1000;
+  protected priceFilterForm!: FormGroup;
+  
 
   constructor() {
     super();
@@ -41,7 +43,7 @@ export class PriceFilterComponent extends CommonObservableDestruction implements
     ).subscribe({
       next: (value) => {
           this.priceFilterForm.get('minPrice')?.setValue(value, {emitEvent: false});
-          this.productService.minPrice.set(value );
+          this.store.setPriceRange(value, this.priceFilterForm.get('maxPrice')?.value);
       },
       error: (error) => throwError(() => error),
     });
@@ -52,7 +54,7 @@ export class PriceFilterComponent extends CommonObservableDestruction implements
     ).subscribe({
       next: (value) => {
           this.priceFilterForm.get('maxPrice')?.setValue(value, {emitEvent: false});
-          this.productService.maxPrice.set(value );
+          this.store.setPriceRange(this.priceFilterForm.get('minPrice')?.value, value);
       },
       error: (error) => throwError(() => error),
     });
@@ -64,8 +66,7 @@ export class PriceFilterComponent extends CommonObservableDestruction implements
     ).subscribe(() => {
       this.priceFilterForm.get('minPrice')?.setValue(this.minPrice, { emitEvent: false });
       this.priceFilterForm.get('maxPrice')?.setValue(this.maxPrice, { emitEvent: false });
-      this.productService.minPrice.set('' );
-      this.productService.maxPrice.set('' );
+      this.store.setPriceRange(this.minPrice, this.maxPrice);
     });
 
   }

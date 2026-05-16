@@ -1,11 +1,14 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {debounceTime, distinctUntilChanged} from "rxjs";
-import {ProductService} from "../../../services/product.service";
+import {ProductStoreService} from "../../../state/product.store.service";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 
 @Component({
+  providers: [
+    ProductStoreService,
+  ],
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -24,15 +27,15 @@ import {MatInputModule} from "@angular/material/input";
   `
 })
 export class SearchBarComponent implements OnInit {
-  searchControl: FormControl = new FormControl<string>('');
-  private productService = inject(ProductService);
+  readonly store = inject(ProductStoreService);
+  protected searchControl: FormControl = new FormControl<string>('');
 
   ngOnInit(): void {
     this.searchControl.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged()
     ).subscribe(value => {
-      this.productService.setSearchValue(value as string);
+      this.store.setSearchValue(value as string);
     });
   }
 

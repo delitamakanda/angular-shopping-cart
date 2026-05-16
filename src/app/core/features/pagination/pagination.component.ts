@@ -1,30 +1,31 @@
 import {Component, inject} from '@angular/core';
-import {ProductService} from "../../services/product.service";
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import { ProductStoreService } from '../../state/product.store.service';
 
 
 @Component({
     selector: 'app-pagination',
+    providers: [ProductStoreService],
+    styleUrls: ['./pagination.component.scss'],
     imports: [
     MatPaginatorModule
 ],
     template: `
-      <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="productService.limit" [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
+      <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="store.limit()" [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
       </mat-paginator>
   `,
-    styleUrl: './pagination.component.scss'
 })
 export class PaginationComponent {
-  productService = inject(ProductService);
-  pageSizeOptions = [5, 10, 25, 100];
+  readonly store = inject(ProductStoreService);
+  protected pageSizeOptions = [5, 10, 25, 100];
 
   get totalCount(): number {
-    return this.productService.totalCount();
+    return this.store.totalCount();
   }
 
   handlePageEvent(event: PageEvent): void {
-    this.productService.setLimit(event.pageSize.toString())
-    this.productService.setIndex(event.pageIndex);
+    this.store.setLimit(event.pageSize);
+    this.store.goToPage(event.pageIndex);
     this.scrollToTop();
   }
 

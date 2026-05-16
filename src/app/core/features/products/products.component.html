@@ -7,7 +7,7 @@
   <div class="col col-8">
       <app-sort-by />
     <mat-grid-list [cols]="breakpointsCols" rowHeight="480px" gutterSize="16px">
-      @for (product of allProducts; track product.uuid) {
+      @for (product of store.products(); track product.uuid) {
         <mat-grid-tile>
         <app-card [product]="product"
                   (deleteProduct)="removeProduct($event)" />

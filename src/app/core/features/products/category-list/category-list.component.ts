@@ -1,10 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {ProductService} from "../../../services/product.service";
 import {CommonModule} from "@angular/common";
 import {Category} from "../../../interfaces";
 import {Observable} from "rxjs";
 import {MatButtonModule} from "@angular/material/button";
+import { ProductStoreService } from 'src/app/core/state/product.store.service';
 
 @Component({
   selector: 'app-category-list',
@@ -13,19 +13,15 @@ import {MatButtonModule} from "@angular/material/button";
     MatButtonModule
   ],
   templateUrl: './category-list.component.html',
-  styleUrl: './category-list.component.scss'
+  styleUrls: ['./category-list.component.scss']
 })
-export class CategoryListComponent implements OnInit {
-  productService = inject(ProductService);
-  router = inject(Router);
-  categories$!: Observable<Category[]>;
-
-  ngOnInit():void {
-    this.categories$ = this.productService.getCategoriesLegacy();
-  }
+export class CategoryListComponent {
+  private readonly router = inject(Router);
+  readonly store = inject(ProductStoreService);
+  
 
   resetCategoryFilter(): void {
-    this.productService.category.set('');
+    this.store.setCategory('');
     this.router.navigate(['/'], { queryParams: {}, replaceUrl: true });
   }
 
@@ -34,7 +30,7 @@ export class CategoryListComponent implements OnInit {
       queryParams: { category: encodeURIComponent(category.name), sort: null },
       queryParamsHandling: 'merge',
     });
-    this.productService.category.set(encodeURIComponent(category.name));
+    this.store.setCategory(encodeURIComponent(category.name));
   }
 
 }
