@@ -2,7 +2,7 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Category, Product } from '../interfaces';
 import { ProductService } from '../services/product.service';
 import { ToastService } from '../services/toast.service';
-import { catchError, combineLatest, Observable, tap } from 'rxjs';
+import { catchError, combineLatest} from 'rxjs';
 
 export interface ProductState {
   products: Product[];
@@ -84,7 +84,7 @@ export class ProductStoreService {
         min_price: this.minPrice(),
         max_price: this.maxPrice(),
       };
-      this.loadProducts(params);
+     this.loadProducts(params);
     });
   }
 
@@ -95,6 +95,7 @@ export class ProductStoreService {
       this.api.getAll(params)
     ]).subscribe({
       next: ([categories, response]) => {
+        this.toastService.success('Products loaded successfully');
         this.state.update(state => ({
           ...state,
           categories,
