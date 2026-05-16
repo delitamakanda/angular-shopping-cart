@@ -22,9 +22,9 @@ export class PriceFilterComponent extends CommonObservableDestruction implements
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   readonly store = inject(ProductStoreService);
-  protected minPrice: number = 0 ;
-  protected maxPrice: number = 1000;
-  protected priceFilterForm!: FormGroup;
+  public minPrice: number = 0 ;
+  public maxPrice: number = 1000;
+  public priceFilterForm!: FormGroup;
   
 
   constructor() {
