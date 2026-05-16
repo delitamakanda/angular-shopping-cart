@@ -63,6 +63,7 @@ export class SortByComponent implements OnInit, OnDestroy {
       this.previousCategory = currentCategory;
       const sortByParam = this.route.snapshot.queryParamMap.get('sort') || '-created_at';
       this.store.setOrdering(sortByParam === '-created_at' ? '' : sortByParam);
+      this.store.setOffset(0);
       this.sortByForm.get('sortBy')?.setValue(sortByParam, { emitEvent: false });
     })
   }
@@ -73,6 +74,8 @@ export class SortByComponent implements OnInit, OnDestroy {
       this.sortByForm.get('sortBy')?.setValue('-created_at', { emitEvent: false });
       value = '-created_at';
     }
+    this.store.setOrdering(value === '-created_at' ? '' : value);
+    this.store.setOffset(0);
 
     await this.router.navigate([], {
       queryParams: { sort: value === '-created_at' ? null : value },

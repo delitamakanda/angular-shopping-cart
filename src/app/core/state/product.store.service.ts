@@ -111,23 +111,6 @@ export class ProductStoreService {
         this.toastService.error(`Error fetching products: ${err.message}`);
       }
     });
-    this.api.getAll(params).subscribe({
-      next: (response) => {
-        this.state.update(state => ({
-          ...state,
-          products: response.results,
-          hasMorePage: !!response.next,
-          hasPreviousPage: !!response.previous,
-          totalCount: response.count,
-          loading: false,
-          error: null,
-        }));
-      },
-      error: (err) => {
-        this.state.update(state => ({ ...state, loading: false, error: err.message }));
-        this.toastService.error(`Error fetching products: ${err.message}`);
-      }
-    });
   }
 
   loadProductById(uuid: string): void {
