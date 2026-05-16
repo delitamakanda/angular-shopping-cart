@@ -38,6 +38,9 @@ describe('ProductService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ProductStoreService, useValue: mockStore  },
+        {
+          provide: ProductService, useClass: ProductServiceMock
+        },
         provideHttpClient(withFetch()),
         provideHttpClientTesting(),
         { provide: API_URL, useValue: 'https://example.com/api' }  // Replace with actual API URL in your app
@@ -96,8 +99,8 @@ export class ProductServiceMock {
   apiUrl = 'https://example.com/api';
   http = TestBed.inject(HttpClient);
 
-  getAll(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/store/product/?limit=${this.limit()}&q=${this.searchValue()}&offset=${this.offset()}&ordering=${this.ordering()}`);
+  getAll(params: any): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/store/product/?limit=${params.limit}&q=${params.q}&offset=${params.offset}&ordering=${params.ordering}`);
 
   }
   totalCount(): number {

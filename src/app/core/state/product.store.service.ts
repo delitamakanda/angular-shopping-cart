@@ -29,7 +29,7 @@ const initialState: ProductState = {
   searchValue: '',
   limit: 10,
   offset: 0,
-  ordering: '',
+  ordering: '-created_at',
   totalCount: 0,
   category: '',
   minPrice: 0,

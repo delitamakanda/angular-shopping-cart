@@ -2,7 +2,6 @@ import {Component, inject, OnInit} from '@angular/core';
 import { CardComponent } from './card/card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {PaginationComponent} from "../pagination/pagination.component";
-import {Product} from "../../interfaces";
 import {SearchBarComponent} from "../search-bar/search-bar/search-bar.component";
 import {CategoryListComponent} from "./category-list/category-list.component";
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -33,7 +32,7 @@ import { ProductStoreService } from '../../state/product.store.service';
 export class ProductsComponent extends CommonObservableDestruction implements OnInit {
   readonly store = inject(ProductStoreService);
   
-  protected breakpointsCols = 4
+  public breakpointsCols = 4
 
   constructor(private breakpointsObs: BreakpointObserver) {
     super();

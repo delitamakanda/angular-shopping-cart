@@ -25,16 +25,16 @@ providers: [
 export class SortByComponent implements OnInit, OnDestroy {
   readonly store = inject(ProductStoreService);
   sortOptions = [
-    {value: 'default', viewValue: 'Default' },
+    {value: 'created_at', viewValue: 'Default'},
     {value: 'price', viewValue: 'Price (asc.)'},
     {value: '-price', viewValue: 'Price (desc.)'},
-    { value: '-created_at', viewValue: 'New items'},
+    {value: '-created_at', viewValue: 'New items'},
   ];
   router = inject(Router);
   route = inject(ActivatedRoute);
   fb = inject(FormBuilder);
   sortByForm = this.fb.group({
-    sortBy: ['default']
+    sortBy: ['-created_at']
   });
   private routerSubscription: Subscription | null = null;
   private previousCategory: string | null = null;
@@ -42,7 +42,7 @@ export class SortByComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const currentUrl = this.router.url;
     const urlParams = new URLSearchParams(currentUrl.split('?')[1] || '');
-    const sortByParam = urlParams.get('sort') || 'default';
+    const sortByParam = urlParams.get('sort') || '-created_at';
 
     this.sortByForm.get('sortBy')?.setValue(sortByParam, { emitEvent: false });
 
@@ -55,7 +55,7 @@ export class SortByComponent implements OnInit, OnDestroy {
     ).subscribe(() => {
       const currentCategory = this.route.snapshot.queryParamMap.get('category');
       if (this.previousCategory!== currentCategory) {
-        this.sortByForm.get('sortBy')?.setValue('default', { emitEvent: false });
+        this.sortByForm.get('sortBy')?.setValue('-created_at', { emitEvent: false });
         if (this.route.snapshot.queryParamMap.has('sort')) {
           this.router.navigate([], { queryParams: { sort: null }, queryParamsHandling:'merge' });
         }
@@ -70,12 +70,12 @@ export class SortByComponent implements OnInit, OnDestroy {
 
   async onSortChange(value: string | null): Promise<void> {
     if (value === null) {
-      this.sortByForm.get('sortBy')?.setValue('default', { emitEvent: false });
-      value = 'default';
+      this.sortByForm.get('sortBy')?.setValue('-created_at', { emitEvent: false });
+      value = '-created_at';
     }
 
     await this.router.navigate([], {
-      queryParams: { sort: value === 'default' ? null : value },
+      queryParams: { sort: value === '-created_at' ? null : value },
       queryParamsHandling: 'merge'
     })
   }
