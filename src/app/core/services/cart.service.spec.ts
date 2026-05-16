@@ -18,6 +18,7 @@ describe('CartService', () => {
     const product = {
       uuid: '123',
       name: 'Test Product',
+      slug: 'test-product',
       price: 10,
       status: 'IN_STOCK',
       image_url: 'test.jpg',

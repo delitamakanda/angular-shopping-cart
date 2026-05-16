@@ -6,7 +6,7 @@ import {ProductService} from "../../services/product.service";
 import {ProductServiceMock} from "../../services/product.service.spec";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import { ProductStoreService } from '../../state/product.store.service';
-import { signal } from 'node_modules/@angular/core/types/_chrome_dev_tools_performance-chunk';
+import { signal } from '@angular/core';
 import { Category } from '../../interfaces';
 
 describe('SortByComponent', () => {
@@ -16,7 +16,7 @@ describe('SortByComponent', () => {
   beforeEach(async () => {
     mockStore = {
       setSortBy: jasmine.createSpy('setSortBy'),
-      sortBy: signal<string>('default'),
+      sortBy: signal<string>('-created_at'),
       categories: signal<Category[]>([
         { name: 'Electronics' },
         { name: 'Computers' },
@@ -30,7 +30,7 @@ describe('SortByComponent', () => {
           provide: ProductStoreService, useValue: mockStore
         },
         { provide: ActivatedRoute, useValue: { snapshot: { queryParamMap: { get: () => null }, set: () => null } } },
-        { provide: ProductService, useValue: ProductServiceMock },
+        { provide: ProductService, useClass: ProductServiceMock },
         provideHttpClientTesting(),
       ]
     })
@@ -47,7 +47,7 @@ describe('SortByComponent', () => {
 
   it('should set the default sorting option when the route does not contain a sort parameter', () => {
     component.ngOnInit();
-    expect(component.sortByForm.get('sortBy')?.value).toBe('default');
+    expect(component.sortByForm.get('sortBy')?.value).toBe('-created_at');
   });
 
 });
