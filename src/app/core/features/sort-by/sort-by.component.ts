@@ -5,7 +5,7 @@ import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {filter, Subscription} from "rxjs";
-import {ProductService} from "../../services/product.service";
+import { ProductStoreService } from '../../state/product.store.service';
 
 @Component({
   selector: 'app-sort-by',
@@ -15,11 +15,15 @@ import {ProductService} from "../../services/product.service";
     MatIconModule,
     FormsModule
 ],
+providers: [
+  ProductStoreService,
+],
   templateUrl: './sort-by.component.html',
   styleUrl: './sort-by.component.scss',
   standalone: true
 })
 export class SortByComponent implements OnInit, OnDestroy {
+  readonly store = inject(ProductStoreService);
   sortOptions = [
     {value: 'default', viewValue: 'Default' },
     {value: 'price', viewValue: 'Price (asc.)'},
@@ -29,7 +33,6 @@ export class SortByComponent implements OnInit, OnDestroy {
   router = inject(Router);
   route = inject(ActivatedRoute);
   fb = inject(FormBuilder);
-  productService = inject(ProductService);
   sortByForm = this.fb.group({
     sortBy: ['default']
   });
@@ -58,8 +61,8 @@ export class SortByComponent implements OnInit, OnDestroy {
         }
       }
       this.previousCategory = currentCategory;
-      const sortByParam = this.route.snapshot.queryParamMap.get('sort') || 'default';
-      this.productService.ordering.set(sortByParam === 'default' ? '' : sortByParam);
+      const sortByParam = this.route.snapshot.queryParamMap.get('sort') || '-created_at';
+      this.store.setOrdering(sortByParam === '-created_at' ? '' : sortByParam);
       this.sortByForm.get('sortBy')?.setValue(sortByParam, { emitEvent: false });
     })
   }

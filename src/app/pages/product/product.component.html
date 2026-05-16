@@ -1,16 +1,16 @@
-@if (product) {
+@if (store.product()) {
   <div class="product-container">
     <div class="product-image-container">
-      <img [ngSrc]="product.image_url" [width]="500" [height]="667" [placeholder]="base64Background" fetchpriority="high" priority [alt]="product.name" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" class="product.image" />
+      <img [ngSrc]="store.product()!.image_url" [width]="500" [height]="667" [placeholder]="base64Background" fetchpriority="high" priority [alt]="store.product()!.name" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" class="product.image" />
     </div>
     <div class="product-details">
-      @for (category of productCategories; track category) {
+      <!--@for (category of store.product().categories; track category) {
         <div class="product-category">{{ category.name | uppercase }}</div>
-      }
-      <h2>{{ product.name }}</h2>
+    }-->
+      <h2>{{ store.product()!.name }}</h2>
 
-      <p>{{ product.description }}</p>
-      <p>{{ product.price | currency}}</p>
+      <p>{{ store.product()!.description }}</p>
+      <p>{{ store.product()!.price | currency}}</p>
 
       <div class="product-actions">
         <mat-form-field>
@@ -23,16 +23,16 @@
             }
           </mat-select>
         </mat-form-field>
-        <button mat-button appConfirm="Etes vous sûr d'ajouter cet article au panier ?" class="btn btn-primary" (click)="addToCart()">Add to Cart</button>
+        <button mat-button appConfirm="Etes vous sûr d'ajouter cet article au panier ?" class="btn btn-primary" (click)="addToCart(store.product()!)">Add to Cart</button>
       </div>
 
         <div class="product-description">
-          <p>{{ product.description }}</p>
+          <p>{{ store.product()!.description }}</p>
 
           <div class="product-metadata">
             <div>
               <mat-icon>date_range</mat-icon>
-              <span>{{ product.created_at | date }}</span>
+              <span>{{ store.product()!.created_at | date }}</span>
             </div>
           </div>
         </div>

@@ -1,8 +1,7 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit} from '@angular/core';
 import {combineLatest} from "rxjs";
 import {map, filter} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
-import {ProductService} from "../../core/services/product.service";
 import {Category, Product} from "../../core/interfaces";
 import { CommonModule, CurrencyPipe, IMAGE_CONFIG, NgOptimizedImage } from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
@@ -15,16 +14,19 @@ import {MatSelectModule} from "@angular/material/select";
 import {CommentsComponent} from "../../core/features/comments/comments.component";
 import {RateComponent} from "../../shared/components/rate/rate.component";
 import {FormsModule} from "@angular/forms";
+import { ProductStoreService } from 'src/app/core/state/product.store.service';
 
 @Component({
     selector: 'app-product',
+    standalone: true,
   providers: [
     {
       provide: IMAGE_CONFIG,
       useValue: {
         placeHolderResolution: 40,
       }
-    }
+    },
+    ProductStoreService,
   ],
   imports: [
     CommonModule,
@@ -41,27 +43,27 @@ import {FormsModule} from "@angular/forms";
     FormsModule,
   ],
     templateUrl: './product.component.html',
-    styleUrl: './product.component.scss'
+    styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit {
-  cartService = inject(CartService);
-  route = inject(ActivatedRoute);
-  productService = inject(ProductService);
-  product!: Product;
-  base64Background: string;
-  quantity = 1;
-  choices = Array.from({length: 10}, (_, i) => i + 1);
-  isCommentsVisible = false;
-  rating = 0;
-  productCategories: Category[] = [];
+  private readonly cartService = inject(CartService);
+  private readonly route = inject(ActivatedRoute);
+  readonly store = inject(ProductStoreService);
+  
+  protected base64Background = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v';
+  protected quantity = 1;
+  protected choices = Array.from({length: 10}, (_, i) => i + 1);
+  protected isCommentsVisible = false;
+  protected rating = 0;
 
-  constructor() {
-    this.base64Background = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v'
-  }
 
   ngOnInit() {
-    combineLatest([
-      this.productService.getCategoriesLegacy(),
+    this.route.data.pipe(
+      map(data => data['productData'])
+    ).subscribe(productData => {
+      this.store.loadProductById(productData.uuid);
+    });
+    /*combineLatest([
       this.route.data
     ]).pipe(
       map(([categories, productData]) => ({ categories, productData }))
@@ -72,12 +74,12 @@ export class ProductComponent implements OnInit {
         this.product = product;
         this.productCategories = categories.filter(category => product.category.includes(category.uuid));
       })
-    });
+    });*/
   }
 
-  addToCart(): void {
-    this.cartService.addToCart(this.product);
-    this.cartService.updateCartItemQuantity(this.product.uuid, this.quantity);
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product);
+    this.cartService.updateCartItemQuantity(product.uuid, this.quantity);
   }
 
   toggleComments(): void {
