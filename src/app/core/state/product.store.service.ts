@@ -2,7 +2,7 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Category, Product } from '../interfaces';
 import { ProductService } from '../services/product.service';
 import { ToastService } from '../services/toast.service';
-import { catchError, combineLatest} from 'rxjs';
+import { catchError } from 'rxjs';
 
 export interface ProductState {
   products: Product[];
@@ -73,31 +73,16 @@ export class ProductStoreService {
 
   readonly totalPages = computed(() => Math.ceil(this.totalCount() / this.limit()));
 
-  constructor() {
-    effect(() => {
-      const params = {
-        limit: this.limit(),
-        q: this.searchValue(),
-        offset: this.offset(),
-        ordering: this.ordering(),
-        category_name_in: this.category(),
-        min_price: this.minPrice(),
-        max_price: this.maxPrice(),
-      };
-     this.loadProducts(params);
-    });
-  }
+  constructor() { }
 
   loadProducts(params: any): void {
     this.state.update(state => ({ ...state, loading: true, error: null }));
-    combineLatest([
-      this.api.getCategories(),
-      this.api.getAll(params)
-    ]).subscribe({
-      next: ([categories, response]) => {
+    
+    this.api.getAll(params)
+    .subscribe({
+      next: (response) => {
         this.state.update(state => ({
           ...state,
-          categories,
           products: response.results,
           hasMorePage: !!response.next,
           hasPreviousPage: !!response.previous,
@@ -244,6 +229,19 @@ export class ProductStoreService {
   resetFilters(): void {
     this.state.update(state => ({ ...state, searchValue: '', category: '', minPrice: 0, maxPrice: 1000  }));
     this.setOffset(0);
+  }
+
+  getCategories(): void {
+    this.state.update(state => ({ ...state, loading: true, error: null }));
+    this.api.getCategories().subscribe({
+      next: (categories) => {
+        this.state.update(state => ({ ...state, categories, loading: false, error: null }));
+      },
+      error: (err) => {
+        this.state.update(state => ({ ...state, loading: false, error: `Error fetching categories: ${err.message}` }));
+        this.toastService.error(`Error fetching categories: ${err.message}`);
+      }
+    });
   }
 }
 
