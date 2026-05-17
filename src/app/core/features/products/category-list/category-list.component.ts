@@ -2,16 +2,19 @@ import {Component, inject, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {Category} from "../../../interfaces";
-import {Observable} from "rxjs";
 import {MatButtonModule} from "@angular/material/button";
 import { ProductStoreService } from 'src/app/core/state/product.store.service';
+import { MatCardModule } from "@angular/material/card";
+import {MatListModule} from '@angular/material/list';
 
 @Component({
   selector: 'app-category-list',
   imports: [
     CommonModule,
-    MatButtonModule
-  ],
+    MatButtonModule,
+    MatCardModule,
+    MatListModule
+],
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })

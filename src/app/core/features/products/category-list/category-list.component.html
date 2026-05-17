@@ -1,11 +1,13 @@
-<div>
-  <h3>Categories</h3>
+<h3>Categories</h3>
+<mat-card>
   <button mat-button (click)="resetCategoryFilter()">reset filter</button>
-  <ul>
+  <mat-list>
     @for (category of store.categories(); track category?.uuid) {
-      <li (click)="selectCategory(category)">
-        {{ category.name }}
-      </li>
+      <ng-container>
+        <button mat-list-item (click)="selectCategory(category)">
+          {{ category.name }}
+        </button>
+      </ng-container>
     }
-  </ul>
-</div>
+  </mat-list>
+</mat-card>
