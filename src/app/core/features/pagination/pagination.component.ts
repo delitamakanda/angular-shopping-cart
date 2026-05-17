@@ -5,7 +5,6 @@ import { ProductStoreService } from '../../state/product.store.service';
 
 @Component({
     selector: 'app-pagination',
-    providers: [ProductStoreService],
     styleUrls: ['./pagination.component.scss'],
     imports: [
     MatPaginatorModule

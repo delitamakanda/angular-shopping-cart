@@ -8,7 +8,6 @@ import {NavigationEnd, Router} from "@angular/router";
 import { ProductStoreService } from '../../state/product.store.service';
 
 @Component({
-  providers: [ProductStoreService],
   selector: 'app-price-filter',
   imports: [
     MatInputModule,

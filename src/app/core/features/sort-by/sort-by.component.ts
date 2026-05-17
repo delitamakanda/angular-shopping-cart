@@ -15,11 +15,8 @@ import { ProductStoreService } from '../../state/product.store.service';
     MatIconModule,
     FormsModule
 ],
-providers: [
-  ProductStoreService,
-],
   templateUrl: './sort-by.component.html',
-  styleUrl: './sort-by.component.scss',
+  styleUrls: ['./sort-by.component.scss'],
   standalone: true
 })
 export class SortByComponent implements OnInit, OnDestroy {
@@ -41,7 +38,7 @@ export class SortByComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const currentUrl = this.router.url;
-    const urlParams = new URLSearchParams(currentUrl.split('?')[1] || '');
+    const urlParams = new URLSearchParams(currentUrl.split('?')[1] || '-created_at');
     const sortByParam = urlParams.get('sort') || '-created_at';
 
     this.sortByForm.get('sortBy')?.setValue(sortByParam, { emitEvent: false });
@@ -62,7 +59,7 @@ export class SortByComponent implements OnInit, OnDestroy {
       }
       this.previousCategory = currentCategory;
       const sortByParam = this.route.snapshot.queryParamMap.get('sort') || '-created_at';
-      this.store.setOrdering(sortByParam === '-created_at' ? '' : sortByParam);
+      this.store.setOrdering(sortByParam);
       this.store.setOffset(0);
       this.sortByForm.get('sortBy')?.setValue(sortByParam, { emitEvent: false });
     })
@@ -76,6 +73,15 @@ export class SortByComponent implements OnInit, OnDestroy {
     }
     this.store.setOrdering(value);
     this.store.setOffset(0);
+    this.store.loadProducts({
+      limit: this.store.limit(),
+      q: this.store.searchValue(),
+      offset: 0,
+      ordering: value,
+      category_name_in: this.store.category(),
+      min_price: this.store.minPrice(),
+      max_price: this.store.maxPrice(),
+    });
 
     await this.router.navigate([], {
       queryParams: { sort: value },
