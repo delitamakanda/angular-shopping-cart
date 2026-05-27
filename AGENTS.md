@@ -12,5 +12,5 @@ Ce projet est une application Angular de panier d'achat.
 - Mettre à jour la documentation si un comportement utilisateur change.
 
 ## Vérification
-- Exécuter les commandes de validation pertinentes (lint/tests/build) avant de finaliser.
+- Exécuter les commandes de validation disponibles avant de finaliser (par ex. `npm run test` et `npm run build`).
 - Résumer les changements et les vérifications effectuées dans la réponse finale.
