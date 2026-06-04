@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatInputModule} from "@angular/material/input";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
@@ -15,6 +15,7 @@ import { ProductStoreService } from '../../state/product.store.service';
 ],
   templateUrl: './price-filter.component.html',
   styleUrls: ['./price-filter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class PriceFilterComponent extends CommonObservableDestruction implements OnInit{

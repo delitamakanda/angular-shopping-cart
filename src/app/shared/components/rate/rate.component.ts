@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, ChangeDetectionStrategy } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 type OnChangeFn = (value: number) => void;
@@ -15,6 +15,7 @@ type OnTouchedFn = () => void;
     },
   ],
   templateUrl: './rate.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './rate.component.scss'
 })
 export class RateComponent {

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {HttpTestingController, provideHttpClientTesting} from "@angular/common/http/testing";
 import { SearchBarComponent } from './search-bar.component';
 import { ProductService } from '../../../services/product.service';
-import { provideHttpClient} from "@angular/common/http";
+import { provideHttpClient, withXhr } from "@angular/common/http";
 import { API_URL } from 'src/app/constants';
 
 describe('SearchBarComponent', () => {
@@ -16,7 +16,7 @@ describe('SearchBarComponent', () => {
     await TestBed.configureTestingModule({
       providers: [
         ProductService,
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         { provide: API_URL, useValue: 'https://example.com/api' }  // Replace with actual API URL in your app
       ],

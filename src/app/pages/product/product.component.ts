@@ -1,4 +1,4 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {combineLatest} from "rxjs";
 import {map, filter} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
@@ -43,6 +43,7 @@ import { ProductStoreService } from 'src/app/core/state/product.store.service';
     FormsModule,
   ],
     templateUrl: './product.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit {

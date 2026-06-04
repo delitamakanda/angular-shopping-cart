@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {AuthService} from "../../../core/services/auth.service";
 import {Title} from "@angular/platform-browser";
 
@@ -6,6 +6,7 @@ import {Title} from "@angular/platform-browser";
   selector: 'app-profile',
   imports: [],
   templateUrl: './profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {

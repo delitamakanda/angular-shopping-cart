@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, signal, ChangeDetectionStrategy} from '@angular/core';
 import {DIALOG_DATA, DialogRef} from "@angular/cdk/dialog";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
@@ -17,6 +17,7 @@ interface DialogData {
   ],
   standalone: true,
   templateUrl: './dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dialog.component.scss',
 })
 export class DialogComponent {
