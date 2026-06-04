@@ -21,14 +21,14 @@ An Angular 22 demo application that showcases a complete shopping experience wit
 - **Progressive Web App (PWA) ready** configuration through `@angular/service-worker` and `ngsw-config`.
 
 ## Tech stack
-- [Angular](https://angular.dev/) 21 with standalone components and the Angular Router.
+- [Angular](https://angular.dev/) 22 with standalone components and the Angular Router.
 - [Angular Material](https://material.angular.io/) component library for UI.
 - [RxJS](https://rxjs.dev/) for reactive data flow and asynchronous orchestration.
 - Service worker integration for offline capabilities and caching.
 
 ## Getting started
 1. **Prerequisites**
-   - Node.js 20.19.x and npm 10.8.x (matching the versions defined in `package.json`).
+   - Node.js 22.22.x and npm 10.9.x (matching the versions defined in `package.json`).
 2. **Install dependencies**
    ```bash
    npm install
