@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy} from '@angular/core';
 import { Product } from 'src/app/core/interfaces/product.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { CommonModule, CurrencyPipe, IMAGE_CONFIG, NgOptimizedImage } from '@angular/common';
@@ -27,6 +27,7 @@ import {FormsModule} from "@angular/forms";
         NgOptimizedImage,
     ],
     templateUrl: './card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './card.component.scss'
 })
 export class CardComponent {

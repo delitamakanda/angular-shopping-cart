@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StaticPagesComponent } from './static-pages.component';
 import {BehaviorSubject, of} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
-import {provideHttpClient} from "@angular/common/http";
+import {provideHttpClient, withXhr} from "@angular/common/http";
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {StaticPagesStoreService} from "./state/static-pages.store.service";
 import { signal } from "@angular/core";
@@ -25,7 +25,7 @@ describe('StaticPagesComponent', () => {
     await TestBed.configureTestingModule({
       imports: [StaticPagesComponent],
       providers: [
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         { provide: ActivatedRoute, useValue: { params: paramsSubjectMock.asObservable() } },
         { provide: StaticPagesStoreService, useValue: mockStore }

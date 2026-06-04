@@ -1,5 +1,5 @@
 
-import {Component, effect, inject, OnInit} from '@angular/core';
+import {Component, effect, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from './avatar/avatar.component';
@@ -19,6 +19,7 @@ import {CartItem} from "../products/card/interfaces";
     MatIcon
 ],
     templateUrl: './navbar.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit {

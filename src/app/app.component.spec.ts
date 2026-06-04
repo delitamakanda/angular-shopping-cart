@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import {provideRouter} from "@angular/router";
 import {routes} from "./app.routes";
-import {provideHttpClient} from "@angular/common/http";
+import {provideHttpClient, withXhr} from "@angular/common/http";
 import {HttpTestingController, provideHttpClientTesting} from "@angular/common/http/testing";
 import {API_URL} from "./constants";
 import {NavbarComponent} from "./core/features/navbar/navbar.component";
@@ -22,7 +22,7 @@ describe('AppComponent', () => {
       ],
       providers: [
         provideRouter(routes),
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideHttpClientTesting(),
         {provide: API_URL, useValue: 'https://example.com/api'}
       ]

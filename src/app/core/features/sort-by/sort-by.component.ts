@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatSelectModule} from "@angular/material/select";
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -17,6 +17,7 @@ import { ProductStoreService } from '../../state/product.store.service';
 ],
   templateUrl: './sort-by.component.html',
   styleUrls: ['./sort-by.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class SortByComponent implements OnInit, OnDestroy {

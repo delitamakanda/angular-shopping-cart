@@ -1,8 +1,9 @@
-import { AfterContentInit, Component, ContentChild, ElementRef } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="product-card card d-flex flex-column align-items-center">
       <ng-content></ng-content>

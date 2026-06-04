@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../core/services/auth.service";
 import {emailValidator, passwordValidator, mismatchPasswordValidator} from "../../core/validators/domain-validator";
@@ -12,6 +12,7 @@ import {Router, RouterLink} from "@angular/router";
       RouterLink,
     ],
     templateUrl: './signup.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './signup.component.scss'
 })
 export class SignupComponent {

@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatCardModule} from "@angular/material/card";
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +15,7 @@ import {switchMap} from "rxjs";
   ],providers: [StaticPagesStoreService],
   templateUrl: './static-pages.component.html',
   styleUrl: './static-pages.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class StaticPagesComponent extends CommonObservableDestruction implements OnInit{

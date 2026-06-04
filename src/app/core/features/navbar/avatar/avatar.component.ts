@@ -1,5 +1,5 @@
 import {IMAGE_CONFIG, NgOptimizedImage, NgStyle} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, Input, ChangeDetectionStrategy} from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {Router, RouterLink} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
@@ -21,6 +21,7 @@ import {AuthService} from "../../../services/auth.service";
     NgOptimizedImage,
   ],
     templateUrl: './avatar.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './avatar.component.scss'
 })
 export class AvatarComponent {

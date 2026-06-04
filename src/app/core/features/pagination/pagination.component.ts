@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, ChangeDetectionStrategy} from '@angular/core';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import { ProductStoreService } from '../../state/product.store.service';
 
@@ -9,6 +9,7 @@ import { ProductStoreService } from '../../state/product.store.service';
     imports: [
     MatPaginatorModule
 ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
       <mat-paginator (page)="handlePageEvent($event)" [length]="totalCount" [pageSize]="store.limit()" [pageSizeOptions]="pageSizeOptions" aria-label="Select page">
       </mat-paginator>

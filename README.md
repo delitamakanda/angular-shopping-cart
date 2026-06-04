@@ -1,7 +1,7 @@
 # Angular Shopping Cart
 [![angular-shopping-cart CI](https://github.com/delitamakanda/angular-shopping-cart/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/delitamakanda/angular-shopping-cart/actions/workflows/node.js.yml)
 
-An Angular 21 demo application that showcases a complete shopping experience with product discovery, cart management, and a lightweight admin area. The project demonstrates how to structure a modern Angular workspace with standalone components, Angular Material, and reusable domain services backed by a hosted REST API.
+An Angular 22 demo application that showcases a complete shopping experience with product discovery, cart management, and a lightweight admin area. The project demonstrates how to structure a modern Angular workspace with standalone components, Angular Material, and reusable domain services backed by a hosted REST API.
 
 ## Table of contents
 - [Features](#features)

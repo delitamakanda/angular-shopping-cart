@@ -1,4 +1,4 @@
-import {Component, effect, inject} from '@angular/core';
+import {Component, effect, inject, ChangeDetectionStrategy} from '@angular/core';
 import {CartService} from "../../services/cart.service";
 import {CurrencyPipe, NgOptimizedImage} from "@angular/common";
 import {RouterLink} from "@angular/router";
@@ -14,6 +14,7 @@ import {CartItem} from "../products/card/interfaces";
     ConfirmDirective,
   ],
   templateUrl: './cart.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './cart.component.scss'
 })
 export class CartComponent {

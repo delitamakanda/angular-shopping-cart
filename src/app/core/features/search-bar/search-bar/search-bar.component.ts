@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {debounceTime, distinctUntilChanged} from "rxjs";
 import {ProductStoreService} from "../../../state/product.store.service";
@@ -12,6 +12,7 @@ import {MatInputModule} from "@angular/material/input";
     MatInputModule,
   ],
     selector: 'app-search-bar',
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `
     <form class="form-inline my-2 my-lg-0">
       <mat-form-field>

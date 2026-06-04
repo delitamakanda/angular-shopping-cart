@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {Category} from "../../../interfaces";
@@ -16,6 +16,7 @@ import {MatListModule} from '@angular/material/list';
     MatListModule
 ],
   templateUrl: './category-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent {
