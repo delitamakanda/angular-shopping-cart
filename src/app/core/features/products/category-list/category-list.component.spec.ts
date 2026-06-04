@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CategoryListComponent } from './category-list.component';
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideHttpClient, withFetch} from "@angular/common/http";
@@ -16,7 +16,7 @@ describe('CategoryListComponent', () => {
 
   beforeEach(async () => {
     mockStore = {
-      setCategory: jasmine.createSpy('setCategory'),
+      setCategory: vi.fn(),
       categories: signal<Category[]>([
         { name: 'Electronics' },
         { name: 'Computers' },
@@ -51,8 +51,8 @@ describe('CategoryListComponent', () => {
   const router = TestBed.inject(Router);
 
   // Setup spies
-  const categorySpy = mockStore.setCategory.and.callThrough();
-  const navigateSpy = spyOn(router, 'navigate');
+  const categorySpy = mockStore.setCategory;
+  const navigateSpy = vi.spyOn(router, 'navigate');
 
   // Call the method to test
   component.resetCategoryFilter();

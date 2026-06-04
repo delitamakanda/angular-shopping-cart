@@ -12,6 +12,7 @@ import { ProductStoreService } from 'src/app/core/state/product.store.service';
 import { signal } from "@angular/core";
 import { Category, Product } from "../../interfaces";
 import { BreakpointObserver } from "@angular/cdk/layout";
+import { vi, it, describe, beforeEach, expect } from "vitest";
 
 describe('ProductsComponent',
   () => {
@@ -22,8 +23,7 @@ describe('ProductsComponent',
     let mockBreakpointObserver: any;
 
     beforeEach(async () => {
-      mockBreakpointObserver = jasmine.createSpyObj('BreakpointObserver', ['observe']);
-      mockBreakpointObserver.observe.and.returnValue(of({
+      mockBreakpointObserver = { observe: vi.fn().mockReturnValue(of({
         matches: false,
         breakpoints: {
           '(max-width: 599.99px)': true,
@@ -32,7 +32,7 @@ describe('ProductsComponent',
           '(min-width: 1280px) and (max-width: 1919.99px)': false,
           '(min-width: 1920px)': false,
         }
-      }));
+      })), };
 
       mockStore = {
         categories: signal<Category[]>([
@@ -89,19 +89,19 @@ describe('ProductsComponent',
         minPrice: signal(0),
         maxPrice: signal(Infinity),
         ordering: signal('default'),
-        loadProducts: jasmine.createSpy('loadProducts'),
-        loadProductById: jasmine.createSpy('loadProductById').and.returnValue(of(null)),
-        setSearchValue: jasmine.createSpy('setSearchValue'),
-        setCategory: jasmine.createSpy('setCategory'),
-        setMinPrice: jasmine.createSpy('setMinPrice'),
-        setMaxPrice: jasmine.createSpy('setMaxPrice'),
-        setOrdering: jasmine.createSpy('setOrdering'),
-        setLimit: jasmine.createSpy('setLimit'),
-        setOffset: jasmine.createSpy('setOffset'),
-        nextPage: jasmine.createSpy('nextPage'),
-        previousPage: jasmine.createSpy('previousPage'),
-        resetFilters: jasmine.createSpy('resetFilters'),
-        removeProduct: jasmine.createSpy('removeProduct'),
+        loadProducts: vi.fn(),
+        loadProductById: vi.fn().mockReturnValue(of(null)),
+        setSearchValue: vi.fn(),
+        setCategory: vi.fn(),
+        setMinPrice: vi.fn(),
+        setMaxPrice: vi.fn(),
+        setOrdering: vi.fn(),
+        setLimit: vi.fn(),
+        setOffset: vi.fn(),
+        nextPage: vi.fn(),
+        previousPage: vi.fn(),
+        resetFilters: vi.fn(),
+        removeProduct: vi.fn(),
       };
       await TestBed.configureTestingModule({
         imports: [ProductsComponent],
@@ -125,16 +125,14 @@ describe('ProductsComponent',
       el = fixture.nativeElement;
     });
 
-    it('should create', fakeAsync(() => {
+    it('should create', () => {
       fixture.detectChanges();
-      tick(1000); // Wait for async operations to complete
       expect(component).toBeTruthy();
-    }));
+    });
 
-    it('should initialize with default breakpoint columns', fakeAsync(() => {
+    it('should initialize with default breakpoint columns', () => {
       fixture.detectChanges();
-      tick(1000); // Wait for async operations to complete
       expect(component.breakpointsCols).toBe(4); // Based on the mocked BreakpointObserver response
-    }));
+    });
 
 });

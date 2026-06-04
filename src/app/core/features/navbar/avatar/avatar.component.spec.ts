@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { AvatarComponent } from './avatar.component';
 import {provideRouter, Router} from "@angular/router";
@@ -37,8 +38,8 @@ describe('AvatarComponent', () => {
   it('should disconnect user when disconnect button is clicked', () => {
     const authService = TestBed.inject(AuthService);
     const router = TestBed.inject(Router);
-    spyOn(authService, 'logout').and.returnValue(of());
-    spyOn(router, 'navigate').and.returnValue(of() as any);
+    vi.spyOn(authService, 'logout').mockReturnValue(of());
+    vi.spyOn(router, 'navigate').mockReturnValue(of() as any);
 
     component.disconnect();
 

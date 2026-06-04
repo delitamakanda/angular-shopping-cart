@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SortByComponent } from './sort-by.component';
 import {ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../services/product.service";
@@ -15,7 +15,7 @@ describe('SortByComponent', () => {
   let mockStore: any;
   beforeEach(async () => {
     mockStore = {
-      setSortBy: jasmine.createSpy('setSortBy'),
+      setSortBy: vi.fn(),
       sortBy: signal<string>('-created_at'),
       categories: signal<Category[]>([
         { name: 'Electronics' },

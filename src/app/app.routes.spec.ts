@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {Router} from "@angular/router";
 import { provideRouter } from "@angular/router";
 import { routes } from './app.routes';
+import { vi, expect, it, beforeEach, describe } from 'vitest';
 
 
 describe('Router', () => {
@@ -28,13 +29,13 @@ describe('Router', () => {
   });
 
   it('should navigate to login page when "/login" route is accessed', () => {
-    const routerSpy = spyOn(router, 'navigate');
+    const routerSpy = vi.spyOn(router, 'navigate');
     router.navigate(['login']);
     expect(routerSpy).toHaveBeenCalledWith(['login']);
   });
 
   it('should navigate to not found page when "/unknown" route is accessed', () => {
-    const routerSpy = spyOn(router, 'navigate');
+    const routerSpy = vi.spyOn(router, 'navigate');
     router.navigate(['unknown']);
     expect(routerSpy).toHaveBeenCalledWith(['unknown']);
   });
