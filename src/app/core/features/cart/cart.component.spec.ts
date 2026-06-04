@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { CartComponent } from './cart.component';
 import {provideRouter} from "@angular/router";
@@ -29,7 +30,7 @@ describe('CartComponent', () => {
     })
     .compileComponents();
     cartService = TestBed.inject(CartService);
-    spyOn(cartService, 'getCartFromLocalStorage').and.callThrough();
+    vi.spyOn(cartService, 'getCartFromLocalStorage').mockReturnValue(of([]) as any);
 
     fixture = TestBed.createComponent(CartComponent);
     component = fixture.componentInstance;

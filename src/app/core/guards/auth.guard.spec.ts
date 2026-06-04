@@ -3,6 +3,7 @@ import {CanActivateFn, Router} from '@angular/router';
 
 import { authGuard } from './auth.guard';
 import {AuthService} from "../services/auth.service";
+import { vi, expect, describe, beforeEach, it } from 'vitest';
 
 describe('authGuard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
@@ -17,8 +18,8 @@ describe('authGuard', () => {
   });
 
   it('should return true when authenticated', () => {
-  const mockAuthService = { isAuthenticated: jasmine.createSpy().and.returnValue(true) };
-  const mockRouter = { navigate: jasmine.createSpy() };
+  const mockAuthService = { isAuthenticated: vi.fn().mockReturnValue(true) };
+  const mockRouter = { navigate: vi.fn() };
 
   TestBed.configureTestingModule({
     providers: [

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { StaticPagesComponent } from './static-pages.component';
 import {BehaviorSubject, of} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
@@ -10,13 +11,14 @@ import { signal } from "@angular/core";
 describe('StaticPagesComponent', () => {
   let component: StaticPagesComponent;
   let fixture: ComponentFixture<StaticPagesComponent>;
-  let mockStore: jasmine.SpyObj<StaticPagesStoreService>;
+  let mockStore: StaticPagesStoreService;
   let paramsSubjectMock: BehaviorSubject<any>;
 
   beforeEach(async () => {
     paramsSubjectMock = new BehaviorSubject<any>({ page: 'test' });
-    mockStore = jasmine.createSpyObj('StaticPagesStoreService', ['fetchPage']);
-    mockStore.fetchPage.and.returnValue(of('test content'));
+    mockStore = {
+      fetchPage: vi.fn()
+    } as unknown as StaticPagesStoreService;
 
     (mockStore as any).loading = signal(false);
     (mockStore as any).selectedPage = signal('');

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { PaginationComponent } from './pagination.component';
 import { ProductStoreService } from '../../state/product.store.service';
 import { API_URL } from 'src/app/constants';
@@ -15,10 +15,10 @@ describe('PaginationComponent', () => {
 
   beforeEach(async () => {
     mockStore = {
-      totalCount: jasmine.createSpy('totalCount').and.returnValue(100),
-      limit: jasmine.createSpy('limit').and.returnValue(10),
-      setLimit: jasmine.createSpy('setLimit'),
-      goToPage: jasmine.createSpy('goToPage'),
+      totalCount: vi.fn().mockReturnValue(100),
+      limit: vi.fn().mockReturnValue(10),
+      setLimit: vi.fn(),
+      goToPage: vi.fn(),
       categories: signal<Category[]>([
         { name: 'Electronics' },
         { name: 'Computers' },

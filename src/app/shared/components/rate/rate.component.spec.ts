@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { RateComponent } from './rate.component';
 
@@ -26,7 +27,7 @@ describe('RateComponent', () => {
   });
 
   it('should call onChange with rate when changeRate is called', () => {
-    const spy = spyOn(component, 'onChange');
+    const spy = vi.spyOn(component, 'onChange');
     component.changeRate(5);
     expect(spy).toHaveBeenCalledWith(5);
   })

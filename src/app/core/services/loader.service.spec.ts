@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { LoaderService } from './loader.service';
 import {NavigationStart, Router, RouterModule} from "@angular/router";
 import {Subject} from "rxjs";
@@ -30,7 +30,7 @@ describe('LoaderService', () => {
   });
 
   it('should initialize loader', () => {
-    spyOn(service as any, 'createOverlay');
+    vi.spyOn(service as any, 'createOverlay');
     service.initializeLoader();
     routerEventSub.next(new NavigationStart(1, '/'));
     expect((service as any).createOverlay).toHaveBeenCalled();

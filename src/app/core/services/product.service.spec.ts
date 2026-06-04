@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ProductService } from './product.service';
 import { API_URL } from 'src/app/constants';
@@ -16,13 +17,13 @@ describe('ProductService', () => {
 
   beforeEach(() => {
     mockStore = {
-      setCategory: jasmine.createSpy('setCategory'),
-      setSearchValue: jasmine.createSpy('setSearchValue'),
-      setOrdering: jasmine.createSpy('setOrdering'),
-      setOffset: jasmine.createSpy('setOffset'),
-      setTotalCount: jasmine.createSpy('setTotalCount'),
-      setLimit: jasmine.createSpy('setLimit'),
-      goToPage: jasmine.createSpy('goToPage'),
+      setCategory: vi.fn(),
+      setSearchValue: vi.fn(),
+      setOrdering: vi.fn(),
+      setOffset: vi.fn(),
+      setTotalCount: vi.fn(),
+      setLimit: vi.fn(),
+      goToPage: vi.fn(),
       products: signal<any[]>([]),
       category: signal<string>(''),
       searchValue: signal<string>(''),
@@ -43,7 +44,7 @@ describe('ProductService', () => {
         },
         provideHttpClient(withFetch()),
         provideHttpClientTesting(),
-        { provide: API_URL, useValue: 'https://example.com/api' }  // Replace with actual API URL in your app
+        { provide: API_URL, useValue: 'https://example.com/api' }
       ],
     });
     service = TestBed.inject(ProductService);
