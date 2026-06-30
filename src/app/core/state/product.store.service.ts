@@ -39,7 +39,9 @@ const initialState: ProductState = {
   error: null,
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductStoreService {
   private readonly api = inject(ProductService);
   private readonly toastService = inject(ToastService);
