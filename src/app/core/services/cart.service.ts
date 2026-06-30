@@ -1,34 +1,41 @@
-import {Injectable, signal} from '@angular/core';
-import {Product} from "../interfaces";
-import {CartItem} from "../features/products/card/interfaces";
+import { computed, Injectable, signal } from '@angular/core';
+import { CartItem, Product } from '../interfaces';
 
 const JSON_DATA_LOCALSTORAGE_KEY = 'cart_data';
+const CART_EXPIRATION_DELAY = 1000 * 60 * 60; // 1 hour
+
+type SerializedCart = {
+  cartMap: [string, Product][];
+  cartItemsQuantity: [string, number][];
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  cartTimer!: number | null;
-  cartItemsWithQuantity = signal<CartItem[]>([]);
-  cartItemsTotalPrice = signal(0);
+  private cartMap = new Map<string, Product>();
+  private cartItemsQuantity = new Map<string, number>();
+  private readonly cartItems = signal<CartItem[]>([]);
+  private readonly cartTimer: number;
+
+  readonly cartItemsWithQuantity = this.cartItems.asReadonly();
+  readonly cartItemsTotalPrice = computed(() =>
+    this.cartItems().reduce((total, item) => total + item.totalPrice, 0),
+  );
+  readonly totalCartItemsQuantity = computed(() =>
+    this.cartItems().reduce((total, item) => total + item.quantity, 0),
+  );
 
   constructor() {
-    this.startCartTimer();
+    this.getCartFromLocalStorage();
+    this.cartTimer = window.setInterval(() => this.clearCart(), CART_EXPIRATION_DELAY);
   }
 
-  cartMap: Map<string, Product> = new Map();
-  cartItemsQuantity: Map<string, number> = new Map();
+  addToCart(product: Product, quantity = 1): void {
+    const nextQuantity = this.getQuantity(product.uuid) + quantity;
 
-  addToCart(product: Product): void {
-    // if product is already in the cart, increment its quantity
-    if (this.isProductInCart(product.uuid)) {
-      const currentQuantity = +this.cartItemsQuantity.get(product.uuid)!;
-      this.updateCartItemQuantity(product.uuid, currentQuantity + 1);
-    } else {
-      this.cartItemsQuantity.set(product.uuid, (this.cartItemsQuantity.get(product.uuid) || 0) + 1);
-    }
-    // add the product to the cart map and save it to local storage
     this.cartMap.set(product.uuid, product);
+    this.cartItemsQuantity.set(product.uuid, nextQuantity);
     this.saveCartToLocalStorage();
   }
 
@@ -39,16 +46,13 @@ export class CartService {
   }
 
   updateCartItemQuantity(productUuid: string, quantity: number): void {
+    if (quantity <= 0) {
+      this.removeFromCart(productUuid);
+      return;
+    }
+
     this.cartItemsQuantity.set(productUuid, quantity);
     this.saveCartToLocalStorage();
-  }
-
-  getTotalCartItemsQuantity(): number {
-    return Array.from(this.cartItemsQuantity.values()).reduce((acc, curr) => acc + curr, 0);
-  }
-
-  getTotalCartItemsPrice(): number {
-    return Array.from(this.cartItemsQuantity.entries()).reduce((acc, [productUuid, quantity]) => acc + (this.cartMap.get(productUuid)?.price || 0) * quantity, 0);
   }
 
   getCartItems(): Product[] {
@@ -66,35 +70,51 @@ export class CartService {
   }
 
   getCartFromLocalStorage(): void {
-    const cartData = JSON.parse(<string>window.localStorage.getItem(JSON_DATA_LOCALSTORAGE_KEY)) || {
-      cartMap: [],
-      cartItemsQuantity: [],
-    };
+    const cartData = this.readStoredCart();
+
     this.cartMap = new Map(cartData.cartMap);
     this.cartItemsQuantity = new Map(cartData.cartItemsQuantity);
-    this.formattedCartItemsWithQuantity();
+    this.refreshCartItems();
+  }
+
+  private getQuantity(productUuid: string): number {
+    return this.cartItemsQuantity.get(productUuid) ?? 0;
   }
 
   private saveCartToLocalStorage(): void {
-    window.localStorage.setItem(JSON_DATA_LOCALSTORAGE_KEY, JSON.stringify({
+    const cartData: SerializedCart = {
       cartMap: Array.from(this.cartMap.entries()),
       cartItemsQuantity: Array.from(this.cartItemsQuantity.entries()),
+    };
+
+    window.localStorage.setItem(JSON_DATA_LOCALSTORAGE_KEY, JSON.stringify(cartData));
+    this.refreshCartItems();
+  }
+
+  private readStoredCart(): SerializedCart {
+    const defaultCart: SerializedCart = {
+      cartMap: [],
+      cartItemsQuantity: [],
+    };
+
+    try {
+      const cartData = window.localStorage.getItem(JSON_DATA_LOCALSTORAGE_KEY);
+      return cartData ? JSON.parse(cartData) as SerializedCart : defaultCart;
+    } catch {
+      window.localStorage.removeItem(JSON_DATA_LOCALSTORAGE_KEY);
+      return defaultCart;
+    }
+  }
+
+  private refreshCartItems(): void {
+    this.cartItems.set(Array.from(this.cartMap.values()).map(product => {
+      const quantity = this.getQuantity(product.uuid);
+
+      return {
+        product,
+        quantity,
+        totalPrice: product.price * quantity,
+      };
     }));
-    this.formattedCartItemsWithQuantity();
-  }
-
-  private startCartTimer(): void {
-    this.cartTimer = window.setInterval(() => {
-       this.clearCart();
-       }, 1000 * 60 * 60); // 1 hour
-  }
-
-  private formattedCartItemsWithQuantity() {
-    this.cartItemsWithQuantity.set(Array.from(this.cartMap.values()).map(product => ({
-      product,
-      quantity: this.cartItemsQuantity.get(product.uuid) || 0,
-      totalPrice: (this.cartMap.get(product.uuid)?.price || 0) * (this.cartItemsQuantity.get(product.uuid) || 0),
-    })));
-    this.cartItemsTotalPrice.set(this.getTotalCartItemsPrice());
   }
 }
