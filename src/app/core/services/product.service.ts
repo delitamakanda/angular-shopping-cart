@@ -1,10 +1,20 @@
-import {HttpClient} from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { API_URL } from 'src/app/constants';
-import { Product, Category } from '../interfaces';
+import { Category, Product } from '../interfaces';
 
-interface ProductResponse {
+export interface ProductQueryParams {
+  limit: number;
+  q: string;
+  offset: number;
+  ordering: string;
+  category_name_in: string;
+  min_price: number;
+  max_price: number;
+}
+
+export interface ProductResponse {
   results: Product[];
   next: string | null;
   previous: string | null;
@@ -18,16 +28,18 @@ export class ProductService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = inject(API_URL);
 
-  getAll(params: {
-    limit: number;
-    q: string;
-    offset: number;
-    ordering: string;
-    category_name_in: string;
-    min_price: number;
-    max_price: number;
-  }): Observable<ProductResponse> {
-    return this.http.get<ProductResponse>(`${this.apiUrl}/store/product/?limit=${params.limit}&q=${params.q}&offset=${params.offset}&ordering=${params.ordering}&category_name_in=${params.category_name_in}&min_price=${params.min_price}&max_price=${params.max_price}`);
+  getAll(params: ProductQueryParams): Observable<ProductResponse> {
+    return this.http.get<ProductResponse>(`${this.apiUrl}/store/product/`, {
+      params: {
+        limit: params.limit,
+        q: params.q,
+        offset: params.offset,
+        ordering: params.ordering,
+        category_name_in: params.category_name_in,
+        min_price: params.min_price,
+        max_price: params.max_price,
+      },
+    });
   }
 
   getById(uuid: string): Observable<Product> {
