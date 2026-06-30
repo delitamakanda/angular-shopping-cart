@@ -1,18 +1,18 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, OnInit} from '@angular/core';
-import { CardComponent } from './card/card.component';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { SharedModule } from 'src/app/shared/shared.module';
-import {PaginationComponent} from "../pagination/pagination.component";
-import {SearchBarComponent} from "../search-bar/search-bar/search-bar.component";
-import {CategoryListComponent} from "./category-list/category-list.component";
-import {MatGridListModule} from "@angular/material/grid-list";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {PriceFilterComponent} from "../price-filter/price-filter.component";
-import {SortByComponent} from "../sort-by/sort-by.component";
-import { ProductStoreService } from '../../state/product.store.service';
 import { CommonObservableDestruction } from 'src/app/shared/helpers/common.observable';
+import { ProductStoreService } from '../../state/product.store.service';
+import { CardComponent } from './card/card.component';
+import { CategoryListComponent } from './category-list/category-list.component';
+import { PaginationComponent } from '../pagination/pagination.component';
+import { PriceFilterComponent } from '../price-filter/price-filter.component';
+import { SearchBarComponent } from '../search-bar/search-bar/search-bar.component';
+import { SortByComponent } from '../sort-by/sort-by.component';
 
 @Component({
-    selector: 'app-products',
+  selector: 'app-products',
   imports: [
     CardComponent,
     SharedModule,
@@ -29,19 +29,19 @@ import { CommonObservableDestruction } from 'src/app/shared/helpers/common.obser
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsComponent extends CommonObservableDestruction implements OnInit {
   private readonly breakpointsObs = inject(BreakpointObserver);
   readonly store = inject(ProductStoreService);
-  readonly cdr = inject(ChangeDetectorRef);
-  
-  public breakpointsCols = 4
+
+  breakpointsCols = 4;
 
   constructor() {
     super();
+
     effect(() => {
-      const params = {
+      this.store.loadProducts({
         limit: this.store.limit(),
         q: this.store.searchValue(),
         offset: this.store.offset(),
@@ -49,12 +49,11 @@ export class ProductsComponent extends CommonObservableDestruction implements On
         category_name_in: this.store.category(),
         min_price: this.store.minPrice(),
         max_price: this.store.maxPrice(),
-      };
-     this.store.loadProducts(params);
+      });
     });
   }
 
-  ngOnInit() : void{
+  ngOnInit(): void {
     this.store.getCategories();
 
     this.breakpointsObs.observe([
@@ -63,7 +62,7 @@ export class ProductsComponent extends CommonObservableDestruction implements On
       Breakpoints.Medium,
       Breakpoints.Large,
       Breakpoints.XLarge,
-    ]).pipe(this.untilDestroyed()).subscribe((result) => {
+    ]).pipe(this.untilDestroyed()).subscribe(result => {
       if (result.breakpoints[Breakpoints.XSmall]) {
         this.breakpointsCols = 1;
       } else if (result.breakpoints[Breakpoints.Small]) {
@@ -73,11 +72,10 @@ export class ProductsComponent extends CommonObservableDestruction implements On
       } else {
         this.breakpointsCols = 4;
       }
-    })
+    });
   }
 
   removeProduct(uuid: string): void {
     this.store.removeProduct(uuid);
   }
-
 }
