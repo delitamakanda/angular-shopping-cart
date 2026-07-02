@@ -13,7 +13,7 @@ type SerializedCart = {
   providedIn: 'root',
 })
 export class CartService {
-  private cartMap = new Map<string, Product>();
+  protected cartMap = new Map<string, Product>();
   private cartItemsQuantity = new Map<string, number>();
   private readonly cartItems = signal<CartItem[]>([]);
   private readonly cartTimer: number;
