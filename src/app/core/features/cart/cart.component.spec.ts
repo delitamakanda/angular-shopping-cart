@@ -49,8 +49,8 @@ describe('CartComponent', () => {
     expect(component.totalCartPrice).toBe(0);
   })
 
-  it('should call getCartFromLocalStorage when created', () => {
-    expect(cartService.getCartFromLocalStorage).toHaveBeenCalledOnce();
+  it('should not call getCartFromLocalStorage in component lifecycle', () => {
+    expect(cartService.getCartFromLocalStorage).not.toHaveBeenCalled();
   })
 });
 
