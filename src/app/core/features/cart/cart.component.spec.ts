@@ -50,7 +50,7 @@ describe('CartComponent', () => {
   })
 
   it('should call getCartFromLocalStorage when created', () => {
-    expect(cartService.getCartFromLocalStorage).toHaveBeenCalled();
+    expect(cartService.getCartFromLocalStorage).toHaveBeenCalledOnce();
   })
 });
 
