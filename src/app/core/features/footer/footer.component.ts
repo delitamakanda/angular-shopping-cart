@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, LOCALE_ID, signal } from '@angular/core';
-import {NavigationEnd, Router, RouterLink} from "@angular/router";
-import { filter } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { RouterLink } from "@angular/router";
+import { LocaleService } from "../../services/locale.service";
+import { SupportedLocale } from "../../../constants";
 
 @Component({
   selector: 'app-footer',
@@ -19,22 +19,22 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           @for(
             entry of staticPages; track entry[0]
             ) {
-              <a [routerLink]="['/home/static-pages', entry[0]]">{{ entry[1] }}</a>
+              <a [routerLink]="localeService.link('home', 'static-pages', entry[0])">{{ entry[1] }}</a>
           }
         </nav>
         <nav class="footer-locale" aria-label="Language">
           <span i18n>Langue:</span>
           @for(locale of availableLocales; track locale.code) {
-            <a [href]="localeHref(locale.code)" [class.active]="currentLocale === locale.code">{{ locale.label }}</a>
+            <a [href]="localeHref(locale.code)" [class.active]="localeService.current() === locale.code">{{ locale.label }}</a>
           }
         </nav>
       </div>
     </footer>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl: './footer.component.scss'
+  styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
-  private readonly router = inject(Router);
+  readonly localeService = inject(LocaleService);
   readonly credits = new Date().getFullYear() + ' - Angular Shopping Cart';
   readonly staticPagesDictionary: Record<string, string> = {
     'legal-notice':'Mentions légales',
@@ -43,24 +43,11 @@ export class FooterComponent {
     'terms-of-sale': 'Conditions générales de vente',
     'cookies-policy': 'Politique de cookies',
   }
-  readonly currentLocale = inject(LOCALE_ID);
-  readonly availableLocales = [
+  readonly availableLocales: { code: SupportedLocale; label: string }[] = [
     { code: 'fr', label: 'Français' },
     { code: 'en', label: 'English' },
     { code: 'ko', label: '한국어' }
   ]
-
-  readonly localeCodePattern = this.availableLocales.map(locale => locale.code).join('|');
-  readonly localeRegex = new RegExp(`^/(${this.localeCodePattern})(/|$)`);
-
-  readonly currentPath = signal(this.stripLocaleFromPath(this.router.url));
-
-  constructor() {
-    this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-      takeUntilDestroyed()
-    ).subscribe((event) => this.currentPath.set(this.stripLocaleFromPath(event.urlAfterRedirects)));
-  }
 
   get staticPages(): [string, string][] {
     return Object.entries(this.formatStaticPageObject(this.staticPagesDictionary));
@@ -74,12 +61,7 @@ export class FooterComponent {
     return formattedPages;
   }
 
-  private stripLocaleFromPath(path: string): string {
-    const stripped = path.replace(this.localeRegex, '');
-    return stripped === '' ? '/' : stripped;
-  }
-
   localeHref(code: string): string {
-    return `/${code}${this.currentPath()}`;
+    return `/${code}${this.localeService.pathWithoutLocale()}`;
   }
 }
