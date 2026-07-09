@@ -3,6 +3,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {AuthService} from "../../core/services/auth.service";
 import {emailValidator, passwordValidator, mismatchPasswordValidator} from "../../core/validators/domain-validator";
 import {Router, RouterLink} from "@angular/router";
+import {LocaleService} from "../../core/services/locale.service";
 
 @Component({
     selector: 'app-signup',
@@ -25,6 +26,7 @@ export class SignupComponent {
   submitted = false;
   authService = inject(AuthService);
   router = inject(Router);
+  localeService = inject(LocaleService);
 
   register(): void {
     this.submitted = true;
@@ -37,7 +39,7 @@ export class SignupComponent {
       password1: this.signupForm.value.password as string,
       password2: this.signupForm.value.confirmPassword as string
     }).subscribe({
-      next: () => this.router.navigate(['/']),
+      next: () => this.router.navigate(this.localeService.link('home')),
       error: (error) => console.error(error),
       complete: () => this.submitted = false,
     });
