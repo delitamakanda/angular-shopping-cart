@@ -4,11 +4,16 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:fr": "ng serve --configuration fr",
+    "start:en": "ng serve --configuration en",
+    "start:ko": "ng serve --configuration ko",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "extract-i18n": "ng extract-i18n",
-    "localize": "ng build --localize"
+    "extract-i18n": "ng extract-i18n --output-path src/locale --format xlf",
+    "localize:fr": "ng extract-i18n --output-path src/locale --format xlf --out-file messages.fr.xlf",
+    "localize:en": "ng extract-i18n --output-path src/locale --format xlf --out-file messages.en.xlf",
+    "localize:ko": "ng extract-i18n --output-path src/locale --format xlf --out-file messages.ko.xlf"
   },
   "private": true,
   "dependencies": {
