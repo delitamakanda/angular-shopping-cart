@@ -44,6 +44,6 @@ describe('FooterComponent', () => {
 
   it('should display the legal notice link when the query parameter is "legal-notice"', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('a[href="/home/static-pages/legal-notice"]').textContent).toContain('Mentions légales');
+    expect(compiled.querySelector('a[href="/fr/home/static-pages/legal-notice"]').textContent).toContain('Mentions légales');
   });
 });

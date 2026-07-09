@@ -105,6 +105,23 @@
   .footer-links a:focus-visible {
     color: #b39ddb;
   }
+
+  .footer-locale {
+    color: #c9c9d4;
+
+    a {
+      color: #d8d8e2;
+
+      &.active {
+        color: #b39ddb;
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: #b39ddb;
+      }
+    }
+  }
 }
 
 @media (max-width: 600px) {
