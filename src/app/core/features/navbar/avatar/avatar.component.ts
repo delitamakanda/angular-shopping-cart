@@ -3,6 +3,7 @@ import {Component, inject, Input, ChangeDetectionStrategy} from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {Router, RouterLink} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
+import {LocaleService} from "../../../services/locale.service";
 
 @Component({
     selector: 'app-avatar',
@@ -29,11 +30,12 @@ export class AvatarComponent {
   @Input() imgUrl = '';
   authService = inject(AuthService);
   router = inject(Router);
+  localeService = inject(LocaleService);
 
   disconnect(): void {
     this.authService.logout().subscribe({
       complete: () => {
-        this.router.navigate(['/login']);
+        this.router.navigate(this.localeService.link('login'));
       }
     });
   }
