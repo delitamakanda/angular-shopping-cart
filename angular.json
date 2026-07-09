@@ -5,10 +5,16 @@
   "projects": {
     "angular-shopping-cart": {
       "i18n": {
-        "sourceLocale":"en-US",
+        "sourceLocale":"fr-FR",
         "locales": {
           "fr": {
             "translation": "src/locale/messages.fr.xlf"
+          },
+          "en": {
+            "translation": "src/locale/messages.en.xlf"
+          },
+          "ko": {
+            "translation": "src/locale/messages.ko.xlf"
           }
         }
       },
@@ -110,6 +116,21 @@
                 "zone.js/testing",
                 "@angular/localize/init"
               ]
+            },
+            "fr": {
+              "localize": [
+                "fr"
+              ]
+            },
+            "en": {
+              "localize": [
+                "en"
+              ]
+            },
+            "ko": {
+              "localize": [
+                "ko"
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -122,6 +143,15 @@
             },
             "development": {
               "buildTarget": "angular-shopping-cart:build:development"
+            },
+            "fr": {
+              "buildTarget": "angular-shopping-cart:build:fr"
+            },
+            "en": {
+              "buildTarget": "angular-shopping-cart:build:en"
+            },
+            "ko": {
+              "buildTarget": "angular-shopping-cart:build:ko"
             }
           },
           "defaultConfiguration": "development"
