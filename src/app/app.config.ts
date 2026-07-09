@@ -21,7 +21,7 @@ import localeEn from "@angular/common/locales/en";
 import localeKr from "@angular/common/locales/ko";
 import { AppConfigService } from "./core/services/app-config.service";
 import { LoggerService, RemoteLoggerService } from "./core/services/logger.service";
-import { API_URL, APP_ENVIRONMENT } from "./constants";
+import { API_URL, APP_ENVIRONMENT, DEFAULT_LOCALE } from "./constants";
 import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {CustomRouteReuseStrategy} from "./custom-route-reuse-strategy";
 import { provideServiceWorker } from '@angular/service-worker';
@@ -69,7 +69,7 @@ export const appConfig: ApplicationConfig = {
       }),
       { provide: TitleStrategy, useClass: CustomTitleStrategy },
       {provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
-        { provide: LOCALE_ID, useValue: 'fr' },
+        { provide: LOCALE_ID, useValue: DEFAULT_LOCALE },
         { provide: LoggerService, useClass: RemoteLoggerService  },
         { provide: API_URL, useValue: 'https://merchstoreapi.applikuapp.com/api' },
         { provide: APP_ENVIRONMENT, useValue: 'development' }, // Assuming 'development' as the default environment
