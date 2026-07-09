@@ -8,6 +8,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatIcon} from "@angular/material/icon";
 import {CartService} from "../../services/cart.service";
 import {CartItem} from "../products/card/interfaces";
+import {LocaleService} from "../../services/locale.service";
 
 @Component({
     selector: 'app-navbar',
@@ -25,6 +26,7 @@ import {CartItem} from "../products/card/interfaces";
 export class NavbarComponent implements OnInit {
   authService = inject(AuthService);
   cartService = inject(CartService);
+  localeService = inject(LocaleService);
   isDarkMode = false;
   cartItemsWithQuantity = this.cartService.cartItemsWithQuantity;
   logoPath = './assets/icons/icon-72x72.png';

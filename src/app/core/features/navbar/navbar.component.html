@@ -5,12 +5,12 @@
     </mat-slide-toggle>
 
   <nav>
-    <a class="nav-link active" [routerLink]="['/']">Products</a>
+    <a class="nav-link active" [routerLink]="localeService.link('home')">Products</a>
     @if (!authService.isAuthenticated) {
-      <a class="nav-link" [routerLink]="['/login']">Login</a>
-      <a class="nav-link" [routerLink]="['/signup']"> Signup</a>
+      <a class="nav-link" [routerLink]="localeService.link('login')">Login</a>
+      <a class="nav-link" [routerLink]="localeService.link('signup')"> Signup</a>
     }
-    <a class="nav-link" [routerLink]="['/home/cart']">Cart <mat-icon>shopping_cart</mat-icon> ({{cartItems.length}})</a>
+    <a class="nav-link" [routerLink]="localeService.link('home', 'cart')">Cart <mat-icon>shopping_cart</mat-icon> ({{cartItems.length}})</a>
     @if (authService.isAuthenticated) {
       <app-avatar />
     }
