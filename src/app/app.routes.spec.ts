@@ -23,9 +23,9 @@ describe('Router', () => {
     expect(router).toBeTruthy();
   });
 
-  it('should navigate to home page when "/" route is accessed', () => {
-    router.navigate(['']);
-    expect(router.url).toBe('/');
+  it('should navigate to home page when "/" route is accessed', async () => {
+    await router.navigate(['']);
+    expect(router.url).toBe('/fr/home');
   });
 
   it('should navigate to login page when "/login" route is accessed', () => {
