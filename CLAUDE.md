@@ -14,9 +14,9 @@ Angular 22 shopping cart demo app: product catalogue with filtering/search, cart
 - `npm test` — run the full unit test suite (Vitest via `@angular/build:unit-test`, configured through `tsconfig.spec.json` and the `testing` build configuration in `angular.json`)
 - `npm run extract-i18n` / `npm run localize` — i18n source extraction / localized builds (source locale `en-US`, additional locale `fr` at `src/locale/messages.fr.xlf`)
 
-To run a single test file, pass a path filter to the underlying Vitest runner, e.g.:
+To run a single test file, use `--include` (and `--watch=false` for a one-shot run):
 ```
-npx ng test -- src/app/core/services/cart.service.spec.ts
+npx ng test --include src/app/core/services/cart.service.spec.ts --watch=false
 ```
 
 CI (`.github/workflows/node.js.yml`) runs `npm ci`, `npm run build --if-present`, then `npm test` on Node 24.15.x.
