@@ -19,7 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           @for(
             entry of staticPages; track entry[0]
             ) {
-              <a [routerLink]="['/static-pages', entry[0]]">{{ entry[1] }}</a>
+              <a [routerLink]="['/home/static-pages', entry[0]]">{{ entry[1] }}</a>
           }
         </nav>
         <nav class="footer-locale" aria-label="Language">
