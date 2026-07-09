@@ -5,13 +5,13 @@
         </button>
         <ul class="dropdown-menu " [ngStyle]="{display: openMenu ? 'block': 'none'}">
             <li class="nav-item dropdown-item">
-                <a class="dropdown-item" routerLink="/admin/profile">Profile</a>
+                <a class="dropdown-item" [routerLink]="localeService.link('admin', 'profile')">Profile</a>
             </li>
             <li class="nav-item dropdown-item">
-                <a class="dropdown-item" href="/admin/orders">Orders</a>
+                <a class="dropdown-item" [routerLink]="localeService.link('admin', 'orders')">Orders</a>
             </li>
             <li class="nav-item dropdown-item">
-                <a class="dropdown-item" routerLink="/admin/create">Administration</a>
+                <a class="dropdown-item" [routerLink]="localeService.link('admin', 'create')">Administration</a>
             </li>
           <li class="nav-item dropdown-item">
                 <a class="dropdown-item" (click)="disconnect()">Logout</a>

@@ -44,7 +44,7 @@ describe('AvatarComponent', () => {
     component.disconnect();
 
     expect(authService.logout).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/login']);
+    expect(router.navigate).toHaveBeenCalledWith(['/', 'fr', 'login']);
   });
 
   it('should open and close the menu when the button is clicked', () => {
