@@ -16,7 +16,7 @@ const staticPages: ResolveFn<string> = (route, state): Observable<string> => {
 
 export const routes: Routes = [
     {
-        path: '',
+      path: 'home',
       loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
       children: [
         {
@@ -63,5 +63,10 @@ export const routes: Routes = [
         path: '**',
         loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
       title: 'Not Found',
+    },
+    {
+      path: '',
+      redirectTo: 'home',
+      pathMatch: 'full'
     }
 ];
