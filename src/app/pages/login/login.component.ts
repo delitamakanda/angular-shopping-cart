@@ -4,6 +4,7 @@ import {AuthService} from "../../core/services/auth.service";
 import {Router, RouterLink} from "@angular/router";
 import {DialogService} from "../../core/services/dialog.service";
 import {MatIcon} from "@angular/material/icon";
+import {LocaleService} from "../../core/services/locale.service";
 
 @Component({
     selector: 'app-login',
@@ -30,6 +31,7 @@ export class LoginComponent {
   authService = inject(AuthService);
   router = inject(Router);
   dialogService = inject(DialogService);
+  localeService = inject(LocaleService);
   open(): void {
     // todo: implement dialog for login confirmation
     this.dialogService.alertConfirm({message: 'you are about to log in', title: 'log in'}).subscribe((result) => {
@@ -56,7 +58,7 @@ export class LoginComponent {
       password: this.loginForm.value.password as string,
       remember_me: this.loginForm.value?.rememberMe as boolean || false,
     }).subscribe({
-      next: () => this.router.navigate(['/']),
+      next: () => this.router.navigate(this.localeService.link('home')),
       error: (error) => console.error(error),
       complete: () => this.submitted = false,
     });
