@@ -59,7 +59,7 @@ describe('CategoryListComponent', () => {
 
   // Verify the expected behavior
   expect(categorySpy).toHaveBeenCalledWith('');
-  expect(navigateSpy).toHaveBeenCalledWith(['/'], { queryParams: {}, replaceUrl: true });
+  expect(navigateSpy).toHaveBeenCalledWith(['/', 'fr', 'home'], { queryParams: {}, replaceUrl: true });
 });
 
 });
