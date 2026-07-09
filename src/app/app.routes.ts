@@ -42,6 +42,11 @@ export const routes: Routes = [
           loadComponent: () => import('./pages/static-pages/static-pages.component').then(m => m.StaticPagesComponent),
           title: staticPages,
         },
+        {
+          path: '**',
+          loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
+          title: 'Page Not Found',
+        }
       ]
     },
     {
@@ -59,11 +64,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/signup/signup.component').then(m => m.SignupComponent),
     title: 'Signup',
   },
-    {
-        path: '**',
-        loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
-      title: 'Not Found',
-    },
     {
       path: '',
       redirectTo: 'home',
