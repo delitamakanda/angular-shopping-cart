@@ -1,5 +1,10 @@
 import { provideZoneChangeDetection } from "@angular/core";
 /// <reference types="@angular/localize" />
+import { initializeWebMCPPolyfill } from "@mcp-b/webmcp-polyfill";
+
+initializeWebMCPPolyfill({
+    installTestingShim: 'always',
+});
 
 import { bootstrapApplication } from '@angular/platform-browser';
 
