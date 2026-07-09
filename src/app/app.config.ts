@@ -14,6 +14,7 @@ import {
   withInMemoryScrolling,
   withPreloading
 } from '@angular/router';
+import { provideExperimentalWebMcpTools } from '@angular/core';
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 import { AppConfigService } from "./core/services/app-config.service";
@@ -36,6 +37,26 @@ export const appConfig: ApplicationConfig = {
           routes,
           withPreloading(PreloadAllModules),
           withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),),
+      provideExperimentalWebMcpTools([
+        {
+          name: 'searchCatalog',
+          description: 'Search the local angular WebMCP',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              query: {
+                type: 'string',
+                description: 'The search query to look for in the local angular WebMCP',
+                minLength: 1
+              }
+            },
+            required: ['query'],
+          },
+          execute: ({ query }) => {
+            // todo: Implement the search logic for the local angular WebMCP based on the provided query.
+          },
+        },
+      ]),
       importProvidersFrom(OverlayModule),
       provideZonelessChangeDetection(),
       provideAppInitializer(() => {
