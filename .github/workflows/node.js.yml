@@ -8,6 +8,11 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  # Lancé par l'agent sur ses branches (une PR créée avec GITHUB_TOKEN ne déclenche pas `pull_request`).
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -28,4 +33,4 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm test
+    - run: npx ng test --watch=false

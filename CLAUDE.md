@@ -19,7 +19,9 @@ To run a single test file, use `--include` (and `--watch=false` for a one-shot r
 npx ng test --include src/app/core/services/cart.service.spec.ts --watch=false
 ```
 
-CI (`.github/workflows/node.js.yml`) runs `npm ci`, `npm run build --if-present`, then `npm test` on Node 24.15.x.
+CI (`.github/workflows/node.js.yml`) runs `npm ci`, `npm run build --if-present`, then `npx ng test --watch=false` on Node 24.15.x.
+
+End-to-end tests (Playwright, `e2e/`): `npm run e2e` (starts `ng serve` if nothing listens on :4200). They must never hit the hosted API: stub every call with `stubApi(page, …)` from `e2e/helpers/api.ts`.
 
 Node/npm versions are pinned in `package.json` `engines` (Node 24.15.0, npm 11.12.1).
 
@@ -57,3 +59,19 @@ Node/npm versions are pinned in `package.json` `engines` (Node 24.15.0, npm 11.1
 - Uses the new `@angular/build:application` / `@angular/build:unit-test` esbuild-based builders (Angular 22), not the legacy webpack/Karma builders — despite `karma`/`jasmine-core` still listed in `devDependencies`, the active test runner is Vitest.
 - PWA/service worker: `ngsw-config.json`, only registered in non-dev builds (`registerWhenStable:30000`).
 - Angular Material theme: `@angular/material/prebuilt-themes/magenta-violet.css`; `notyf` is used for toast notifications outside Angular Material.
+
+## Agentic workflow (GitHub Actions)
+
+Issues are turned into reviewed pull requests by Claude agents, driven by labels:
+
+| Label | Meaning |
+| --- | --- |
+| `agent:refine` | `agent-refine.yml` writes a spec into the issue body → `spec:review` |
+| `spec:review` | Spec to be validated by a human |
+| `agent:ready` | `agent-implement.yml` implements it on `agent/issue-<n>-<slug>` and opens a PR (also picks the oldest ready ticket every 3 h) |
+| `agent:working` / `agent:review` / `agent:blocked` | Set by the agent while working, once the PR is open, or when it needs a human |
+
+- Comment `@claude …` on a PR to have `agent-review.yml` apply review feedback on its branch.
+- `agent-board.yml` mirrors these labels onto the GitHub Project board.
+- Prompts live in `.github/agent/prompts/`; the Playwright MCP config (iPhone 13, local app + hosted API only) in `.github/agent/mcp.json`; helper scripts in `scripts/agent/`.
+- The agent never edits `.github/` and never merges: human review is required.

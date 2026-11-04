@@ -42,3 +42,8 @@ testem.log
 Thumbs.db
 
 .vscode/
+
+# Agents (workflows GitHub Actions)
+/.agent-out
+/playwright-report
+/test-results
