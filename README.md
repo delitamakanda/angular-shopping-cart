@@ -74,6 +74,13 @@ src/
 - API endpoints are defined in `src/environments/environment*.ts`. Update `apiUrl` to point at your own backend service.
 - Service worker behaviour can be tweaked in `ngsw-config.json` before running a production build.
 
+## Deployment (Cloudflare Pages)
+- The production build (`npm run build`) outputs to `dist/angular-shopping-cart/browser`, deployed to Cloudflare Pages (production on `main`, one preview per pull request).
+- Required GitHub secrets: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+- `public/_redirects` provides the SPA fallback (deep links return `index.html`); `public/_headers` serves `index.html`, `ngsw.json` and `ngsw-worker.js` with `Cache-Control: no-cache`.
+- Manual deploy: `npx wrangler pages deploy dist/angular-shopping-cart/browser`; local check: `npx wrangler pages dev dist/angular-shopping-cart/browser`.
+- The backend CORS configuration must allow the Cloudflare domain (`*.pages.dev` or custom domain).
+
 ## Troubleshooting
 - **Angular CLI command not found**: ensure you run scripts with `npm run ...` so the local CLI binary is used.
 - **Node or npm version mismatch**: use a version manager (e.g. `nvm`) to match the `engines` field in `package.json`.

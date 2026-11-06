@@ -55,6 +55,10 @@ Node/npm versions are pinned in `package.json` `engines` (Node 24.15.0, npm 11.1
 - `src/environments/environment.ts` (production) and `environment.development.ts` are swapped via `fileReplacements` in the `development` build configuration (`angular.json`). Note `app.config.ts` currently hardcodes `API_URL`/`APP_ENVIRONMENT` as DI tokens rather than reading from `environment.ts` — check both when changing API configuration.
 - `AppConfigService` expects an injected `'env'` string token (`'prod'`/otherwise) — this doesn't match the `APP_ENVIRONMENT` token used elsewhere; be aware of the mismatch if extending config loading.
 
+### Deployment
+- Hosted on Cloudflare Pages: `main` → production, PRs → preview. Needs GitHub secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`; deploys `dist/angular-shopping-cart/browser` (`npx wrangler pages deploy …`).
+- `public/_redirects` (SPA fallback) and `public/_headers` (`no-cache` for `index.html`, `ngsw.json`, `ngsw-worker.js`) are copied to the build root via the `public` asset entry in `angular.json`.
+
 ### Build tooling notes
 - Uses the new `@angular/build:application` / `@angular/build:unit-test` esbuild-based builders (Angular 22), not the legacy webpack/Karma builders — despite `karma`/`jasmine-core` still listed in `devDependencies`, the active test runner is Vitest.
 - PWA/service worker: `ngsw-config.json`, only registered in non-dev builds (`registerWhenStable:30000`).
